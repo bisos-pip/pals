@@ -111,7 +111,8 @@ from blee.icmPlayer import bleep
 ####+END:
 
 from bisos.bpo import bpo
-from bisos.pals import palsBpo as palsBpo
+from bisos.pals import palsBpo
+from bisos.pals import palsSi
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -153,7 +154,7 @@ def g_paramsExtraSpecify(
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsBpo.commonParamsSpecify(icmParams)
+    palsSi.commonParamsSpecify(icmParams)
 
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
@@ -926,7 +927,7 @@ class obsoletedA2SivdBase_Plone3(object):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /AaSivdRepo_Apache2/ palsBpo.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class AaSivdRepo_Apache2(palsBpo.SiRepo):
+class AaSivdRepo_Apache2(palsSi.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -951,7 +952,7 @@ class AaSivdRepo_Apache2(palsBpo.SiRepo):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Type/ palsBpo.SiVirDomSvcType =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Type(palsBpo.SiVirDomSvcType):
+class A2_Svc_Type(palsSi.SiVirDomSvcType):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -962,7 +963,7 @@ class A2_Svc_Type(palsBpo.SiVirDomSvcType):
             siPath,
     ):
         # print("fff  A2_Svc_Type")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSi.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -972,7 +973,7 @@ class A2_Svc_Type(palsBpo.SiVirDomSvcType):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Inst/ palsBpo.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Inst(palsBpo.SiSvcInst):
+class A2_Svc_Inst(palsSi.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -983,7 +984,7 @@ class A2_Svc_Inst(palsBpo.SiSvcInst):
             siPath,
     ):
         # print("ggg  A2_Svc_Inst")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSi.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)

@@ -62,7 +62,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/aals/py3/bin/aaRepoLiveParams.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bin/aaRepoLiveParams.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -112,11 +112,11 @@ from bisos.icm import fp
 from bisos.bpo import bpo
 from bisos.bpo import bpoFpBases
 
-#from bisos.aals import aalsBpo
-from bisos.aals import repoProfile
+#from bisos.pals import palsBpo
+from bisos.pals import repoProfile
 
-AalsRepo_Profile_FPs = repoProfile.AalsRepo_Profile_FPs  # exec/eval-ed as __main__.ClassName
-AalsRepo_Profile = repoProfile.AalsRepo_Profile  # exec/eval-ed as __main__.ClassName
+PalsRepo_Profile_FPs = repoProfile.PalsRepo_Profile_FPs  # exec/eval-ed as __main__.ClassName
+PalsRepo_Profile = repoProfile.PalsRepo_Profile  # exec/eval-ed as __main__.ClassName
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -152,7 +152,7 @@ def g_paramsExtraSpecify(
 
     bpo.commonParamsSpecify(icmParams)
 
-    AalsRepo_Profile_FPs.fps_asIcmParamsAdd(icmParams,)
+    PalsRepo_Profile_FPs.fps_asIcmParamsAdd(icmParams,)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -190,7 +190,7 @@ class examples(icm.Cmnd):
         #def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
         oneBpo = "pmi_ByD-100001"
-        thisClass = "AalsRepo_Profile"
+        thisClass = "PalsRepo_Profile"
 
 
         logControler = icm.LOG_Control()
@@ -238,7 +238,7 @@ def examples_profile_basicAccess():
 
     oneBpo = "pmi_ByD-100001"
     oneRepo= "profile"
-    thisClass = "AalsRepo_Profile"
+    thisClass = "PalsRepo_Profile"
 
     # def moduleOverviewMenuItem(overviewCmndName):
     #     icm.cmndExampleMenuChapter('* =Module=  Overview (desc, usage, status)')
@@ -254,7 +254,7 @@ def examples_profile_basicAccess():
     cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
     menuItem(verbosity='little')
 
-    icm.cmndExampleMenuChapter('=AalsRepo_LiveParams=  *Access And Management*')
+    icm.cmndExampleMenuChapter('=PalsRepo_LiveParams=  *Access And Management*')
 
     cmndName = "bpoFpParamsSet" ; cmndArgs = "" ;
     cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['cls'] = thisClass

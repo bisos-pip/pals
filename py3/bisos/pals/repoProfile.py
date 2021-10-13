@@ -89,8 +89,8 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 ####+END:
 
 
-import os
-
+# import os
+import collections
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
 from unisos import ucf
@@ -106,6 +106,7 @@ G = icm.IcmGlobalContext()
 from bisos.icm import fp
 from bisos.bpo import bpo
 from bisos.pals import palsRepo
+from bisos.bpo import bpoFpBases
 
 ####+BEGIN: bx:dblock:python:section :title "Class Definitions"
 """
@@ -235,6 +236,101 @@ class PalsRepo_Profile_FPs(fp.FP_Base):
                 'bystarType': relBasePath,
             }
         )
+
+
+####+BEGIN: bx:dblock:python:func :funcName "examples_repoProfile_basic" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_repoProfile_basic/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId)  [[elisp:(org-cycle)][| ]]
+"""
+def examples_repoProfile_basic(
+    bpoId,
+):
+####+END:
+    """
+** Common examples.
+"""
+    def cpsInit(): return collections.OrderedDict()
+    def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity) # 'little' or 'none'
+    # def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
+
+    # oneBpo = "pmi_ByD-100001"
+    # oneRepo= "par_live"
+
+    oneBpo = bpoId
+    oneRepo = 'profile'
+    thisClass = "PalsRepo_Profile"
+
+    # def moduleOverviewMenuItem(overviewCmndName):
+    #     icm.cmndExampleMenuChapter('* =Module=  Overview (desc, usage, status)')
+    #     cmndName = "overview_bxpBaseDir" ; cmndArgs = "moduleDescription moduleUsage moduleStatus" ;
+    #     cps = collections.OrderedDict()
+    #     icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='none') # 'little' or 'none'
+
+    # moduleOverviewMenuItem(bpo_libOverview)
+
+    icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
+
+    bpoFpBases.examples_bpo_fpBases(oneBpo, thisClass)
+
+    icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
+
+    cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
+    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
+    menuItem(verbosity='little')
+
+    icm.cmndExampleMenuChapter('=PalsRepo_LiveParams=  *Access And Management*')
+
+    cmndName = "bpoFpParamsSet" ; cmndArgs = "" ;
+    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['cls'] = thisClass
+
+    cps['correspondingEntity'] = "exampleBpoId"
+    menuItem(verbosity='little')
+
+    cps['baseDomain'] = "example.com"
+    menuItem(verbosity='little')
+
+    cps['bystarType'] = "bysmb"
+    menuItem(verbosity='little')
+
+    cps['correspondingEntity'] = "exampleBpoId"
+    cps['baseDomain'] = "example.com"
+    cps['bystarType'] = "bysmb"
+    menuItem(verbosity='little')
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "examples_repoProfile" :cmndType "ICM-Cmnd-FWrk"  :comment "FrameWrk: ICM Examples" :parsMand "bpoId" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd-FWrk :: /examples_repoProfile/ =FrameWrk: ICM Examples= parsMand=bpoId parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class examples_repoProfile(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+    ):
+        cmndOutcome = self.getOpOutcome()
+        if interactive:
+            if not self.cmndLineValidate(outcome=cmndOutcome):
+                return cmndOutcome
+
+        callParamsDict = {'bpoId': bpoId, }
+        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+            return cmndOutcome
+        bpoId = callParamsDict['bpoId']
+
+####+END:
+        thisClass = "PalsRepo_Profile"
+
+        bpoFpBases.examples_bpo_fpBases(bpoId, thisClass)
+
+        examples_repoProfile_basic(bpoId=bpoId)
+
+        return(cmndOutcome)
+
 
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
 """

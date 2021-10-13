@@ -112,6 +112,7 @@ from blee.icmPlayer import bleep
 
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
+from bisos.pals import palsSi
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -139,22 +140,10 @@ def g_paramsExtraSpecify(
     G = icm.IcmGlobalContext()
     icmParams = icm.ICM_ParamDict()
 
-    icmParams.parDictAdd(
-        parName='moduleVersion',
-        parDescription="Module Version",
-        parDataType=None,
-        parDefault=None,
-        parChoices=list(),
-        parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-        argparseShortOpt=None,
-        argparseLongOpt='--version',
-    )
-
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsBpo.commonParamsSpecify(icmParams)
-
+    palsSi.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -194,7 +183,6 @@ class examples(icm.Cmnd):
 
         oneBpo = "pmi_ByD-100001"
         oneSiRelPath = "geneweb/main"
-
 
         logControler = icm.LOG_Control()
         logControler.loggerSetLevel(20)

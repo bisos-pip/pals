@@ -110,7 +110,8 @@ from blee.icmPlayer import bleep
 ####+END:
 
 from bisos.bpo import bpo
-from bisos.pals import palsBpo as palsBpo
+from bisos.pals import palsBpo
+from bisos.pals import palsSi
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -152,7 +153,7 @@ def g_paramsExtraSpecify(
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsBpo.commonParamsSpecify(icmParams)
+    palsSi.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -674,7 +675,7 @@ class palsBpoInfo(icm.Cmnd):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Plone3/ palsBpo.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class SiRepo_Plone3(palsBpo.SiRepo):
+class SiRepo_Plone3(palsSi.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -699,7 +700,7 @@ class SiRepo_Plone3(palsBpo.SiRepo):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Plone3_Inst/ palsBpo.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class Plone3_Inst(palsBpo.SiSvcInst):
+class Plone3_Inst(palsSi.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object

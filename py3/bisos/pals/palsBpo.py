@@ -234,11 +234,15 @@ class PalsBases(bpo.BpoBases):
 ####+END:
 
 
-####+BEGIN: bx:dblock:python:func :funcName "examples_aaBpo_basicAccess" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList ""
+####+BEGIN: bx:dblock:python:func :funcName "examples_palsBpo_basicAccess" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId si menuLevel='chapter'"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_aaBpo_basicAccess/ =Show/Verify/Update For relevant PBDs= retType=none argsList=nil  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_palsBpo_basicAccess/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId si menuLevel='chapter')  [[elisp:(org-cycle)][| ]]
 """
-def examples_aaBpo_basicAccess():
+def examples_palsBpo_basicAccess(
+    bpoId,
+    si,
+    menuLevel='chapter',
+):
 ####+END:
     """
 ** Common examples.
@@ -247,8 +251,9 @@ def examples_aaBpo_basicAccess():
     def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity) # 'little' or 'none'
     # def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
-    oneBpo = "pmi_ByD-100001"
-    oneSiRelPath = "plone3/main"
+    oneBpo = bpoId
+    oneSiRelPath = si
+    icm.unusedSuppress(menuLevel)
 
     # def moduleOverviewMenuItem(overviewCmndName):
     #     icm.cmndExampleMenuChapter('* =Module=  Overview (desc, usage, status)')
@@ -258,14 +263,14 @@ def examples_aaBpo_basicAccess():
 
     # moduleOverviewMenuItem(bpo_libOverview)
 
-    icm.cmndExampleMenuChapter(' =Bpo+Sr Info Base Roots=  *bpoSi Control Roots*')
+    icm.cmndExampleMenuChapter('*PALS-BPO Access And Management*')
+    icm.cmndExampleMenuChapter('=Bpo+Si Info Base Roots=  *bpoSi Control Roots*')
 
     cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
     cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
     menuItem(verbosity='little')
 
-
-    icm.cmndExampleMenuChapter(' =Bpo+Sr Info Base Roots=  *bpoSi Control Roots*')
+    icm.cmndExampleMenuChapter(' =Bpo+Si Info Base Roots=  *bpoSi Control Roots*')
 
     cmndName = "bpoSiRunRootBaseDir" ; cmndArgs = "" ;
     cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath

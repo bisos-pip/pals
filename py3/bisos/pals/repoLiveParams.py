@@ -89,8 +89,8 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 ####+END:
 
 
-import os
-
+# import os
+import collections
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
 from unisos import ucf
@@ -105,6 +105,8 @@ G = icm.IcmGlobalContext()
 
 from bisos.icm import fp
 from bisos.bpo import bpo
+from bisos.pals import palsRepo
+from bisos.bpo import bpoFpBases
 
 ####+BEGIN: bx:dblock:python:section :title "Class Definitions"
 """
@@ -112,67 +114,28 @@ from bisos.bpo import bpo
 """
 ####+END:
 
-
-dowcaseFirstLetterOfString = lambda s: s[:1].lower() + s[1:] if s else ''
-
-
-####+BEGIN: bx:dblock:python:class :className "PalsRepo_LiveParams" :superClass "bpo.BpoRepo" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "PalsRepo_LiveParams" :superClass "palsRepo.PalsRepo" :comment "Expected to be subclassed" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsRepo_LiveParams/ bpo.BpoRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsRepo_LiveParams/ palsRepo.PalsRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class PalsRepo_LiveParams(bpo.BpoRepo):
+class PalsRepo_LiveParams(palsRepo.PalsRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
 """
+####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
+####+END:
             self,
             bpoId,
     ):
         super().__init__(bpoId)
         if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
             icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
-
-    def getRepoNameFromClassName(
-            self,
-    ):
-        """Based on className, determine repoName. repoName is embedded in className."""
-        repoClassName = self.__class__.__name__
-        repoName = repoClassName.replace('PalsRepo_', '')
-        return dowcaseFirstLetterOfString(repoName)
-
-    def repoName(
-            self,
-    ):
-        """Return the repoName. Derived from className"""
-        self.repoNameVar = self.getRepoNameFromClassName()
-        return self.repoNameVar
-
-    def repoBase(
-            self,
-    ):
-        """Return repoBase path. Derived from bpoId and repoName."""
-        self.repoBaseVar = os.path.join(self.bpo.baseDir, self.repoName()) # type: ignore
-        return self.repoBaseVar
-
-    def relPathToAbsPath(
-            self,
-            relPath,
-    ):
-        """Given a relativePath return and absolute path. absPath includes repoBase."""
-        return os.path.join(self.repoBase(), relPath) # type: ignore
-
-    @staticmethod
-    def fps_relBasePath():
-        """staticmethod: Relative base path of where fps reside."""
-        return "fps"
-
-    def fps_absBasePath(
-            self,
-    ):
-        """Absolute base path of where fps reside. Uses fps_relBasePath staticmethod."""
-        return os.path.join(self.repoBase(), self.__class__.fps_relBasePath(),)
-
 
 ####+BEGIN: bx:icm:py3:method :methodName "fps_baseMake" :deco "default"
     """
@@ -185,28 +148,6 @@ class PalsRepo_LiveParams(bpo.BpoRepo):
     ):
         self.fpsBaseInst = PalsRepo_LiveParams_FPs(self.fps_absBasePath())
         return self.fpsBaseInst
-
-####+BEGIN: bx:icm:py3:method :methodName "fps_baseGet" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /fps_baseGet/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def fps_baseGet(
-####+END:
-            self,
-    ):
-        return self.fpsBaseInst
-
-    def argsEcho(
-            self,
-            *args,
-            **kwArgs,
-    ):
-        """For development use."""
-        for eachArg in args:
-            print(f"{eachArg}")
-        for eachKwArg in kwArgs:
-            print(f"{eachKwArg}")
 
 ####+BEGIN: bx:dblock:python:class :className "PalsRepo_LiveParams_FPs" :superClass "fp.FP_Base" :comment "Expected to be subclassed" :classType "basic"
 """
@@ -305,6 +246,110 @@ class PalsRepo_LiveParams_FPs(fp.FP_Base):
                 'plone3Passwd': relBasePath,
             }
         )
+
+
+####+BEGIN: bx:dblock:python:func :funcName "examples_repoLiveParams" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_repoLiveParams_basic/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId)  [[elisp:(org-cycle)][| ]]
+"""
+def examples_repoLiveParams_basic(
+    bpoId,
+):
+####+END:
+    """
+** Common examples.
+"""
+    def cpsInit(): return collections.OrderedDict()
+    def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity) # 'little' or 'none'
+    # def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
+
+    # oneBpo = "pmi_ByD-100001"
+    # oneRepo= "par_live"
+
+    oneBpo = bpoId
+    oneRepo = 'liveParams'
+    thisClass = "PalsRepo_LiveParams"
+
+    # def moduleOverviewMenuItem(overviewCmndName):
+    #     icm.cmndExampleMenuChapter('* =Module=  Overview (desc, usage, status)')
+    #     cmndName = "overview_bxpBaseDir" ; cmndArgs = "moduleDescription moduleUsage moduleStatus" ;
+    #     cps = collections.OrderedDict()
+    #     icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='none') # 'little' or 'none'
+
+    # moduleOverviewMenuItem(bpo_libOverview)
+
+    icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
+
+    bpoFpBases.examples_bpo_fpBases(oneBpo, thisClass)
+
+
+    cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
+    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
+    menuItem(verbosity='little')
+
+    cmndName = "repoInvoke" ; cmndArgs = "" ;
+    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo ; cps['method'] = "echoArgs"
+    menuItem(verbosity='little')
+
+    icm.cmndExampleMenuChapter('=PalsRepo_LiveParams=  *Access And Management*')
+
+    cmndName = "bpoFpParamsSet" ; cmndArgs = "" ;
+    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['cls'] = thisClass
+
+    cps['palsPlatformBpoId'] = "thisBpoId"
+    menuItem(verbosity='little')
+
+    cps['palsPlatformIpAddr'] = "127.0.0.1"
+    menuItem(verbosity='little')
+
+    cps['plone3User'] = "UserOfPlone3"
+    menuItem(verbosity='little')
+
+    cps['plone3Passwd'] = "PasswdForPlone3"
+    menuItem(verbosity='little')
+
+    cps['palsPlatformBpoId'] = "thisBpoId"
+    cps['palsPlatformIpAddr'] = "127.0.0.1"
+    cps['plone3User'] = "UserOfPlone3"
+    cps['plone3Passwd'] = "PasswdForPlone3"
+    menuItem(verbosity='little')
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "examples_repoLiveParams" :cmndType "ICM-Cmnd-FWrk"  :comment "FrameWrk: ICM Examples" :parsMand "bpoId" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd-FWrk :: /examples_repoLiveParams/ =FrameWrk: ICM Examples= parsMand=bpoId parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class examples_repoLiveParams(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+    ):
+        cmndOutcome = self.getOpOutcome()
+        if interactive:
+            if not self.cmndLineValidate(outcome=cmndOutcome):
+                return cmndOutcome
+
+        callParamsDict = {'bpoId': bpoId, }
+        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+            return cmndOutcome
+        bpoId = callParamsDict['bpoId']
+
+####+END:
+        thisClass = "PalsRepo_LiveParams"
+
+        bpoFpBases.examples_bpo_fpBases(bpoId, thisClass)
+
+        examples_repoLiveParams_basic(bpoId=bpoId)
+
+        return(cmndOutcome)
+
+
+
 
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
 """

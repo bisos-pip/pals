@@ -114,7 +114,7 @@ from bisos.platform import bxPlatformConfig
 # from bisos.platform import bxPlatformThis
 
 from bisos.bpo import bpo
-
+from bisos.pals import palsBpo
 
 ####+BEGIN: bx:dblock:python:func :funcName "si_svcName" :funcType "Obtain" :retType "str" :deco "" :argsList "si"
 """
@@ -357,146 +357,6 @@ def bpoSi_runBaseObtain_log(
     )
 
 
-####+BEGIN: bx:icm:python:func :funcName "obtainBpo" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /obtainBpo/ retType=bool argsList=(bpoId)  [[elisp:(org-cycle)][| ]]
-"""
-def obtainBpo(
-    bpoId,
-):
-####+END:
-    return bpo.EffectiveBpos.givenBpoIdObtainBpo(bpoId, PalsBpo)
-
-
-####+BEGIN: bx:dblock:python:class :className "PalsBpo" :superClass "bpo.Bpo" :comment "Expected to be subclassed" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsBpo/ bpo.Bpo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
-"""
-class PalsBpo(bpo.Bpo):
-####+END:
-    """
-** Abstraction of the base ByStar Portable Object
-"""
-
-    def __init__(
-            self,
-            bpoId,
-    ):
-        '''Constructor'''
-        #print("ddd PalsBpo")
-        if bpo.EffectiveBpos.givenBpoIdGetBpoOrNone(bpoId):
-            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}")
-        else:
-            super().__init__(bpoId) # includes: bpo.EffectiveBpos.addBpo(bpoId, self)
-
-        self.effectiveSisList = {}
-
-        self.basesObj = PalsBases(bpoId)
-        self.basesObj.pals_bases_update()
-
-        self.repo_live = PalsRepo_Live(bpoId)
-
-        # self.sivdApache2Repo = AaSivdRepo_Apache2(bpoId)
-
-        self.siGeneweb = {}
-        # self.bpoId = bpoId
-
-    def activate(
-            self,
-            si,
-    ):
-        """When si is blank, activate the whole BPO. Otherwise just the specified bpo.
-
-        """
-        print(self.baseDir)
-        print(si)
-
-    def sisDigest(
-            self,
-    ):
-        """Based on known si_s, locate and digest SIs."""
-        siRepoPath = ""
-        for each in svcProv_virDom_list():
-            siRepoPath = os.path.join(self.baseDir, "si_{each}".format(each=each))
-            if os.path.isdir(siRepoPath):
-                sis_virDom_digest(self.bpoId, each, siRepoPath)
-                icm.TM_here(f"is {siRepoPath}")
-            else:
-                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
-
-        for each in svcProv_prim_list():
-            siRepoPath = os.path.join(self.baseDir, "si_{each}".format(each=each))
-            if os.path.isdir(siRepoPath):
-                sis_prim_digest(self.bpoId, each, siRepoPath)
-                icm.TM_here(f"is {siRepoPath}")
-            else:
-                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
-
-
-####+BEGIN: bx:dblock:python:class :className "PalsBases" :superClass "bpo.BpoBases" :comment "Expected to be subclassed" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsBases/ bpo.BpoBases =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
-"""
-class PalsBases(bpo.BpoBases):
-####+END:
-    """
-** Abstraction of the base ByStar Portable Object
-"""
-    def __init__(
-            self,
-            bpoId,
-    ):
-        super().__init__(bpoId)
-        if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
-            return
-
-    def pals_bases_update(self,):
-        """Extra pals bases."""
-        self.bases_update()
-        return
-
-    def logBase_update(self,):
-        return "NOTYET"
-
-    def logBase_obtain(self,):
-        return os.path.join(self.bpo.baseDir, "log") # type: ignore
-
-
-####+BEGIN: bx:dblock:python:class :className "PalsRepo_Live" :superClass "bpo.BpoRepo" :comment "Expected to be subclassed" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsRepo_Live/ bpo.BpoRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
-"""
-class PalsRepo_Live(bpo.BpoRepo):
-####+END:
-    """
-** Abstraction of the base ByStar Portable Object
-"""
-    def __init__(
-            self,
-            bpoId,
-    ):
-        super().__init__(bpoId)
-        if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
-            return
-
-    def info(self,):
-        print(f"PalsRepo_Live {self.bpo.bpoId}")
-
-
-    def obtainFromFPs(self,):
-        pass
-
-    def update(
-            self,
-            containerBpoId,
-            ipAddr
-    ):
-        self.containerBpoId = containerBpoId
-        self.ipAddr = ipAddr
-
-
 ####+BEGIN: bx:dblock:python:class :className "EffectiveSis" :superClass "object" :comment "" :classType "basic"
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /EffectiveSis/ object  [[elisp:(org-cycle)][| ]]
@@ -527,7 +387,7 @@ class EffectiveSis(object):
             SiClass,
     ):
         """Is invoked from Digest with appropriate Class. Returns and siObj."""
-        thisBpo = obtainBpo(bpoId,)
+        thisBpo = palsBpo.obtainBpo(bpoId,)
         if not thisBpo:
             return None
 
@@ -652,6 +512,96 @@ def sis_prim_digest(
         from bisos.pals import siPlone3
         siPlone3.digestAtSvcProv(bpoId, siRepoPath)
 
+
+
+####+BEGIN: bx:dblock:python:class :className "PalsSis" :superClass "object" :comment "Context For All Sis" :classType "basic"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsSis/ object =Context For All Sis=  [[elisp:(org-cycle)][| ]]
+"""
+class PalsSis(object):
+####+END:
+    """
+** Context For All Sis
+"""
+
+####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def __init__(
+####+END:
+            self,
+            bpoId,
+    ):
+        siPath = "."
+        icm.TM_here("bpoId={bpoId}")
+        if EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
+        else:
+            EffectiveSis.addSi(bpoId, siPath, self,)
+
+        self.bpoId = bpoId
+        self.thisBpo = palsBpo.obtainBpo(bpoId,)
+
+####+BEGIN: bx:icm:py3:method :methodName "sisDigest" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /sisDigest/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def sisDigest(
+####+END:
+            self,
+    ):
+        """Based on known si_s, locate and digest SIs."""
+        siRepoPath = ""
+        for each in self.svcProv_virDom_available():
+            siRepoPath = os.path.join(self.thisBpo.baseDir, "si_{each}".format(each=each))
+            if os.path.isdir(siRepoPath):
+                sis_virDom_digest(self.bpoId, each, siRepoPath)
+                icm.TM_here(f"is {siRepoPath}")
+            else:
+                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
+
+        for each in self.svcProv_primary_available():
+            siRepoPath = os.path.join(self.thisBpo.baseDir, "si_{each}".format(each=each))
+            if os.path.isdir(siRepoPath):
+                sis_prim_digest(self.bpoId, each, siRepoPath)
+                icm.TM_here(f"is {siRepoPath}")
+            else:
+                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
+
+####+BEGIN: bx:icm:py3:method :methodName "svcProv_virDom_available" :deco "staticmethod"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /svcProv_virDom_available/ deco=staticmethod  [[elisp:(org-cycle)][| ]]
+"""
+    @staticmethod
+    def svcProv_virDom_available(
+####+END:
+    ):
+        """List of Available Virtual Domain Service Providers"""
+        return (
+            [
+                'apache2',
+                'qmail',
+            ]
+        )
+
+####+BEGIN: bx:icm:py3:method :methodName "svcProv_primary_available" :deco "staticmethod"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /svcProv_primary_available/ deco=staticmethod  [[elisp:(org-cycle)][| ]]
+"""
+    @staticmethod
+    def svcProv_primary_available(
+####+END:
+    ):
+        """List of Available Primary Service Providers"""
+        return (
+            [
+                'plone3',
+                'geneweb',
+            ]
+        )
 
 ####+BEGIN: bx:dblock:python:class :className "SiRepo" :superClass "bpo.BpoRepo" :comment "Expected to be subclassed" :classType "basic"
 """
