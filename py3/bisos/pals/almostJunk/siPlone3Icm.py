@@ -1,3 +1,4 @@
+#!/bin/env python
 # -*- coding: utf-8 -*-
 """\
 * *[Summary]* :: An =ICM-Lib= for providing plone3 service instances.
@@ -89,13 +90,13 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 """
 ####+END:
 
-# import collections
+import collections
 import os
 import shutil
 import invoke
 # import tempfile
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
+####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmBleepG.py"
 from unisos import ucf
 from unisos import icm
 
@@ -104,17 +105,179 @@ icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
 G = icm.IcmGlobalContext()
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
+
+from blee.icmPlayer import bleep
 ####+END:
 
-# from bisos.bpo import bpo
+from bisos.bpo import bpo
 from bisos.pals import palsBpo
 from bisos.pals import palsSis
+
+g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
+    'blee.icmPlayer.bleep',
+]
+
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::= Options, Arguments and Examples Specifications =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
 """
 ####+END:
+
+
+####+BEGIN: bx:icm:python:func :funcName "g_paramsExtraSpecify" :comment "FWrk: ArgsSpec" :funcType "FrameWrk" :retType "Void" :deco "" :argsList "parser"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-FrameWrk :: /g_paramsExtraSpecify/ =FWrk: ArgsSpec= retType=Void argsList=(parser)  [[elisp:(org-cycle)][| ]]
+"""
+def g_paramsExtraSpecify(
+    parser,
+):
+####+END:
+    """Module Specific Command Line Parameters.
+    g_argsExtraSpecify is passed to G_main and is executed before argsSetup (can not be decorated)
+    """
+    G = icm.IcmGlobalContext()
+    icmParams = icm.ICM_ParamDict()
+
+    icmParams.parDictAdd(
+        parName='method',
+        parDescription="Name of method of siObj class derived from digestion of bopId+si",
+        parDataType=None,
+        parDefault=None,
+        parChoices=list(),
+        parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
+        argparseShortOpt=None,
+        argparseLongOpt='--method',
+    )
+
+    bleep.commonParamsSpecify(icmParams)
+
+    bpo.commonParamsSpecify(icmParams)
+    palsSis.commonParamsSpecify(icmParams)
+
+    icm.argsparseBasedOnIcmParams(parser, icmParams)
+
+    # So that it can be processed later as well.
+    G.icmParamDictSet(icmParams)
+
+    return
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "examples" :cmndType "Cmnd-FWrk"  :comment "FrameWrk: ICM Examples" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "999" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cmnd-FWrk  :: /examples/ =FrameWrk: ICM Examples= parsMand= parsOpt= argsMin=0 argsMax=999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class examples(icm.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 999,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        argsList=[],         # or Args-Input
+    ):
+        cmndOutcome = self.getOpOutcome()
+        if interactive:
+            if not self.cmndLineValidate(outcome=cmndOutcome):
+                return cmndOutcome
+            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+        else:
+            effectiveArgsList = argsList
+
+        callParamsDict = {}
+        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+            return cmndOutcome
+
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+            return cmndOutcome
+####+END:
+
+        def cpsInit(): return collections.OrderedDict()
+        def menuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity) # 'little' or 'none'
+        def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
+
+        oneBpo = "pmi_ByD-100001"
+        oneSiRelPath = "plone3/main"
+
+        logControler = icm.LOG_Control()
+        logControler.loggerSetLevel(20)
+
+        icm.icmExampleMyName(G.icmMyName(), G.icmMyFullName())
+
+        icm.G_commonBriefExamples()
+
+        bleep.examples_icmBasic()
+
+        icm.cmndExampleMenuChapter('*Full Actions*')
+
+        cmndName = "fullUpdate" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+
+        cmndName = "fullDelete" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+
+        cmndName = "serviceDelete" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+
+        icm.cmndExampleMenuChapter('*siBaseStart -- Initialize siBaseDir*')
+
+        cmndName = "siBaseAssemble" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+
+        cmndName = "siBaseUpdate" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+
+        icm.cmndExampleMenuChapter('*Plone Site Initializations*')
+
+        cmndName = "siInvoke" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath ; cps['method'] = 'ploneSiteAdd'
+        menuItem(verbosity='little')
+
+        cmndName = "siToBxBash" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='little')
+
+
+        cmndName = "palsBpoInfo" ; cmndArgs = "notyet" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='none')
+        menuItem(verbosity='full')
+
+        # ${G_myName} ${extraInfo} -p bxoId="${oneBystarAcct}" -p ss=${oneSr} -p dbase=banan -i imagesList | bueGimpManage.sh -h -v -n showRun -i scaleReplaceHeightTo 200
+        # $( examplesSeperatorChapter "Access, Verification And Test" )
+        # ${G_myName} ${extraInfo} -i  visitUrl
+
+        return(cmndOutcome)
+
+
+####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
+    """
+**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self):
+####+END:
+        """
+***** Cmnd Args Specification
+"""
+        cmndArgsSpecDict = icm.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0&999",
+            argName="actionPars",
+            argChoices='any',
+            argDescription="Rest of args for use by action"
+        )
+
+        return cmndArgsSpecDict
+
+
 
 ####+BEGIN: bx:icm:python:section :title "ICM Commands"
 """
@@ -389,6 +552,92 @@ class siToBxBash(icm.Cmnd):
             opResults=None,
         )
 
+####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
+    """
+**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndDocStr(self):
+####+END:
+        return """
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Description
+"""
+
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "palsBpoInfo" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "1" :argsMax "1" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /palsBpoInfo/ parsMand=bpoId si parsOpt= argsMin=1 argsMax=1 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class palsBpoInfo(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 1, 'Max': 1,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+        argsList=[],         # or Args-Input
+    ):
+        cmndOutcome = self.getOpOutcome()
+        if interactive:
+            if not self.cmndLineValidate(outcome=cmndOutcome):
+                return cmndOutcome
+            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+        else:
+            effectiveArgsList = argsList
+
+        callParamsDict = {'bpoId': bpoId, 'si': si, }
+        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+            return cmndOutcome
+        bpoId = callParamsDict['bpoId']
+        si = callParamsDict['si']
+
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+            return cmndOutcome
+####+END:
+
+        infoType = effectiveArgsList[0]
+
+        thisBpo = palsBpo.obtainBpo(bpoId,)
+
+        print("AAA")
+
+        print(thisBpo.__dict__)
+
+        #thisBpo.activate("apache2/plone3/main")
+
+        print(thisBpo.basesObj.varBase_obtain())
+        print(thisBpo.basesObj.tmpBase_obtain())
+        print(thisBpo.basesObj.logBase_obtain())
+
+        thisBpo.repo_rbxe.info()
+        thisBpo.repo_bxeTree.info()
+
+        thisBpo.repo_live.info()
+
+        # a2VirDomProvider = palsBpo.obtainSiObj(thisBpo, "apache2")
+
+        # print(palsBpo.svcProv_virDom_list())
+        # print(palsBpo.svcProv_prim_list())
+
+        thisBpo.sis.sisDigest()
+
+        siPath = palsSis.siIdToSiPath(bpoId, si)
+
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        print(thisSi.setMyVar)
+
+        print(thisBpo.effectiveSisList)
+
+        return cmndOutcome.set(
+            opError=icm.OpError.Success,  # type: ignore
+            opResults=None,
+        )
+
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
 **  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
@@ -457,10 +706,11 @@ class Plone3_Inst(palsSis.SiSvcInst):
 ** Abstraction of the base ByStar Portable Object
 """
     def __init__(
-            self,
+        self,
             bpoId,
             siPath,
     ):
+        # print("iii  Plone3_Inst")
         if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
@@ -576,6 +826,21 @@ def digestPrimSvcInstance(
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
+
+
+####+BEGIN: bx:icm:python:section :title "= =Framework::=   __main__ g_icmMain ="
+"""
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::=   __main__ g_icmMain =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+"""
+####+END:
+
+if __name__ == "__main__":
+    icm.g_icmMain(
+        icmInfo=icmInfo,
+        noCmndEntry=examples, # noCmndEntry=mainEntry,
+        extraParamsHook=g_paramsExtraSpecify,
+        importedCmndsModules=g_importedCmndsModules,
+    )
 
 ####+BEGIN: bx:icm:python:section :title "Unused Facilities -- Temporary Junk Yard"
 """
