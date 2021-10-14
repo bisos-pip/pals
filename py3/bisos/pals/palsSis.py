@@ -32,11 +32,11 @@ icmInfo['moduleStatus'] = """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "palsSi"
+icmInfo['moduleName'] = "palsSis"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110112158"
+icmInfo['version'] = "202110143503"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -61,7 +61,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/palsSi.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/palsSis.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -98,6 +98,7 @@ import collections
 
 #import traceback
 
+from deprecated import deprecated
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
 from unisos import ucf
@@ -367,6 +368,8 @@ class EffectiveSis(object):
 ** Only one instance is created for a given BpoId and an SiPath.
 """
 
+    effectiveSisList = {}
+
     @staticmethod
     def addSi(
             bpoId,
@@ -374,10 +377,11 @@ class EffectiveSis(object):
             siObj
     ):
         icm.TM_here(f"Adding bpoId={bpoId} siPath={siPath} siObj={siObj}")
-        thisBpo = obtainBpo(bpoId,)
+        thisBpo = palsBpo.obtainBpo(bpoId,)
         if not thisBpo:
             return None
-        thisBpo.effectiveSisList.update({siPath: siObj})
+        #thisBpo.sis.effectiveSisList.update({siPath: siObj})
+        __class__.effectiveSisList.update({siPath: siObj})
 
 
     @staticmethod
@@ -391,11 +395,11 @@ class EffectiveSis(object):
         if not thisBpo:
             return None
 
-        if siPath in thisBpo.effectiveSisList:
+        if siPath in __class__.effectiveSisList:
             icm.EH_problem_usageError(f"bpoId={bpoId} -- siPath={siPath} -- SiClass={SiClass}")
             icm.EH_problem_usageError(siPath)
             icm.EH_critical_oops("")
-            return thisBpo.effectiveSisList[siPath]
+            return __class__.effectiveSisList[siPath]
         else:
             return SiClass(bpoId, siPath) # results in addSi()
 
@@ -405,12 +409,12 @@ class EffectiveSis(object):
             siPath,
     ):
         """Should really not fail."""
-        thisBpo = obtainBpo(bpoId,)
+        thisBpo = palsBpo.obtainBpo(bpoId,)
         if not thisBpo:
             return None
 
-        if siPath in thisBpo.effectiveSisList:
-            return thisBpo.effectiveSisList[siPath]
+        if siPath in __class__.effectiveSisList:
+            return __class__.effectiveSisList[siPath]
         else:
             icm.EH_problem_usageError("")
             return None
@@ -421,12 +425,12 @@ class EffectiveSis(object):
             siPath,
     ):
         """Expected to perhaps fail."""
-        thisBpo = obtainBpo(bpoId,)
+        thisBpo = palsBpo.obtainBpo(bpoId,)
         if not thisBpo:
             return None
 
-        if siPath in thisBpo.effectiveSisList:
-            return thisBpo.effectiveSisList[siPath]
+        if siPath in __class__.effectiveSisList:
+            return __class__.effectiveSisList[siPath]
         else:
             return None
 
@@ -455,23 +459,23 @@ def siIdToSiPath(
 ):
 ####+END:
     """"Returns siPath"""
-    thisBpo = obtainBpo(bpoId,)
+    thisBpo = palsBpo.obtainBpo(bpoId,)
     siPath = os.path.join(thisBpo.baseDir, "si_{siId}".format(siId=siId))
     return siPath
 
 
-####+BEGIN: bx:icm:python:func :funcName "siPathToSiId" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId siId"
+####+BEGIN: bx:icm:python:func :funcName "siPathToSiId" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId siPath"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /siPathToSiId/ retType=bool argsList=(bpoId siId)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /siPathToSiId/ retType=bool argsList=(bpoId siPath)  [[elisp:(org-cycle)][| ]]
 """
 def siPathToSiId(
     bpoId,
-    siId,
+    siPath,
 ):
 ####+END:
     """"Returns siPath"""
     result = ""
-    thisBpo = obtainBpo(bpoId,)
+    thisBpo = palsBpo.obtainBpo(bpoId,)
     siPathPrefix = os.path.join(thisBpo.baseDir, "si_")
     if siPathPrefix in siPath:
         result = siPath.replace(siPathPrefix, '')
@@ -491,6 +495,8 @@ def sis_virDom_digest(
 ):
 ####+END:
     """Using virDom Svc Provider."""
+    thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo.sis.svcProv_virDom_enabled.append(siRepoPath)
     if virDomSvcProv == "apache2":
         # We need to Create the virDomProvider object
         from bisos.pals import sivdApache2
@@ -508,6 +514,8 @@ def sis_prim_digest(
 ):
 ####+END:
     """Using Primary Svc Provider."""
+    thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo.sis.svcProv_primary_enabled.append(siRepoPath)
     if primSvcProv == "plone3":
         from bisos.pals import siPlone3
         siPlone3.digestAtSvcProv(bpoId, siRepoPath)
@@ -543,6 +551,15 @@ class PalsSis(object):
 
         self.bpoId = bpoId
         self.thisBpo = palsBpo.obtainBpo(bpoId,)
+
+        self.effectiveSisList = {}
+
+        self.svcProv_primary_enabled = []
+        self.svcInst_primary_enabled = []
+
+        self.svcProv_virDom_enabled = []
+        self.svcType_virDom_enabled = []
+        self.svcInst_virDom_enabled = []
 
 ####+BEGIN: bx:icm:py3:method :methodName "sisDigest" :deco "default"
     """
@@ -665,10 +682,11 @@ class SiSvcInst(object):
 """
 ####+END:
 
-####+BEGIN: bx:dblock:python:func :funcName "svcProv_virDom_list" :funcType "ParSpec" :retType "List" :deco "" :argsList ""
+####+BEGIN: bx:dblock:python:func :funcName "svcProv_virDom_list" :funcType "ParSpec" :retType "List" :deco "deprecated(\"moved to PalsSis\")" :argsList ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-ParSpec :: /svcProv_virDom_list/ retType=List argsList=nil  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-ParSpec :: /svcProv_virDom_list/ retType=List argsList=nil deco=deprecated("moved to PalsSis")  [[elisp:(org-cycle)][| ]]
 """
+@deprecated("moved to PalsSis")
 def svcProv_virDom_list():
 ####+END:
     """List of Virtual Domain Service Providers"""
@@ -679,10 +697,11 @@ def svcProv_virDom_list():
         ]
     )
 
-####+BEGIN: bx:dblock:python:func :funcName "svcProv_prim_list" :funcType "ParSpec" :retType "List" :deco "" :argsList ""
+####+BEGIN: bx:dblock:python:func :funcName "svcProv_prim_list" :funcType "ParSpec" :retType "List" :deco "deprecated(\"moved to PalsSis\")" :argsList ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-ParSpec :: /svcProv_prim_list/ retType=List argsList=nil  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-ParSpec :: /svcProv_prim_list/ retType=List argsList=nil deco=deprecated("moved to PalsSis")  [[elisp:(org-cycle)][| ]]
 """
+@deprecated("moved to PalsSis")
 def svcProv_prim_list():
 ####+END:
     """List of Primary Service Providers"""

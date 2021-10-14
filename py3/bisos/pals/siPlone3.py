@@ -111,7 +111,7 @@ from blee.icmPlayer import bleep
 
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
-from bisos.pals import palsSi
+from bisos.pals import palsSis
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -153,7 +153,7 @@ def g_paramsExtraSpecify(
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsSi.commonParamsSpecify(icmParams)
+    palsSis.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -362,14 +362,14 @@ class siBaseAssemble(icm.Cmnd):
         if not thisBpo:
             return cmndOutcome.set(opError=icm.EH_critical_usageError(f"missing bpoId={bpoId}"))
 
-        svcProvBaseDir = palsBpo.si_svcBaseDir(bpoId, si)
+        svcProvBaseDir = palsSis.si_svcBaseDir(bpoId, si)
         if not os.path.exists(svcProvBaseDir):
             os.makedirs(svcProvBaseDir)
             # NOTYET, addition of siInfo for svcProvider
         else:
             icm.TM_here(f"svcProvBaseDir={svcProvBaseDir} exists, creation skipped.")
 
-        svcInstanceBaseDir = palsBpo.si_instanceBaseDir(bpoId, si)
+        svcInstanceBaseDir = palsSis.si_instanceBaseDir(bpoId, si)
         if not os.path.exists(svcInstanceBaseDir):
             os.makedirs(svcInstanceBaseDir)
         else:
@@ -377,10 +377,10 @@ class siBaseAssemble(icm.Cmnd):
 
         icm.TM_here(f"svcInstanceBaseDir={svcInstanceBaseDir} being updated.")
 
-        thisBpo.sisDigest()
+        thisBpo.sis.sisDigest()
 
-        siPath = palsBpo.siIdToSiPath(bpoId, si)
-        thisSi = palsBpo.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        siPath = palsSis.siIdToSiPath(bpoId, si)
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
 
         thisSi.assemble() # type: ignore
 
@@ -482,10 +482,10 @@ class siInvoke(icm.Cmnd):
 
 ####+END:
         thisBpo = palsBpo.obtainBpo(bpoId,)
-        thisBpo.sisDigest()
+        thisBpo.sis.sisDigest()
 
-        siPath = palsBpo.siIdToSiPath(bpoId, si)
-        thisSi = palsBpo.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        siPath = palsSis.siIdToSiPath(bpoId, si)
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
         if not thisSi:
             return cmndOutcome.set(opError=icm.EH_critical_usageError(f"missing thisSi={thisSi}"))
 
@@ -538,10 +538,10 @@ class siToBxBash(icm.Cmnd):
 
 ####+END:
         thisBpo = palsBpo.obtainBpo(bpoId,)
-        thisBpo.sisDigest()
+        thisBpo.sis.sisDigest()
 
-        siPath = palsBpo.siIdToSiPath(bpoId, si)
-        thisSi = palsBpo.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        siPath = palsSis.siIdToSiPath(bpoId, si)
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
         if not thisSi:
             return cmndOutcome.set(opError=icm.EH_critical_usageError(f"missing thisSi={thisSi}"))
 
@@ -621,14 +621,14 @@ class palsBpoInfo(icm.Cmnd):
 
         # a2VirDomProvider = palsBpo.obtainSiObj(thisBpo, "apache2")
 
-        print(palsBpo.svcProv_virDom_list())
-        print(palsBpo.svcProv_prim_list())
+        # print(palsBpo.svcProv_virDom_list())
+        # print(palsBpo.svcProv_prim_list())
 
-        thisBpo.sisDigest()
+        thisBpo.sis.sisDigest()
 
-        siPath = palsBpo.siIdToSiPath(bpoId, si)
+        siPath = palsSis.siIdToSiPath(bpoId, si)
 
-        thisSi = palsBpo.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
         print(thisSi.setMyVar)
 
         print(thisBpo.effectiveSisList)
@@ -671,11 +671,11 @@ class palsBpoInfo(icm.Cmnd):
 """
 
 
-####+BEGIN: bx:dblock:python:class :className "SiRepo_Plone3" :superClass "palsBpo.SiRepo" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "SiRepo_Plone3" :superClass "palsSis.SiRepo" :comment "Expected to be subclassed" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Plone3/ palsBpo.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Plone3/ palsSis.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class SiRepo_Plone3(palsSi.SiRepo):
+class SiRepo_Plone3(palsSis.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -686,7 +686,7 @@ class SiRepo_Plone3(palsSi.SiRepo):
             siPath,
     ):
         # print("eee  SiRepo_Plone3")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -696,11 +696,11 @@ class SiRepo_Plone3(palsSi.SiRepo):
         pass
 
 
-####+BEGIN: bx:dblock:python:class :className "Plone3_Inst" :superClass "palsBpo.SiSvcInst" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "Plone3_Inst" :superClass "palsSis.SiSvcInst" :comment "Expected to be subclassed" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Plone3_Inst/ palsBpo.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Plone3_Inst/ palsSis.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class Plone3_Inst(palsSi.SiSvcInst):
+class Plone3_Inst(palsSis.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -711,14 +711,14 @@ class Plone3_Inst(palsSi.SiSvcInst):
             siPath,
     ):
         # print("iii  Plone3_Inst")
-        if palsBpo.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
 
         self.bpo = palsBpo.obtainBpo(bpoId,)
         self.siPath = siPath
-        self.siId = palsBpo.siPathToSiId(bpoId, siPath,)
+        self.siId = palsSis.siPathToSiId(bpoId, siPath,)
         self.invContext = invoke.context.Context(config=None)
 
     def obtainFromFPs(self,):
@@ -775,9 +775,9 @@ def digestAtSvcProv(
 ):
 ####+END:
     icm.TM_here("Incomplete")
-    palsBpo.createSiObj(bpoId, siRepoBase, SiRepo_Plone3)
+    palsSis.createSiObj(bpoId, siRepoBase, SiRepo_Plone3)
 
-    # thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo = palsBpo.obtainBpo(bpoId,)
 
     for (_, dirNames, _,) in os.walk(siRepoBase):
         for each in dirNames:
@@ -786,6 +786,7 @@ def digestAtSvcProv(
             # verify that it is a svcInstance
             siRepoPath = os.path.join(siRepoBase, each)
             digestPrimSvcInstance(bpoId, siRepoPath, each,)
+            thisBpo.sis.svcInst_primary_enabled.append(siRepoPath,)
         break
 
 
@@ -801,7 +802,7 @@ def digestPrimSvcInstance(
 ####+END:
     icm.TM_here("Incomplete")
 
-    thisSi = palsBpo.createSiObj(bpoId, siRepoBase, Plone3_Inst)
+    thisSi = palsSis.createSiObj(bpoId, siRepoBase, Plone3_Inst)
 
     thisSi.setVar(22) # type: ignore
 

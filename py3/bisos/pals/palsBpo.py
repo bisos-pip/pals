@@ -113,8 +113,10 @@ G = icm.IcmGlobalContext()
 from bisos.platform import bxPlatformConfig
 # from bisos.platform import bxPlatformThis
 
-from bisos.bpo import bpo
+from bisos.basics import pattern
 
+from bisos.bpo import bpo
+from bisos.pals import palsSis
 
 
 ####+BEGIN: bx:dblock:python:section :title "Start Your Sections Here"
@@ -131,6 +133,7 @@ def obtainBpo(
     bpoId,
 ):
 ####+END:
+    """Obtains the  sameInstance PalsBpo. Instansiated only once."""
     return bpo.EffectiveBpos.givenBpoIdObtainBpo(bpoId, PalsBpo)
 
 
@@ -151,19 +154,18 @@ class PalsBpo(bpo.Bpo):
         '''Constructor'''
         #print("ddd PalsBpo")
         if bpo.EffectiveBpos.givenBpoIdGetBpoOrNone(bpoId):
-            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}")
+            icm.EH_critical_usageError(f"Duplicate Attempt At sameInstance Re-Creation -- OOPS -- bpoId={bpoId}")
         else:
             super().__init__(bpoId) # includes: bpo.EffectiveBpos.addBpo(bpoId, self)
 
-        self.effectiveSisList = {}
+        self.bpoId = bpoId
+
+        self.sis = pattern.sameInstance(palsSis.PalsSis, bpoId)
 
         self.basesObj = PalsBases(bpoId)
         self.basesObj.pals_bases_update()
 
-        # self.sivdApache2Repo = AaSivdRepo_Apache2(bpoId)
 
-        self.siGeneweb = {}
-        # self.bpoId = bpoId
 
     def activate(
             self,
@@ -174,27 +176,6 @@ class PalsBpo(bpo.Bpo):
         """
         print(self.baseDir)
         print(si)
-
-    def sisDigest(
-            self,
-    ):
-        """Based on known si_s, locate and digest SIs."""
-        siRepoPath = ""
-        for each in svcProv_virDom_list():
-            siRepoPath = os.path.join(self.baseDir, "si_{each}".format(each=each))
-            if os.path.isdir(siRepoPath):
-                sis_virDom_digest(self.bpoId, each, siRepoPath)
-                icm.TM_here(f"is {siRepoPath}")
-            else:
-                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
-
-        for each in svcProv_prim_list():
-            siRepoPath = os.path.join(self.baseDir, "si_{each}".format(each=each))
-            if os.path.isdir(siRepoPath):
-                sis_prim_digest(self.bpoId, each, siRepoPath)
-                icm.TM_here(f"is {siRepoPath}")
-            else:
-                icm.TM_here(f"is NOT {siRepoPath} -- skipped")
 
 
 ####+BEGIN: bx:dblock:python:class :className "PalsBases" :superClass "bpo.BpoBases" :comment "Expected to be subclassed" :classType "basic"

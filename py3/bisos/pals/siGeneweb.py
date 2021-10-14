@@ -112,7 +112,7 @@ from blee.icmPlayer import bleep
 
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
-from bisos.pals import palsSi
+from bisos.pals import palsSis
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -143,7 +143,7 @@ def g_paramsExtraSpecify(
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsSi.commonParamsSpecify(icmParams)
+    palsSis.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 

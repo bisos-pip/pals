@@ -112,7 +112,7 @@ from blee.icmPlayer import bleep
 
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
-from bisos.pals import palsSi
+from bisos.pals import palsSis
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -154,8 +154,7 @@ def g_paramsExtraSpecify(
     bleep.commonParamsSpecify(icmParams)
 
     bpo.commonParamsSpecify(icmParams)
-    palsSi.commonParamsSpecify(icmParams)
-
+    palsSis.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -572,14 +571,14 @@ class palsBpoInfo(icm.Cmnd):
 
         # a2VirDomProvider = palsBpo.obtainSiObj(thisBpo, "apache2")
 
-        print(palsBpo.svcProv_virDom_list())
-        print(palsBpo.svcProv_prim_list())
+        #print(palsBpo.svcProv_virDom_list())
+        #print(palsBpo.svcProv_prim_list())
 
         thisBpo.sisDigest()
 
-        siPath = palsBpo.siIdToSiPath(bpoId, si)
+        siPath = palsSis.siIdToSiPath(bpoId, si)
 
-        thisSi = palsBpo.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
         print(thisSi.setMyVar)
 
         print(thisBpo.effectiveSisList)
@@ -927,7 +926,7 @@ class obsoletedA2SivdBase_Plone3(object):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /AaSivdRepo_Apache2/ palsBpo.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class AaSivdRepo_Apache2(palsSi.SiRepo):
+class AaSivdRepo_Apache2(palsSis.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -938,7 +937,7 @@ class AaSivdRepo_Apache2(palsSi.SiRepo):
             siPath,
     ):
         # print("eee  AaSivdRepo_Apache2")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -952,7 +951,7 @@ class AaSivdRepo_Apache2(palsSi.SiRepo):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Type/ palsBpo.SiVirDomSvcType =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Type(palsSi.SiVirDomSvcType):
+class A2_Svc_Type(palsSis.SiVirDomSvcType):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -963,7 +962,7 @@ class A2_Svc_Type(palsSi.SiVirDomSvcType):
             siPath,
     ):
         # print("fff  A2_Svc_Type")
-        if palsSi.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -973,7 +972,7 @@ class A2_Svc_Type(palsSi.SiVirDomSvcType):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Inst/ palsBpo.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Inst(palsSi.SiSvcInst):
+class A2_Svc_Inst(palsSis.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -984,7 +983,7 @@ class A2_Svc_Inst(palsSi.SiSvcInst):
             siPath,
     ):
         # print("ggg  A2_Svc_Inst")
-        if palsSi.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -1009,7 +1008,7 @@ class A2_Plone3_Type(A2_Svc_Type):
             siPath,
     ):
         # print("hhh  A2_Plone3_Type")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -1040,7 +1039,7 @@ class A2_Plone3_Inst(A2_Svc_Inst):
             siPath,
     ):
         # print("iii  A2_Plone3_Inst")
-        if palsBpo.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
+        if palsSis.EffectiveSis. givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
             super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
@@ -1123,16 +1122,18 @@ def digestAtVirDomSvcProv(
 ):
 ####+END:
     icm.TM_here("Incomplete")
-    palsBpo.createSiObj(bpoId, siRepoBase, AaSivdRepo_Apache2)
+    palsSis.createSiObj(bpoId, siRepoBase, AaSivdRepo_Apache2)
 
-    # thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo = palsBpo.obtainBpo(bpoId,)
 
     for each in listOfA2VirDomTypes():
             siRepoPath = os.path.join(siRepoBase, each)
             if os.path.isdir(siRepoPath):
                 if each == "plone3":
-                    plone3SvcTypeObj = palsBpo.createSiObj(bpoId, siRepoPath, A2_Plone3_Type)
+                    plone3SvcTypeObj = palsSis.createSiObj(bpoId, siRepoPath, A2_Plone3_Type)
                     digestAtVirDomSvcType(bpoId, siRepoPath, plone3SvcTypeObj)
+                    thisBpo.sis.svcType_virDom_enabled.append(siRepoPath)
+
                 icm.TM_here(f"is {siRepoPath}")
             else:
                 icm.TM_here(f"is NOT {siRepoPath} -- skipped")
@@ -1152,7 +1153,7 @@ def digestAtVirDomSvcType(
 
     #palsBpo.createSiObj(bpoId, siRepoBase, AaSivdRepo_Apache2) # BAD USAGE
 
-    # thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo = palsBpo.obtainBpo(bpoId,)
 
     for (_, dirNames, _,) in os.walk(siRepoBase):
         for each in dirNames:
@@ -1161,6 +1162,7 @@ def digestAtVirDomSvcType(
             # verify that it is a svcInstance
             siRepoPath = os.path.join(siRepoBase, each)
             digestVirDomSvcInstance(bpoId, siRepoPath, svcTypeObj, each)
+            thisBpo.sis.svcInst_virDom_enabled.append(siRepoPath)
         break
 
 
@@ -1177,7 +1179,7 @@ def digestVirDomSvcInstance(
 ####+END:
     icm.TM_here("Incomplete")
 
-    thisSi = palsBpo.createSiObj(bpoId, siRepoBase, A2_Plone3_Inst)
+    thisSi = palsSis.createSiObj(bpoId, siRepoBase, A2_Plone3_Inst)
 
     thisSi.setVar(22)
 
