@@ -134,8 +134,10 @@ class PalsRepo(bpo.BpoRepo):
             bpoId,
     ):
         super().__init__(bpoId)
-        if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
+
+        self.bpoId = bpoId
+
+        self.repos_enabled = []  # List of repos of this palsBpo.
 
 ####+BEGIN: bx:icm:py3:method :methodName "getRepoNameFromClassName" :deco "default"
     """

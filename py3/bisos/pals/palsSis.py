@@ -518,12 +518,11 @@ def sis_prim_digest(
     if primSvcProv == "plone3":
         from bisos.pals import siPlone3
         siPlone3.digestAtSvcProv(bpoId, siRepoPath)
-    if primSvcProv == "geneweb":
-        icm.EH_problem_notyet("")
+    elif primSvcProv == "geneweb":
         from bisos.pals import siGeneweb
         siGeneweb.digestAtSvcProv(bpoId, siRepoPath)
-
-
+    else:
+        icm.EH_problem_notyet("")
 
 ####+BEGIN: bx:dblock:python:class :className "PalsSis" :superClass "object" :comment "Context For All Sis" :classType "basic"
 """
@@ -555,7 +554,7 @@ class PalsSis(object):
         self.bpoId = bpoId
         self.thisBpo = palsBpo.obtainBpo(bpoId,)
 
-        self.effectiveSisList = {}
+        self.effectiveSisList = {}  # NOTYET, perhaps obsoleted
 
         self.svcProv_primary_enabled = []
         self.svcInst_primary_enabled = []

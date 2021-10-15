@@ -98,6 +98,7 @@ import collections
 
 #import traceback
 
+import pathlib
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
 from unisos import ucf
@@ -116,6 +117,7 @@ from bisos.platform import bxPlatformConfig
 from bisos.basics import pattern
 
 from bisos.bpo import bpo
+from bisos.pals import palsRepo
 from bisos.pals import palsSis
 
 
@@ -124,6 +126,29 @@ from bisos.pals import palsSis
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Start Your Sections Here*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
 """
 ####+END:
+
+####+BEGIN: bx:icm:py3:func :funcName "symlinkUpdate" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "srcPath targetPath"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /symlinkUpdate/  [[elisp:(org-cycle)][| ]]
+"""
+def symlinkUpdate(
+####+END:
+    srcPath: pathlib.Path,
+    targetPath: pathlib.Path,
+) -> pathlib.Path:
+####+END:
+    """
+** srcPath should exist, targetPath (gets created)
+    """
+    if not srcPath.exists():
+        icm.EH_problem_usageError(f"Missing srcPath={srcPath}")
+        return typing.cast(pathlib.Path, None)
+    if targetPath.exists():
+        targetPath.unlink()
+    targetPath.symlink_to(srcPath)
+    return targetPath
+
+
 
 ####+BEGIN: bx:icm:python:func :funcName "obtainBpo" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId"
 """
@@ -147,72 +172,281 @@ class PalsBpo(bpo.Bpo):
 ** Abstraction of the base ByStar Portable Object
 """
 
+####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
+####+END:
             self,
             bpoId,
     ):
-        '''Constructor'''
-        #print("ddd PalsBpo")
         if bpo.EffectiveBpos.givenBpoIdGetBpoOrNone(bpoId):
             icm.EH_critical_usageError(f"Duplicate Attempt At sameInstance Re-Creation -- OOPS -- bpoId={bpoId}")
         else:
             super().__init__(bpoId) # includes: bpo.EffectiveBpos.addBpo(bpoId, self)
 
-        self.bpoId = bpoId
+        # bpo.Bpo gives us self.{ bpoId, bpoBaseDir }
 
+        self.repos = pattern.sameInstance(palsRepo.PalsRepo, bpoId)
         self.sis = pattern.sameInstance(palsSis.PalsSis, bpoId)
+        self.bases = pattern.sameInstance(PalsBases, bpoId, self)
 
-        self.basesObj = PalsBases(bpoId)
-        self.basesObj.pals_bases_update()
-
-
-
+####+BEGIN: bx:icm:py3:method :methodName "activate" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /activate/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def activate(
+####+END:
             self,
-            si,
     ):
-        """When si is blank, activate the whole BPO. Otherwise just the specified bpo.
+        """
+*** We'll use this to first activate the bpo. Nothing for now.
 
         """
-        print(self.baseDir)
-        print(si)
+        pass
 
-
-####+BEGIN: bx:dblock:python:class :className "PalsBases" :superClass "bpo.BpoBases" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "PalsBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsBases/ bpo.BpoBases =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsBases/ object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
 """
-class PalsBases(bpo.BpoBases):
+class PalsBases(object):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
 """
+####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
+####+END:
             self,
             bpoId,
+            palsBpo,
     ):
-        super().__init__(bpoId)
-        if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
-            return
+        self.bpoId = bpoId
+        self.palsBpo = palsBpo
 
-    def pals_bases_update(self,):
-        """Extra pals bases."""
-        self.bases_update()
+####+BEGIN: bx:icm:py3:method :methodName "basesUpdate" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /basesUpdate/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def basesUpdate(
+####+END:
+            self,
+    ):
+        self.varBasePath_update()
+        self.controlBasePath_update()
+        self.logBasePath_update()
+        self.curBasePath_update()
+        self.tmpBasePath_update()
         return
 
-    def logBase_update(self,):
-        return "NOTYET"
 
-    def logBase_obtain(self,):
-        return os.path.join(self.bpo.baseDir, "log") # type: ignore
-
-
-####+BEGIN: bx:dblock:python:section :title "Common Examples Sections"
+####+BEGIN: bx:icm:py3:method :methodName "varBasePath_update" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common Examples Sections*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def varBasePath_update(
 ####+END:
+            self,
+    ) -> pathlib.Path:
+
+        actualBasePath = pathlib.Path(
+            os.path.join(
+                "/var/bisos/bpo/var",
+                self.bpoId,
+                "bpo",
+            )
+        )
+        actualBasePath.mkdir(parents=True, exist_ok=True)
+        bpoBasePath  = self.varBasePath_obtain()
+
+        return symlinkUpdate(actualBasePath, bpoBasePath)
+
+
+####+BEGIN: bx:icm:py3:method :methodName "varBasePath_obtain" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def varBasePath_obtain(
+####+END:
+            self,
+    ) -> pathlib.Path:
+        return (
+            pathlib.Path(
+                os.path.join(
+                    self.palsBpo.bpoBaseDir, "var"
+                )
+            )
+        )
+
+
+####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_update" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def controlBasePath_update(
+####+END:
+            self,
+    ) -> pathlib.Path:
+
+        actualBasePath = pathlib.Path(
+            os.path.join(
+                "/var/bisos/bpo/control",
+                self.bpoId,
+                "bpo",
+            )
+        )
+        actualBasePath.mkdir(parents=True, exist_ok=True)
+        bpoBasePath  = self.controlBasePath_obtain()
+
+        return symlinkUpdate(actualBasePath, bpoBasePath)
+
+
+####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_obtain" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def controlBasePath_obtain(
+####+END:
+            self,
+    ) -> pathlib.Path:
+        return (
+            pathlib.Path(
+                os.path.join(
+                    self.palsBpo.bpoBaseDir, "control"
+                )
+            )
+        )
+
+
+####+BEGIN: bx:icm:py3:method :methodName "logBasePath_update" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def logBasePath_update(
+####+END:
+           self,
+    ) -> pathlib.Path:
+
+        actualBasePath = pathlib.Path(
+            os.path.join(
+                "/var/bisos/bpo/log",
+                self.bpoId,
+                "bpo",
+            )
+        )
+        actualBasePath.mkdir(parents=True, exist_ok=True)
+        bpoBasePath  = self.logBasePath_obtain()
+
+        return symlinkUpdate(actualBasePath, bpoBasePath)
+
+
+####+BEGIN: bx:icm:py3:method :methodName "logBasePath_obtain" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def logBasePath_obtain(
+####+END:
+            self,
+    ) -> pathlib.Path:
+        return (
+            pathlib.Path(
+                os.path.join(
+                    self.palsBpo.bpoBaseDir, "log"
+                )
+            )
+        )
+
+
+####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_update" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def tmpBasePath_update(
+####+END:
+          self,
+    ) -> pathlib.Path:
+
+        actualBasePath = pathlib.Path(
+            os.path.join(
+                "/tmp/bisos",
+            )
+        )
+        actualBasePath.mkdir(parents=True, exist_ok=True)
+        bpoBasePath  = self.tmpBasePath_obtain()
+
+        return symlinkUpdate(actualBasePath, bpoBasePath)
+
+####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_obtain" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def tmpBasePath_obtain(
+####+END:
+            self,
+    ) -> pathlib.Path:
+        return (
+            pathlib.Path(
+                os.path.join(
+                    self.palsBpo.bpoBaseDir, "tmp"
+                )
+            )
+        )
+
+
+####+BEGIN: bx:icm:py3:method :methodName "curBasePath_update" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def curBasePath_update(
+####+END:
+          self,
+    ) -> pathlib.Path:
+
+        actualBasePath = pathlib.Path(
+            os.path.join(
+                "/var/bisos/bpo/cur",
+                self.bpoId,
+                "bpo",
+            )
+        )
+        actualBasePath.mkdir(parents=True, exist_ok=True)
+        bpoBasePath  = self.curBasePath_obtain()
+
+        return symlinkUpdate(actualBasePath, bpoBasePath)
+
+####+BEGIN: bx:icm:py3:method :methodName "curBasePath_obtain" :deco "default"
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def curBasePath_obtain(
+####+END:
+            self,
+    ) -> pathlib.Path:
+        return (
+            pathlib.Path(
+                os.path.join(
+                    self.palsBpo.bpoBaseDir, "cur"
+                )
+            )
+        )
 
 
 ####+BEGIN: bx:dblock:python:func :funcName "examples_palsBpo_basicAccess" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId si menuLevel='chapter'"
@@ -272,6 +506,95 @@ def examples_palsBpo_basicAccess(
 """
 ####+END:
 
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "basesUpdate" :parsMand "bpoId" :parsOpt "" :argsMin "0" :argsMax "5" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /basesUpdate/ parsMand=bpoId parsOpt= argsMin=0 argsMax=5 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class basesUpdate(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 5,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        argsList=[],         # or Args-Input
+    ):
+        cmndOutcome = self.getOpOutcome()
+        if interactive:
+            if not self.cmndLineValidate(outcome=cmndOutcome):
+                return cmndOutcome
+            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+        else:
+            effectiveArgsList = argsList
+
+        callParamsDict = {'bpoId': bpoId, }
+        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+            return cmndOutcome
+        bpoId = callParamsDict['bpoId']
+
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+            return cmndOutcome
+####+END:
+
+        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
+
+        if len(cmndArgs):
+            if  cmndArgs[0] == "all":
+                cmndArgsSpec = cmndArgsSpecDict.argPositionFind("0&5")
+                argChoices = cmndArgsSpec.argChoicesGet()
+                argChoices.pop(0)
+                cmndArgs= argChoices
+
+        thisBpo = obtainBpo(bpoId,)
+
+        for each in cmndArgs:
+            try:
+                baseUpdateMethod = getattr(thisBpo.bases, "{each}BasePath_update".format(each=each))
+                palsBpoBase = baseUpdateMethod()
+                print(palsBpoBase)
+            except AttributeError:
+                icm.EH_critical_exception("")
+                continue
+
+        return cmndOutcome
+
+
+####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self):
+####+END:
+        """
+***** Cmnd Args Specification
+"""
+        cmndArgsSpecDict = icm.CmndArgsSpecDict()
+
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0&5",
+            argName="cmndArgs",
+            argDefault='all',
+            argChoices=['all', 'var', 'tmp', 'log', 'control', 'cur'],
+            argDescription="Rest of args for use by action"
+        )
+
+        return cmndArgsSpecDict
+
+
+####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
+    """
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+"""
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndDocStr(self):
+####+END:
+        return """
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns the full path of the Sr baseDir.
+"""
 
 
 ####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "bpoSiRunRootBaseDir" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "3" :asFunc "" :interactiveP ""
