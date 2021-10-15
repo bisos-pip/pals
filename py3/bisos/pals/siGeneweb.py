@@ -108,7 +108,7 @@ G = icm.IcmGlobalContext()
 ####+END:
 
 # from bisos.bpo import bpo
-# from bisos.pals import palsBpo
+from bisos.pals import palsBpo
 from bisos.pals import palsSis
 
 ####+BEGIN: bx:icm:python:section :title "ICM Commands"
@@ -674,6 +674,128 @@ def dbaseInitialContentTemplate():
 """
     return templateStr
 
+
+####+BEGIN: bx:dblock:python:class :className "SiRepo_Geneweb" :superClass "palsSis.SiRepo" :comment "Expected to be subclassed" :classType "basic"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Geneweb/ palsSis.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+"""
+class SiRepo_Geneweb(palsSis.SiRepo):
+####+END:
+    """
+** Abstraction of the base ByStar Portable Object
+"""
+    def __init__(
+            self,
+            bpoId,
+            siPath,
+    ):
+        # print("eee  SiRepo_Plone3")
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
+            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
+        else:
+            super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
+
+
+    def obtainFromFPs(self,):
+        pass
+
+
+####+BEGIN: bx:dblock:python:class :className "Geneweb_Inst" :superClass "palsSis.SiSvcInst" :comment "Expected to be subclassed" :classType "basic"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Geneweb_Inst/ palsSis.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+"""
+class Geneweb_Inst(palsSis.SiSvcInst):
+####+END:
+    """
+** Abstraction of the base ByStar Portable Object
+"""
+    def __init__(
+            self,
+            bpoId,
+            siPath,
+    ):
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
+            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
+        else:
+            super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
+
+        self.bpo = palsBpo.obtainBpo(bpoId,)
+        self.siPath = siPath
+        self.siId = palsSis.siPathToSiId(bpoId, siPath,)
+        self.invContext = invoke.context.Context(config=None)
+
+    def obtainFromFPs(self,):
+        pass
+
+    def setVar(self, value,):
+        self.setMyVar = value
+
+    def domainShow(self,):
+        pass
+
+    def stdout(self,):
+        pass
+
+    def assemble(self,):
+        svcInstanceBaseDir = self.siPath
+        bsiAgentFile = os.path.join(svcInstanceBaseDir, "bsiAgent.sh")
+
+        shutil.copyfile("/bisos/apps/defaults/pals/si/common/bsiAgent.sh", bsiAgentFile)
+
+        siInfoBase = os.path.join(svcInstanceBaseDir, "siInfo")
+
+        if not os.path.exists(siInfoBase): os.makedirs(siInfoBase)
+
+        icm.FILE_ParamWriteTo(siInfoBase, 'svcCapability', __file__) # NOTYET, last part
+
+        invContext = invoke.context.Context(config=None)
+
+        with invContext.cd(svcInstanceBaseDir):
+            invContext.run("bxtStartCommon.sh  -v -n showRun -i startObjectGen auxLeaf")
+
+
+####+BEGIN: bx:icm:python:func :funcName "digestAtSvcProv" :funcType "anyOrNone" :retType "" :deco "" :argsList "bpoId siRepoBase"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /digestAtSvcProv/ retType= argsList=(bpoId siRepoBase)  [[elisp:(org-cycle)][| ]]
+"""
+def digestAtSvcProv(
+    bpoId,
+    siRepoBase,
+):
+####+END:
+    icm.TM_here("Incomplete")
+    palsSis.createSiObj(bpoId, siRepoBase, SiRepo_Geneweb)
+
+    thisBpo = palsBpo.obtainBpo(bpoId,)
+
+    for (_, dirNames, _,) in os.walk(siRepoBase):
+        for each in dirNames:
+            if each == "siInfo":
+                continue
+            # verify that it is a svcInstance
+            siRepoPath = os.path.join(siRepoBase, each)
+            digestPrimSvcInstance(bpoId, siRepoPath, each,)
+            thisBpo.sis.svcInst_primary_enabled.append(siRepoPath,)
+        break
+
+
+####+BEGIN: bx:icm:python:func :funcName "digestPrimSvcInstance" :funcType "anyOrNone" :retType "" :deco "" :argsList "bpoId siRepoBase instanceName"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /digestPrimSvcInstance/ retType= argsList=(bpoId siRepoBase instanceName)  [[elisp:(org-cycle)][| ]]
+"""
+def digestPrimSvcInstance(
+    bpoId,
+    siRepoBase,
+    instanceName,
+):
+####+END:
+    icm.TM_here("Incomplete")
+
+    thisSi = palsSis.createSiObj(bpoId, siRepoBase, Geneweb_Inst)
+
+    thisSi.setVar(22) # type: ignore
+
+    icm.TM_here(f"bpoId={bpoId}, siRepoBase={siRepoBase}, instanceName={instanceName}")
 
 
 

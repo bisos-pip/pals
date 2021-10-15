@@ -214,6 +214,27 @@ class PalsRepo(bpo.BpoRepo):
         return os.path.join(self.repoBase(), self.__class__.fps_relBasePath(),)
 
 
+
+####+BEGIN: bx:dblock:python:func :funcName "commonParamsSpecify" :funcType "ParSpec" :retType "" :deco "" :argsList "icmParams"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-ParSpec :: /commonParamsSpecify/ retType= argsList=(icmParams)  [[elisp:(org-cycle)][| ]]
+"""
+def commonParamsSpecify(
+    icmParams,
+):
+####+END:
+    icmParams.parDictAdd(
+        parName='repo',
+        parDescription="Name of PALS Repository",
+        parDataType=None,
+        parDefault=None,
+        parChoices=list(),
+        parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
+        argparseShortOpt=None,
+        argparseLongOpt='--repo',
+    )
+
+
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]

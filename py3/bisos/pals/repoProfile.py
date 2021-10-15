@@ -32,11 +32,11 @@ icmInfo['moduleStatus'] = """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "repoLiveParams"
+icmInfo['moduleName'] = "repoProfile"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110073836"
+icmInfo['version'] = "202110142341"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -61,7 +61,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/repoLiveParams.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/repoProfile.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -267,10 +267,6 @@ def examples_repoProfile_basic(
     #     icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity='none') # 'little' or 'none'
 
     # moduleOverviewMenuItem(bpo_libOverview)
-
-    icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
-
-    bpoFpBases.examples_bpo_fpBases(oneBpo, thisClass)
 
     icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
 

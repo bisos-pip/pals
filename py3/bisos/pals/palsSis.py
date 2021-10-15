@@ -88,7 +88,6 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 """
 ####+END:
 
-
 import os
 # import pwd
 # import grp
@@ -519,6 +518,10 @@ def sis_prim_digest(
     if primSvcProv == "plone3":
         from bisos.pals import siPlone3
         siPlone3.digestAtSvcProv(bpoId, siRepoPath)
+    if primSvcProv == "geneweb":
+        icm.EH_problem_notyet("")
+        from bisos.pals import siGeneweb
+        siGeneweb.digestAtSvcProv(bpoId, siRepoPath)
 
 
 

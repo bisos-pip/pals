@@ -280,9 +280,6 @@ def examples_repoLiveParams_basic(
 
     icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
 
-    bpoFpBases.examples_bpo_fpBases(oneBpo, thisClass)
-
-
     cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
     cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
     menuItem(verbosity='little')

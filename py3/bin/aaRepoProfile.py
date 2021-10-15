@@ -1,4 +1,9 @@
 #!/bin/env python
+import sys
+
+print("OBSOLTED -- moved to palsRepo")
+sys.exit()
+
 # -*- coding: utf-8 -*-
 """\
 * *[Summary]* :: A /library/ Beginning point for development of new ICM oriented libraries.
