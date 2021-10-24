@@ -253,7 +253,8 @@ class PalsRepo_LiveParams_FPs(fp.FP_Base):
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_repoLiveParams_basic/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId)  [[elisp:(org-cycle)][| ]]
 """
 def examples_repoLiveParams_basic(
-    bpoId,
+        bpoId,
+        className,
 ):
 ####+END:
     """
@@ -268,7 +269,8 @@ def examples_repoLiveParams_basic(
 
     oneBpo = bpoId
     oneRepo = 'liveParams'
-    thisClass = "PalsRepo_LiveParams"
+    #thisClass = "PalsRepo_LiveParams"
+    thisClass = className
 
     # def moduleOverviewMenuItem(overviewCmndName):
     #     icm.cmndExampleMenuChapter('* =Module=  Overview (desc, usage, status)')
@@ -278,15 +280,15 @@ def examples_repoLiveParams_basic(
 
     # moduleOverviewMenuItem(bpo_libOverview)
 
-    icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
+    # icm.cmndExampleMenuChapter('=Misc=  *Facilities*')
 
-    cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
-    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
-    menuItem(verbosity='little')
+    # cmndName = "bpoSiFullPathBaseDir" ; cmndArgs = "" ;
+    # cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo
+    # menuItem(verbosity='little')
 
-    cmndName = "repoInvoke" ; cmndArgs = "" ;
-    cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo ; cps['method'] = "echoArgs"
-    menuItem(verbosity='little')
+    # cmndName = "repoInvoke" ; cmndArgs = "" ;
+    # cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['repo'] = oneRepo ; cps['method'] = "echoArgs"
+    # menuItem(verbosity='little')
 
     icm.cmndExampleMenuChapter('=PalsRepo_LiveParams=  *Access And Management*')
 
@@ -341,7 +343,7 @@ class examples_repoLiveParams(icm.Cmnd):
 
         bpoFpBases.examples_bpo_fpBases(bpoId, thisClass)
 
-        examples_repoLiveParams_basic(bpoId=bpoId)
+        examples_repoLiveParams_basic(bpoId=bpoId, className=thisClass)
 
         return(cmndOutcome)
 

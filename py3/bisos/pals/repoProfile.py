@@ -136,7 +136,8 @@ class PalsRepo_Profile(palsRepo.PalsRepo):
     ):
         super().__init__(bpoId)
         if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
+            #icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
+            pass
 
 ####+BEGIN: bx:icm:py3:method :methodName "fps_baseMake" :deco "default"
     """

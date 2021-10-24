@@ -136,7 +136,7 @@ class PalsRepo(bpo.BpoRepo):
         super().__init__(bpoId)
 
         self.bpoId = bpoId
-
+        self.baseDir = bpo.bpoBaseDir_obtain(bpoId)
         self.repos_enabled = []  # List of repos of this palsBpo.
 
 ####+BEGIN: bx:icm:py3:method :methodName "getRepoNameFromClassName" :deco "default"
@@ -176,7 +176,7 @@ class PalsRepo(bpo.BpoRepo):
             self,
     ):
         """Return repoBase path. Derived from bpoId and repoName."""
-        self.repoBaseVar = os.path.join(self.bpo.baseDir, self.repoName()) # type: ignore
+        self.repoBaseVar = os.path.join(self.baseDir, self.repoName()) # type: ignore
         return self.repoBaseVar
 
 ####+BEGIN: bx:icm:py3:method :methodName "relPathToAbsPath" :deco "default"

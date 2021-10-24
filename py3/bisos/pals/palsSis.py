@@ -125,7 +125,7 @@ def si_svcName(
 ):
 ####+END:
     """
-** Return svcName based on si.
+** Return svcName based on si. Applies to primary and virdom.
     """
     siList = si.split('/')
     return siList[0]
@@ -139,16 +139,16 @@ def si_instanceName(
 ):
 ####+END:
     """
-** Return service instance.
+** Return service instance. Applies to primary and virdom.
     """
     siList = si.split('/')
     return siList[-1]
 
-####+BEGIN: bx:dblock:python:func :funcName "si_virDomSvcName" :funcType "Obtain" :retType "str" :deco "" :argsList "si"
+####+BEGIN: bx:dblock:python:func :funcName "sivd_virDomSvcName" :funcType "Obtain" :retType "str" :deco "" :argsList "si"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_virDomSvcName/ retType=str argsList=(si)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_virDomSvcName/ retType=str argsList=(si)  [[elisp:(org-cycle)][| ]]
 """
-def si_virDomSvcName(
+def sivd_virDomSvcName(
     si,
 ):
 ####+END:
@@ -183,11 +183,33 @@ def si_svcBaseDir(
         )
     )
 
-####+BEGIN: bx:dblock:python:func :funcName "si_virDomSvcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+####+BEGIN: bx:dblock:python:func :funcName "sivd_svcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_svcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+"""
+def sivd_svcBaseDir(
+    bpoId,
+    si,
+):
+####+END:
+    """
+** Return full path of the svc base dir. Eg. ~bpoId/si_svcName.
+    """
+    bpoBaseDir = bpo.bpoBaseDir_obtain(bpoId)
+    siServiceName = si_svcName(si)
+    return (
+        os.path.join(
+            bpoBaseDir,
+            format(f"sivd_{siServiceName}"),
+        )
+    )
+
+
+####+BEGIN: bx:dblock:python:func :funcName "sivd_virDomSvcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_virDomSvcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
 """
-def si_virDomSvcBaseDir(
+def sivd_virDomSvcBaseDir(
     bpoId,
     si,
 ):
@@ -195,8 +217,8 @@ def si_virDomSvcBaseDir(
     """
 ** Return full path of the svc base dir. Eg ~bpoId/si_apache2/svcVirDom.
     """
-    svcVirDomName = si_virDomSvcName(si)
-    svcBaseDir = si_svcBaseDir(bpoId, si)
+    svcVirDomName = sivd_virDomSvcName(si)
+    svcBaseDir = sivd_svcBaseDir(bpoId, si)
     return (
         os.path.join(
             svcBaseDir,
@@ -217,7 +239,7 @@ def si_instanceBaseDir(
 ** Return full path of serviceInstance. Eg. ~bpoId/si_plone3/main
     """
     svcInstance = si_instanceName(si)
-    svcVirDomName = si_virDomSvcName(si)
+    svcVirDomName = sivd_virDomSvcName(si)
     if svcInstance == svcVirDomName:
         # Not a virDom
         svcBaseDir = si_svcBaseDir(bpoId, si)
@@ -228,7 +250,39 @@ def si_instanceBaseDir(
             )
         )
     else:
-        virDomSvcBaseDir = si_virDomSvcBaseDir(bpoId, si)
+        virDomSvcBaseDir = sivd_virDomSvcBaseDir(bpoId, si)
+        return (
+            os.path.join(
+                virDomSvcBaseDir,
+                svcInstance,
+            )
+        )
+
+####+BEGIN: bx:dblock:python:func :funcName "sivd_instanceBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_instanceBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+"""
+def sivd_instanceBaseDir(
+    bpoId,
+    si,
+):
+####+END:
+    """
+** Return full path of serviceInstance. Eg. ~bpoId/si_plone3/main
+    """
+    svcInstance = si_instanceName(si)
+    svcVirDomName = sivd_virDomSvcName(si)
+    if svcInstance == svcVirDomName:
+        # Not a virDom
+        svcBaseDir = si_svcBaseDir(bpoId, si)
+        return (
+            os.path.join(
+                svcBaseDir,
+                svcInstance,
+            )
+        )
+    else:
+        virDomSvcBaseDir = sivd_virDomSvcBaseDir(bpoId, si)
         return (
             os.path.join(
                 virDomSvcBaseDir,
@@ -237,11 +291,11 @@ def si_instanceBaseDir(
         )
 
 
-####+BEGIN: bx:dblock:python:func :funcName "si_primSvcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+####+BEGIN: bx:dblock:python:func :funcName "sivd_primSvcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_primSvcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_primSvcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
 """
-def si_primSvcBaseDir(
+def sivd_primSvcBaseDir(
     bpoId,
     si,
 ):
@@ -250,7 +304,7 @@ def si_primSvcBaseDir(
 ** For a virDom, return path to Primary svc base dir.
     """
     bpoBaseDir = bpo.bpoBaseDir_obtain(bpoId)
-    svcVirDomName = si_virDomSvcName(si)
+    svcVirDomName = sivd_virDomSvcName(si)
     return (
         os.path.join(
             bpoBaseDir,
@@ -259,11 +313,11 @@ def si_primSvcBaseDir(
     )
 
 
-####+BEGIN: bx:dblock:python:func :funcName "si_primInstanceBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+####+BEGIN: bx:dblock:python:func :funcName "sivd_primInstanceBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_primInstanceBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_primInstanceBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
 """
-def si_primInstanceBaseDir(
+def sivd_primInstanceBaseDir(
     bpoId,
     si,
 ):
@@ -272,7 +326,7 @@ def si_primInstanceBaseDir(
 ** For a virDom, return path to Primary svc instance base dir.
     """
     svcInstance = si_instanceName(si)
-    primSvcBaseDir = si_primSvcBaseDir(bpoId, si)
+    primSvcBaseDir = sivd_primSvcBaseDir(bpoId, si)
 
     return (
         os.path.join(
@@ -659,12 +713,27 @@ class SiVirDomSvcType(object):
     ):
         EffectiveSis.addSi(bpoId, siPath, self,)
 
-
 ####+BEGIN: bx:dblock:python:class :className "SiSvcInst" :superClass "object" :comment "Expected to be subclassed" :classType "basic"
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiSvcInst/ object =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
 class SiSvcInst(object):
+####+END:
+    """
+** Abstraction of the base ByStar Portable Object
+"""
+    def __init__(
+            self,
+            bpoId,
+            siPath,
+    ):
+        EffectiveSis.addSi(bpoId, siPath, self,)
+
+####+BEGIN: bx:dblock:python:class :className "SivdSvcInst" :superClass "object" :comment "Expected to be subclassed" :classType "basic"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SivdSvcInst/ object =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+"""
+class SivdSvcInst(object):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -739,6 +808,16 @@ def commonParamsSpecify(
         # parScope=icm.ICM_ParamScope.TargetParam,
         argparseShortOpt=None,
         argparseLongOpt='--si',
+    )
+    icmParams.parDictAdd(
+        parName='sivd',
+        parDescription="Service Instances Virtual Domain Relative Path (apache2/plone3/main)",
+        parDataType=None,
+        parDefault=None,
+        parChoices=["any"],
+        # parScope=icm.ICM_ParamScope.TargetParam,
+        argparseShortOpt=None,
+        argparseLongOpt='--sivd',
     )
 
 
