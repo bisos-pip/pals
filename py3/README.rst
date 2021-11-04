@@ -9,8 +9,9 @@ bisos.bx-bases Scripts
 Overview
 ========
 
-bpo: python library and scripts (Interactive Command Modules – ICM) are
-used to manage abstrations of ByStar Portable Objects.
+PALS: (Possession Assertible Libre Services) – python library and
+scripts (Interactive Command Modules – ICM) are used to manage
+abstrations of ByStar Autonomy Assertable Internet Services BPOs
 
 Support
 =======
@@ -33,11 +34,11 @@ Installation
 
 ::
 
-   sudo pip install bisos.bpo
+   sudo pip install bisos.pals
 
 Usage
 =====
 
 ::
 
-   bin/bpoManage.py
+   bin/palsBpoManage.py

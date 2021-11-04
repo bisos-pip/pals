@@ -226,10 +226,11 @@ def sivd_virDomSvcBaseDir(
         )
     )
 
-####+BEGIN: bx:dblock:python:func :funcName "si_instanceBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
+####+BEGIN: bx:dblock:python:func :funcName "si_instanceBaseDir" :funcType "Obtain" :retType "str" :deco "default" :argsList "bpoId si"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_instanceBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_instanceBaseDir/ retType=str argsList=(bpoId si) deco=default  [[elisp:(org-cycle)][| ]]
 """
+@icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
 def si_instanceBaseDir(
     bpoId,
     si,
@@ -241,19 +242,18 @@ def si_instanceBaseDir(
     svcInstance = si_instanceName(si)
     svcVirDomName = sivd_virDomSvcName(si)
     if svcInstance == svcVirDomName:
-        # Not a virDom
-        svcBaseDir = si_svcBaseDir(bpoId, si)
-        return (
-            os.path.join(
-                svcBaseDir,
-                svcInstance,
-            )
-        )
-    else:
         virDomSvcBaseDir = sivd_virDomSvcBaseDir(bpoId, si)
         return (
             os.path.join(
                 virDomSvcBaseDir,
+                svcInstance,
+            )
+        )
+    else:
+        svcBaseDir = si_svcBaseDir(bpoId, si)
+        return (
+            os.path.join(
+                svcBaseDir,
                 svcInstance,
             )
         )
