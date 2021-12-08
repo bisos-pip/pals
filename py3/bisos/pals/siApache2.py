@@ -1,6 +1,6 @@
-i# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """\
-* *[Summary]* :: An =ICM-Lib= for providing plone3 service instances.
+* *[Summary]* :: An =ICM-Lib= for providing apache2 service instances.
 """
 
 import typing
@@ -32,11 +32,11 @@ icmInfo['moduleStatus'] = """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "siPlone3"
+icmInfo['moduleName'] = "siApache2"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202109230835"
+icmInfo['version'] = "202112080205"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -61,7 +61,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/siPlone3.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/siApache2.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -132,7 +132,7 @@ from bisos.pals import palsSis
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
-    'bisos.pals.siPlone3',
+    'bisos.pals.siApache2',
     'bisos.pals.palsBases',
 ]
 
@@ -199,7 +199,7 @@ class examples(icm.Cmnd):
         # def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
         oneBpo = "pmi_ByD-100001"
-        oneSiRelPath = "plone3/main"
+        oneSiRelPath = "apache2/main"
 
         if bpoId: oneBpo = bpoId
         if si: oneSiRelPath = si
@@ -360,7 +360,7 @@ class configExamples(icm.Cmnd):
 
         icm.cmndExampleMenuChapter('*Service Config Actions*')
 
-        cmndName = "plone3_configUpdate" ; cmndArgs = "" ;
+        cmndName = "apache2_configUpdate" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
         menuItem(verbosity='little', comment="# Place Holder")
 
@@ -471,7 +471,7 @@ class digestedSvcsExamples(icm.Cmnd):
 
         for eachSiPath in thisBpo.sis.svcInst_primary_enabled:
             eachSiId = palsSis.siPathToSiId(oneBpo, eachSiPath,)
-            if "plone3" in eachSiId:
+            if "apache2" in eachSiId:
                 cps['si'] = eachSiId
                 cmndName = "configExamples" ; menuItem(verbosity='none', comment="# actions impacting plone site")
                 cmndName = "setupExamples" ; menuItem(verbosity='none', comment="# create siBases, etc")
@@ -520,7 +520,7 @@ class fullUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -591,7 +591,7 @@ class siBaseAssemble(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -643,7 +643,7 @@ class siBaseUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -700,7 +700,7 @@ class siInvoke(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -711,11 +711,11 @@ class siInvoke(icm.Cmnd):
 
 
 
-####+BEGIN: bx:dblock:python:class :className "SiRepo_Plone3" :superClass "palsSis.SiRepo" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "SiRepo_Apache2" :superClass "palsSis.SiRepo" :comment "Expected to be subclassed" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Plone3/ palsSis.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /SiRepo_Apache2/ palsSis.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class SiRepo_Plone3(palsSis.SiRepo):
+class SiRepo_Apache2(palsSis.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -725,7 +725,7 @@ class SiRepo_Plone3(palsSis.SiRepo):
             bpoId,
             siPath,
     ):
-        # print("eee  SiRepo_Plone3")
+        # print("eee  SiRepo_Apache2")
         if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
             icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
         else:
@@ -736,11 +736,11 @@ class SiRepo_Plone3(palsSis.SiRepo):
         pass
 
 
-####+BEGIN: bx:dblock:python:class :className "Plone3_Inst" :superClass "palsSis.SiSvcInst" :comment "Expected to be subclassed" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "Apache2_Inst" :superClass "palsSis.SiSvcInst" :comment "Expected to be subclassed" :classType "basic"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Plone3_Inst/ palsSis.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /Apache2_Inst/ palsSis.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class Plone3_Inst(palsSis.SiSvcInst):
+class Apache2_Inst(palsSis.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -791,7 +791,7 @@ class Plone3_Inst(palsSis.SiSvcInst):
 
     def ploneSiteAdd(self,):
         self.invContext.run(
-            f"""aaSiPlone3Commands.sh -p bpoId="{self.bpo.bpoId}" -p si="{self.siId}" -i ploneSiteAdd"""
+            f"""aaSiApache2Commands.sh -p bpoId="{self.bpo.bpoId}" -p si="{self.siId}" -i ploneSiteAdd"""
         )
 
 
@@ -805,7 +805,7 @@ def digestAtSvcProv(
      siRepoBase,
 ):
     icm.TM_here("Incomplete")
-    palsSis.createSiObj(bpoId, siRepoBase, SiRepo_Plone3)
+    palsSis.createSiObj(bpoId, siRepoBase, SiRepo_Apache2)
 
     thisBpo = palsBpo.obtainBpo(bpoId,)
 
@@ -832,9 +832,9 @@ def digestPrimSvcInstance(
 ):
     icm.TM_here("Incomplete")
 
-    thisSi = palsSis.createSiObj(bpoId, siRepoBase, Plone3_Inst)
+    thisSi = palsSis.createSiObj(bpoId, siRepoBase, Apache2_Inst)
 
-    thisSi.setVar(22) # type: ignore
+    #thisSi.setVar(22) # type: ignore
 
     icm.TM_here(f"bpoId={bpoId}, siRepoBase={siRepoBase}, instanceName={instanceName}")
 

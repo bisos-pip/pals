@@ -566,7 +566,9 @@ def sis_prim_digest(
     siRepoPath,
 ):
 ####+END:
-    """Using Primary Svc Provider."""
+    """Using Primary Svc Provider.
+** TODO This should be automated so that addition of new SIs don't require any edits.
+    """
     thisBpo = palsBpo.obtainBpo(bpoId,)
     thisBpo.sis.svcProv_primary_enabled.append(siRepoPath)
     if primSvcProv == "plone3":
@@ -575,6 +577,12 @@ def sis_prim_digest(
     elif primSvcProv == "geneweb":
         from bisos.pals import siGeneweb
         siGeneweb.digestAtSvcProv(bpoId, siRepoPath)
+    elif primSvcProv == "jekyll":
+        from bisos.pals import siJekyll
+        siJekyll.digestAtSvcProv(bpoId, siRepoPath)
+    elif primSvcProv == "apache2":
+        from bisos.pals import siApache2
+        siApache2.digestAtSvcProv(bpoId, siRepoPath)
     else:
         icm.EH_problem_notyet("")
 
@@ -673,6 +681,8 @@ class PalsSis(object):
             [
                 'plone3',
                 'geneweb',
+                'jekyll',
+                'apache2',
             ]
         )
 
