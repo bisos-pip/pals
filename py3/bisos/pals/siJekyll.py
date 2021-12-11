@@ -114,7 +114,7 @@ from bisos.icm import clsMethod
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
 from bisos.pals import palsSis
-
+from bisos.pals import palsBases
 
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
@@ -230,12 +230,12 @@ class examples(icm.Cmnd):
 
         cmndName = "siBaseUpdate" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
-        menuItem(verbosity='little', comment="# place holder")
+        menuItem(verbosity='little', comment="# siBaseAssemble + palsBases.basesUpdateSi (logs,data)")
 
-        icm.cmndExampleMenuChapter('*Plone Site Initializations*')
+        icm.cmndExampleMenuChapter('*Jekyll Site Initializations*')
 
         cmndName = "siInvoke" ; cmndArgs = "" ;
-        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath ; cps['method'] = 'ploneSiteAdd'
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath ; cps['method'] = 'jekyllSiteAdd'
         menuItem(verbosity='little', comment="# general purpose testing")
         menuItem(verbosity='full', comment="# general purpose testing")
 
@@ -243,18 +243,15 @@ class examples(icm.Cmnd):
 
         return(cmndOutcome)
 
-
-
-
 ####+BEGIN: bx:icm:python:section :title "ICM Example Commands"
 """
 *  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Example Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
 """
 ####+END:
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "svcExamples" :cmndType "ICM-Ex-Cmnd"  :comment "FrameWrk: ICM Examples" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "999" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "svcExamples" :cmndType "ICM-Ex-Cmnd"  :comment "Full Action Examples" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "999" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /svcExamples/ =FrameWrk: ICM Examples= parsMand=bpoId si parsOpt= argsMin=0 argsMax=999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /svcExamples/ =Full Action Examples= parsMand=bpoId si parsOpt= argsMin=0 argsMax=999 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class svcExamples(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -317,9 +314,9 @@ class svcExamples(icm.Cmnd):
         return(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "configExamples" :cmndType "ICM-Ex-Cmnd"  :comment "FrameWrk: ICM Examples" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "configExamples" :cmndType "ICM-Ex-Cmnd"  :comment "configUpdate etc" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /configExamples/ =FrameWrk: ICM Examples= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /configExamples/ =configUpdate etc= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class configExamples(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -367,9 +364,9 @@ class configExamples(icm.Cmnd):
         return(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "setupExamples" :cmndType "ICM-Ex-Cmnd"  :comment "FrameWrk: ICM Examples" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "setupExamples" :cmndType "ICM-Ex-Cmnd"  :comment "baseUpdate, etc" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /setupExamples/ =FrameWrk: ICM Examples= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /setupExamples/ =baseUpdate, etc= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class setupExamples(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -421,9 +418,9 @@ class setupExamples(icm.Cmnd):
 
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "digestedSvcsExamples" :cmndType "ICM-Ex-Cmnd"  :comment "FrameWrk: ICM Examples" :parsMand "" :parsOpt "bpoId" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "digestedSvcsExamples" :cmndType "ICM-Ex-Cmnd"  :comment "Examples lines for each digested svc" :parsMand "" :parsOpt "bpoId" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /digestedSvcsExamples/ =FrameWrk: ICM Examples= parsMand= parsOpt=bpoId argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /digestedSvcsExamples/ =Examples lines for each digested svc= parsMand= parsOpt=bpoId argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class digestedSvcsExamples(icm.Cmnd):
     cmndParamsMandatory = [ ]
@@ -485,9 +482,9 @@ class digestedSvcsExamples(icm.Cmnd):
 """
 ####+END:
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "fullUpdate" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "fullUpdate" :comment "Place Holder" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /fullUpdate/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /fullUpdate/ =Place Holder= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class fullUpdate(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -530,9 +527,9 @@ class fullUpdate(icm.Cmnd):
 """
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseAssemble" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseAssemble" :comment "Assemble a base for si" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siBaseAssemble/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siBaseAssemble/ =Assemble a base for si= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class siBaseAssemble(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -544,7 +541,7 @@ class siBaseAssemble(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
         if interactive:
             if not self.cmndLineValidate(outcome=cmndOutcome):
@@ -589,6 +586,7 @@ class siBaseAssemble(icm.Cmnd):
             opResults=None,
         )
 
+
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
 **  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
@@ -600,9 +598,9 @@ class siBaseAssemble(icm.Cmnd):
 ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Creates bases.
 """
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseUpdate" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseUpdate" :comment "Place holder for logBase as root" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siBaseUpdate/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siBaseUpdate/ =Place holder for logBase as root= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class siBaseUpdate(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
@@ -614,7 +612,7 @@ class siBaseUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
         if interactive:
             if not self.cmndLineValidate(outcome=cmndOutcome):
@@ -628,18 +626,21 @@ class siBaseUpdate(icm.Cmnd):
 
 ####+END:
 
-        siLogBase = "NOTYET"
+        if siBaseAssemble(cmndOutcome=cmndOutcome).cmnd(
+                bpoId=bpoId,
+                si=si,
+        ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
 
-        c = invoke.context.Context(config=None)
-
-        c.sudo(f"echo mkdir -p {siLogBase}")
-        c.sudo(f"echo chown -R bisos:bisos {siLogBase}")
-        c.sudo(f"echo chmod -R  g+w {siLogBase}")
+        if palsBases.basesUpdateSi(cmndOutcome=cmndOutcome).cmnd(
+                bpoId=bpoId,
+                si=si,
+        ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
 
         return cmndOutcome.set(
             opError=icm.OpError.Success,  # type: ignore
             opResults=None,
         )
+
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
@@ -652,9 +653,9 @@ class siBaseUpdate(icm.Cmnd):
 ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Creates bases.
 """
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siInvoke" :comment "" :parsMand "bpoId si method" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siInvoke" :comment "invokes specified method" :parsMand "bpoId si method" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siInvoke/ parsMand=bpoId si method parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siInvoke/ =invokes specified method= parsMand=bpoId si method parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
 class siInvoke(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', 'method', ]
@@ -789,9 +790,15 @@ class Jekyll_Inst(palsSis.SiSvcInst):
         with invContext.cd(svcInstanceBaseDir):
             invContext.run("bxtStartCommon.sh  -v -n showRun -i startObjectGen auxLeaf")
 
-    def ploneSiteAdd(self,):
+    def jekyllSiteAdd(self,):
+        """
+*** TODO NOTYET, INCOMPLETE
+*** Based on siPath
+        """
+        dataBaseDir = os.path.join(self.siPath, "data")
+
         self.invContext.run(
-            f"""aaSiJekyllCommands.sh -p bpoId="{self.bpo.bpoId}" -p si="{self.siId}" -i ploneSiteAdd"""
+            f"""echo NOTYET aaSiJekyllCommands.sh -p bpoId="{self.bpo.bpoId}" -p si="{self.siId}" -i jekyllSiteAdd siPath={self.siPath}"""
         )
 
 

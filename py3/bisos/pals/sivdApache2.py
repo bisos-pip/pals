@@ -991,7 +991,7 @@ class a2Plone3_configStdout(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         sivd=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
         if interactive:
             if not self.cmndLineValidate(outcome=cmndOutcome):
@@ -1072,6 +1072,7 @@ class a2Plone3_configUpdate(icm.Cmnd):
             bpoId=bpoId,
             sivd=sivd,
         )):  return(icm.EH_badOutcome(cmndOutcome))
+
 
         palsProfile = repoProfile.PalsRepo_Profile(bpoId)
         bpoFpsBaseInst = palsProfile.fps_baseMake()
