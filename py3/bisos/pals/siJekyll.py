@@ -116,6 +116,8 @@ from bisos.pals import palsBpo
 from bisos.pals import palsSis
 from bisos.pals import palsBases
 
+from bisos import bpf
+
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
 """
@@ -792,14 +794,15 @@ class Jekyll_Inst(palsSis.SiSvcInst):
 
     def jekyllSiteAdd(self,):
         """
-*** TODO NOTYET, INCOMPLETE
-*** Based on siPath
         """
         dataBaseDir = os.path.join(self.siPath, "data")
 
-        self.invContext.run(
-            f"""echo NOTYET aaSiJekyllCommands.sh -p bpoId="{self.bpo.bpoId}" -p si="{self.siId}" -i jekyllSiteAdd siPath={self.siPath}"""
-        )
+        bpf.dir.createIfNotThere(dataBaseDir)
+
+        inDirSubProc = bpf.subProc.Op(cd=dataBaseDir, log=1)
+
+        if inDirSubProc.bash("""jekyll new site; ls -ld site""",
+        ).isProblematic():  return(icm.EH_badOutcome(inDirSubProc.outcome))
 
 
 ####+BEGIN: bx:icm:py3:func :funcName "digestAtSvcProv" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase"

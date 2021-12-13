@@ -116,6 +116,7 @@ from bisos.bpo import bpo
 from bisos.pals import palsBpo
 from bisos.pals import palsSis
 from bisos.pals import repoProfile
+from bisos.pals import palsBases
 
 from bisos.icm import shRun
 
@@ -197,7 +198,7 @@ class svcExamples(icm.Cmnd):
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='none')
 
-        cmndName = "siBaseUpdate" ; cmndArgs = "" ;
+        cmndName = "sivdBaseUpdate" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='none')
 
@@ -261,23 +262,23 @@ class configExamples(icm.Cmnd):
 
         icm.cmndExampleMenuChapter('*Service Config Actions*')
 
-        cmndName = "a2Plone3_configStdout" ; cmndArgs = "" ;
+        cmndName = "sivd_configStdout" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='little')
 
-        cmndName = "a2Plone3_configUpdate" ; cmndArgs = "" ;
+        cmndName = "sivd_configUpdate" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='little')
 
-        cmndName = "a2Plone3_configVerify" ; cmndArgs = "" ;
+        cmndName = "sivd_configVerify" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='little')
 
-        cmndName = "a2Plone3_configInfo" ; cmndArgs = "" ;
+        cmndName = "sivd_configInfo" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='little')
 
-        cmndName = "a2Plone3_configDelete" ; cmndArgs = "" ;
+        cmndName = "sivd_configDelete" ; cmndArgs = "" ;
         cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['sivd'] = oneSiRelPath
         menuItem(verbosity='little')
 
@@ -377,8 +378,6 @@ class digestedSvcsExamples(icm.Cmnd):
         def extMenuItem(verbosity): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, icmName=icmExName, verbosity=verbosity) # 'little' or 'none'
 
         oneBpo = bpoId
-        sivd = "NOTYET"
-        oneSiRelPath = sivd
 
         # logControler = icm.LOG_Control()
         # logControler.loggerSetLevel(20)
@@ -408,9 +407,6 @@ class digestedSvcsExamples(icm.Cmnd):
 
         for eachSivdPath in thisBpo.sis.svcInst_virDom_enabled:
             cps['sivd'] = palsSis.siPathToSiId(oneBpo, eachSivdPath,)
-            menuItem(verbosity='none')
-
-            cmndName = "setupExamples"
             menuItem(verbosity='none')
 
         icm.cmndExampleMenuChapter('*Missing PALS-VirDom-SIs Example-Cmnds*')
@@ -536,6 +532,7 @@ class siBaseStart(icm.Cmnd):
 
 ####+END:
 
+        print(f"""{bpoId} {sivd}""")
         primInstanceBaseDir = palsSis.sivd_primInstanceBaseDir(bpoId, sivd)
         if not os.path.exists(primInstanceBaseDir):
             icm.EH_critical_usageError(f"primInstanceBaseDir={primInstanceBaseDir} should have existed.")
@@ -584,11 +581,12 @@ class siBaseStart(icm.Cmnd):
 ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Creates bases.
 """
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseUpdate" :comment "" :parsMand "bpoId sivd" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivdBaseUpdate" :comment "Place holder for logBase as root" :parsMand "bpoId sivd" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siBaseUpdate/ parsMand=bpoId sivd parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivdBaseUpdate/ =Place holder for logBase as root= parsMand=bpoId sivd parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class siBaseUpdate(icm.Cmnd):
+class sivdBaseUpdate(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'sivd', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -598,7 +596,7 @@ class siBaseUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         sivd=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
         if interactive:
             if not self.cmndLineValidate(outcome=cmndOutcome):
@@ -612,13 +610,10 @@ class siBaseUpdate(icm.Cmnd):
 
 ####+END:
 
-        siLogBase = "NOTYET"
-
-        c = invoke.context.Context(config=None)
-
-        c.sudo(f"echo mkdir -p {siLogBase}")
-        c.sudo(f"echo chown -R bisos:bisos {siLogBase}")
-        c.sudo(f"echo chmod -R  g+w {siLogBase}")
+        if palsBases.basesUpdateSivd(cmndOutcome=cmndOutcome).cmnd(
+                bpoId=bpoId,
+                sivd=sivd,
+        ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
 
         return cmndOutcome.set(
             opError=icm.OpError.Success,  # type: ignore
@@ -684,25 +679,6 @@ class A2SivdRepo(bpo.BpoRepo):
 
     def repoBase(self,):
         return os.path.join(self.bpo.baseDir, "apache2") # type: ignore
-
-
-####+BEGIN: bx:dblock:python:class :className "obsoletedA2SivdBase_Plone3" :superClass "object" :comment "Expected to be subclassed" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /obsoletedA2SivdBase_Plone3/ object =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
-"""
-class obsoletedA2SivdBase_Plone3(object):
-####+END:
-    """
-** Abstraction of the base ByStar Portable Object
-"""
-    def __init__(
-            self,
-            bpoId,
-    ):
-        # super().__init__(bpoId)
-        if not bpo.EffectiveBpos.givenBpoIdGetBpo(bpoId):
-            icm.EH_critical_usageError(f"Missing BPO for {bpoId}")
-            return
 
 
 ####+BEGIN: bx:dblock:python:class :className "AaSivdRepo_Apache2" :superClass "palsBpo.SiRepo" :comment "Expected to be subclassed" :classType "basic"
@@ -890,6 +866,7 @@ def listOfA2VirDomTypes() -> typing.List:
             'gitweb',
             'gitolite',
             'gallery',
+            'jekyll',
             'www',
         ]
     )
@@ -904,6 +881,9 @@ def digestAtVirDomSvcProv(
     siRepoBase,
 ):
 ####+END:
+    """
+** TODO: Needs to be commented, generalized and re-written.
+    """
     icm.TM_here("Incomplete")
     palsSis.createSiObj(bpoId, siRepoBase, AaSivdRepo_Apache2)
 
@@ -912,7 +892,7 @@ def digestAtVirDomSvcProv(
     for each in listOfA2VirDomTypes():
             siRepoPath = os.path.join(siRepoBase, each)
             if os.path.isdir(siRepoPath):
-                if each == "plone3":
+                if each == "plone3" or each == "jekyll":
                     plone3SvcTypeObj = palsSis.createSiObj(bpoId, siRepoPath, A2_Plone3_Type)
                     digestAtVirDomSvcType(bpoId, siRepoPath, plone3SvcTypeObj)
                     thisBpo.sis.svcType_virDom_enabled.append(siRepoPath)
@@ -969,19 +949,69 @@ def digestVirDomSvcInstance(
     icm.TM_here(f"bpoId={bpoId}, siRepoBase={siRepoBase}, svcTypeObj={svcTypeObj} instanceName={instanceName}")
 
 
-
-####+BEGIN: bx:dblock:python:section :title "Apache2-Plone3 Facilities"
+####+BEGIN: bx:icm:python:func :funcName "sivdAsTag" :funcType "anyOrNone" :retType "" :deco "" :argsList "bpoId siRepoBase svcTypeObj instanceName"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Apache2-Plone3 Facilities*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /sivdAsTag/ retType= argsList=(bpoId siRepoBase svcTypeObj instanceName)  [[elisp:(org-cycle)][| ]]
+"""
+def sivdAsTag(
+        sivd,
+):
+####+END:
+    virDomProvider = palsSis.si_svcName(sivd,)
+    primarySvcName = palsSis.sivd_virDomSvcName(sivd,)
+    primaryInstanceName = palsSis.si_instanceName(sivd,)
+
+    icm.TM_here(f"virDomProvider={virDomProvider} primarySvcName={primarySvcName} primaryInstanceName={primaryInstanceName}")
+
+    if not virDomProvider in palsSis.PalsSis.svcProv_virDom_available():
+        return icm.EH_problem_usageError(
+            f"Unexepected virDomProvider={virDomProvider}"
+        )
+    if not primarySvcName in palsSis.PalsSis.svcProv_primary_available():
+        return icm.EH_problem_usageError(
+            f"Unexepected primarySvcName={primarySvcName}"
+        )
+
+    virDomProvTag=""
+    if virDomProvider == "apache2":
+        virDomProvTag = "a2"
+    elif virDomProvider == "qmail":
+        virDomProvTag = "qm"
+    else:
+        return icm.EH_critical_oops("Implementation Error")
+
+    capitalizedPrimarySvcName = primarySvcName[0].upper() + primarySvcName[1:]
+
+    return f"""{virDomProvTag}{capitalizedPrimarySvcName}"""
+
+
+####+BEGIN: bx:icm:py3:func :funcName "writeToFileAsRoot" :funcType "" :retType "" :deco "pyRunAs.User(\"root\")" :argsList ""  :comment "_ALERT_"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /writeToFileAsRoot/ =_ALERT_= deco=pyRunAs.User("root")  [[elisp:(org-cycle)][| ]]
+"""
+@pyRunAs.User("root")
+def writeToFileAsRoot(
+####+END:
+        destFilePath,
+        inBytes,
+):
+    with open(destFilePath, "w") as thisFile:
+        thisFile.write(inBytes + '\n')
+
+
+
+####+BEGIN: bx:dblock:python:section :title "sivd_config Abstracted Facilities"
+"""
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *sivd_config Abstracted Facilities*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
 """
 ####+END:
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "a2Plone3_configStdout" :comment "" :parsMand "bpoId sivd" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivd_configStdout" :comment "" :parsMand "bpoId sivd" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /a2Plone3_configStdout/ parsMand=bpoId sivd parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivd_configStdout/ parsMand=bpoId sivd parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class a2Plone3_configStdout(icm.Cmnd):
+class sivd_configStdout(icm.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'sivd', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -1004,6 +1034,21 @@ class a2Plone3_configStdout(icm.Cmnd):
         sivd = callParamsDict['sivd']
 
 ####+END:
+        virDomProvider = palsSis.si_svcName(sivd,)
+        primarySvcName = palsSis.sivd_virDomSvcName(sivd,)
+        primaryInstanceName = palsSis.si_instanceName(sivd,)
+
+        icm.TM_here(f"virDomProvider={virDomProvider} primarySvcName={primarySvcName} primaryInstanceName={primaryInstanceName}")
+
+        if not virDomProvider in palsSis.PalsSis.svcProv_virDom_available():
+            return icm.icm.EH_problem_usageError(
+                f"Unexepected virDomProvider={virDomProvider}"
+            )
+        if not primarySvcName in palsSis.PalsSis.svcProv_primary_available():
+            return icm.icm.EH_problem_usageError(
+                f"Unexepected primarySvcName={primarySvcName}"
+            )
+
         thisBpo = palsBpo.obtainBpo(bpoId,)
         #liveParamsInst = pattern.sameInstance(baseLiveTargets.PalsBase_LiveParams, bpoId)
 
@@ -1011,10 +1056,10 @@ class a2Plone3_configStdout(icm.Cmnd):
         bpoFpsBaseInst = palsProfile.fps_baseMake()
 
         baseDomain = bpoFpsBaseInst.fps_getParam('baseDomain').parValueGet()
-        bystarType = bpoFpsBaseInst.fps_getParam('bystarType').parValueGet()
-        correspondingEntity = bpoFpsBaseInst.fps_getParam('correspondingEntity').parValueGet()
+        #bystarType = bpoFpsBaseInst.fps_getParam('bystarType').parValueGet()
+        #correspondingEntity = bpoFpsBaseInst.fps_getParam('correspondingEntity').parValueGet()
 
-        ploneBaseDomain = "www.{baseDomain}".format(baseDomain=baseDomain)
+        siBaseDomain = "www.{baseDomain}".format(baseDomain=baseDomain)
 
         bpoBasePath = thisBpo.baseDir
         bpoSivdBasePath = palsSis.sivd_instanceBaseDir(
@@ -1022,9 +1067,15 @@ class a2Plone3_configStdout(icm.Cmnd):
             sivd,
         )
 
-        resStr = a2Plone3_configTemplate().format(
+        configTemplateFuncName = f"{sivdAsTag(sivd,)}_configTemplate"
+
+        if not configTemplateFuncName in globals():
+            return icm.EH_critical_oops(f"Implementation Error -- Missing {configTemplateFuncName}")
+
+        # globals()[key] is equivalent of getattr for current module
+        resStr = globals()[configTemplateFuncName]().format(
             baseDomain=baseDomain,
-            ploneBaseDomain=ploneBaseDomain,
+            siBaseDomain=siBaseDomain,
             bpoBasePath=bpoBasePath,
             bpoSivdBasePath=bpoSivdBasePath,
         )
@@ -1039,11 +1090,11 @@ class a2Plone3_configStdout(icm.Cmnd):
 
         return resStr
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "a2Plone3_configUpdate" :comment "" :parsMand "" :parsOpt "bpoId sivd" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivd_configUpdate" :comment "" :parsMand "" :parsOpt "bpoId sivd" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /a2Plone3_configUpdate/ parsMand= parsOpt=bpoId sivd argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivd_configUpdate/ parsMand= parsOpt=bpoId sivd argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class a2Plone3_configUpdate(icm.Cmnd):
+class sivd_configUpdate(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ 'bpoId', 'sivd', ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -1067,7 +1118,7 @@ class a2Plone3_configUpdate(icm.Cmnd):
 
 ####+END:
 
-        if not (resStr := a2Plone3_configStdout(cmndOutcome=cmndOutcome).cmnd(
+        if not (resStr := sivd_configStdout(cmndOutcome=cmndOutcome).cmnd(
             interactive=False,
             bpoId=bpoId,
             sivd=sivd,
@@ -1078,9 +1129,9 @@ class a2Plone3_configUpdate(icm.Cmnd):
         bpoFpsBaseInst = palsProfile.fps_baseMake()
 
         baseDomain = bpoFpsBaseInst.fps_getParam('baseDomain').parValueGet()
-        ploneBaseDomain = "www.{baseDomain}".format(baseDomain=baseDomain)
+        siBaseDomain = "www.{baseDomain}".format(baseDomain=baseDomain)
 
-        configFilePath = a2Plone3_configFilePath(ploneBaseDomain,)
+        configFilePath = sivd_configFilePath(siBaseDomain,)
 
         writeToFileAsRoot(configFilePath, resStr)
 
@@ -1088,7 +1139,7 @@ class a2Plone3_configUpdate(icm.Cmnd):
             shRun.cmnds(f"""ls -l {configFilePath}""",
                        outcome=cmndOutcome,).log()
 
-        shRun.sudoCmnds(f"""a2ensite {ploneBaseDomain}.conf""",
+        shRun.sudoCmnds(f"""a2ensite {siBaseDomain}.conf""",
                         outcome=cmndOutcome,).log()
 
         shRun.sudoCmnds(f"""/etc/init.d/apache2 force-reload""",
@@ -1096,28 +1147,15 @@ class a2Plone3_configUpdate(icm.Cmnd):
 
         return cmndOutcome.set(
             opError=icm.OpError.Success,
-            opResults=ploneBaseDomain,
+            opResults=siBaseDomain,
         )
 
-####+BEGIN: bx:icm:py3:func :funcName "writeToFileAsRoot" :funcType "" :retType "" :deco "pyRunAs.User(\"root\")" :argsList ""  :comment "_ALERT_"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /writeToFileAsRoot/ =_ALERT_= deco=pyRunAs.User("root")  [[elisp:(org-cycle)][| ]]
-"""
-@pyRunAs.User("root")
-def writeToFileAsRoot(
-####+END:
-        destFilePath,
-        inBytes,
-):
-    with open(destFilePath, "w") as thisFile:
-        thisFile.write(inBytes + '\n')
 
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "a2Plone3_configVerify" :comment "" :parsMand "" :parsOpt "bpoId sivd" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivd_configVerify" :comment "" :parsMand "" :parsOpt "bpoId sivd" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /a2Plone3_configVerify/ parsMand= parsOpt=bpoId sivd argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivd_configVerify/ parsMand= parsOpt=bpoId sivd argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class a2Plone3_configVerify(icm.Cmnd):
+class sivd_configVerify(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ 'bpoId', 'sivd', ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -1143,11 +1181,11 @@ class a2Plone3_configVerify(icm.Cmnd):
         return
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "a2Plone3_configInfo" :comment "" :parsMand "" :parsOpt "bpoId si" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivd_configInfo" :comment "" :parsMand "" :parsOpt "bpoId si" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /a2Plone3_configInfo/ parsMand= parsOpt=bpoId si argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivd_configInfo/ parsMand= parsOpt=bpoId si argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class a2Plone3_configInfo(icm.Cmnd):
+class sivd_configInfo(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ 'bpoId', 'si', ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -1173,11 +1211,11 @@ class a2Plone3_configInfo(icm.Cmnd):
         return
 
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "a2Plone3_configDelete" :comment "" :parsMand "" :parsOpt "bpoId si" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "sivd_configDelete" :comment "" :parsMand "" :parsOpt "bpoId si" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /a2Plone3_configDelete/ parsMand= parsOpt=bpoId si argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /sivd_configDelete/ parsMand= parsOpt=bpoId si argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-class a2Plone3_configDelete(icm.Cmnd):
+class sivd_configDelete(icm.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ 'bpoId', 'si', ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
@@ -1203,6 +1241,26 @@ class a2Plone3_configDelete(icm.Cmnd):
         return
 
 
+####+BEGIN: bx:icm:py3:func :funcName "sivd_configFilePath" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /sivd_configFilePath/  [[elisp:(org-cycle)][| ]]
+"""
+def sivd_configFilePath(
+####+END:
+        siBaseDomain,
+):
+
+    result = os.path.join(
+        "/etc/apache2/sites-available",
+        "{siBaseDomain}.conf".format(siBaseDomain=siBaseDomain),
+    )
+    return result
+
+####+BEGIN: bx:dblock:python:section :title "Apache2-PrimaryService Specific Facilities"
+"""
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Apache2-PrimaryService Specific Facilities*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+"""
+####+END:
 
 ####+BEGIN: bx:icm:python:func :funcName "a2Plone3_configTemplate" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
 """
@@ -1211,15 +1269,15 @@ class a2Plone3_configDelete(icm.Cmnd):
 def a2Plone3_configTemplate():
 ####+END:
     templateStr = """
-# VirtualHost for {ploneBaseDomain} Generated by G_myName:G_thisFunc on dateTag -- Do Not Hand Edit
+# VirtualHost for {siBaseDomain} Generated by G_myName:G_thisFunc on dateTag -- Do Not Hand Edit
 
 <VirtualHost *:80>
-    ServerName  {ploneBaseDomain}
+    ServerName  {siBaseDomain}
     ServerAlias {baseDomain}
     ServerAdmin webmaster@{baseDomain}
 
     RewriteEngine On
-    RewriteRule ^/(.*) http://127.0.0.1:8080/VirtualHostBase/http/{ploneBaseDomain}:80/{baseDomain}/VirtualHostRoot/\$1 [L,P]
+    RewriteRule ^/(.*) http://127.0.0.1:8080/VirtualHostBase/http/{siBaseDomain}:80/{baseDomain}/VirtualHostRoot/\$1 [L,P]
 
     DocumentRoot {bpoSivdBasePath}/var/htdocs
     #ScriptAlias /cgi-bin/ "{bpoSivdBasePath}/cgi-bin/"
@@ -1245,23 +1303,39 @@ def a2Plone3_configTemplate():
 """
     return templateStr
 
-
-####+BEGIN: bx:icm:py3:func :funcName "a2Plone3_configFilePath" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
+####+BEGIN: bx:icm:python:func :funcName "a2Jekyll_configTemplate" :funcType "anyOrNone" :retType "bool" :deco "" :argsList ""
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /a2Plone3_configFilePath/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /a2Jekyll_configTemplate/ retType=bool argsList=nil  [[elisp:(org-cycle)][| ]]
 """
-def a2Plone3_configFilePath(
+def a2Jekyll_configTemplate():
 ####+END:
-        ploneBaseDomain,
-):
+    templateStr = """
 
-    result = os.path.join(
-        "/etc/apache2/sites-available",
-        "{ploneBaseDomain}.conf".format(ploneBaseDomain=ploneBaseDomain),
-    )
-    return result
+# VirtualHost for {siBaseDomain} Generated by G_myName:G_thisFunc on dateTag -- Do Not Hand Edit
 
+<VirtualHost *:80>
+    ServerName  {siBaseDomain}
+    ServerAlias {baseDomain}
+    ServerAdmin webmaster@{baseDomain}
 
+    DocumentRoot {bpoSivdBasePath}/var/site
+    #ScriptAlias /cgi-bin/ "{bpoSivdBasePath}/cgi-bin/"
+    ErrorLog {bpoSivdBasePath}/log/error_log
+    CustomLog {bpoSivdBasePath}/log/access_log common
+
+    <Directory />
+        Require all granted
+    </Directory>
+
+    <Directory {bpoSivdBasePath}/var/site>
+        Options +Indexes +FollowSymLinks +MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+</VirtualHost>
+"""
+    return templateStr
 
 
 ####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"

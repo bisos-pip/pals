@@ -530,8 +530,11 @@ def siPathToSiId(
     result = ""
     thisBpo = palsBpo.obtainBpo(bpoId,)
     siPathPrefix = os.path.join(thisBpo.baseDir, "si_")
+    sivdPathPrefix = os.path.join(thisBpo.baseDir, "sivd_")
     if siPathPrefix in siPath:
         result = siPath.replace(siPathPrefix, '')
+    elif sivdPathPrefix in siPath:
+        result = siPath.replace(sivdPathPrefix, '')
     else:
         icm.EH_critical_oops(f"bpoId={bpoId} -- siPath={siPath}")
     return result
@@ -637,7 +640,7 @@ class PalsSis(object):
         """Based on known si_s, locate and digest SIs."""
         siRepoPath = ""
         for each in self.svcProv_virDom_available():
-            siRepoPath = os.path.join(self.thisBpo.baseDir, "si_{each}".format(each=each))
+            siRepoPath = os.path.join(self.thisBpo.baseDir, "sivd_{each}".format(each=each))
             if os.path.isdir(siRepoPath):
                 sis_virDom_digest(self.bpoId, each, siRepoPath)
                 icm.TM_here(f"is {siRepoPath}")
