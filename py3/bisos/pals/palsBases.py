@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """\
-* *[Summary]* :: A /library/ Beginning point for development of new ICM oriented libraries.
+* *[IcmLib]* :: Sets-up/updates pals, palsSivd and palsSi bases by creating links to var,tmp, etc.
 """
 
 import typing
@@ -36,7 +36,7 @@ icmInfo['moduleName'] = "palsBases"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110161301"
+icmInfo['version'] = "202112254432"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -121,9 +121,9 @@ from bisos.pals import palsBpo
 from bisos.pals import palsSis
 from bisos.icm import fpath
 
-####+BEGIN: bx:dblock:python:section :title "Start Your Sections Here"
+####+BEGIN: bx:icm:py3:section :title "Pals Bases Classes"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Start Your Sections Here*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Pals Bases Classes*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -906,9 +906,9 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:dblock:python:section :title "ICM Commands"
+####+BEGIN: bx:icm:py3:section :title "ICM Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Commands*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -926,23 +926,24 @@ class basesUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
 
-        callParamsDict = {'bpoId': bpoId, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
@@ -1018,24 +1019,25 @@ class basesUpdateSivd(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         sivd=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'sivd': sivd, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            sivd = callParamsDict['sivd']
 
-        callParamsDict = {'bpoId': bpoId, 'sivd': sivd, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        sivd = callParamsDict['sivd']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
@@ -1113,24 +1115,25 @@ class basesUpdateSi(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
@@ -1193,9 +1196,9 @@ class basesUpdateSi(icm.Cmnd):
 """
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 

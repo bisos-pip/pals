@@ -34,11 +34,11 @@ icmInfo['moduleStatus'] = """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "aaSiGeneweb"
+icmInfo['moduleName'] = "sivdApache2Icm"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202109230835"
+icmInfo['version'] = "202112254431"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -63,7 +63,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bin/aaSiGeneweb.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/almostJunk/sivdApache2Icm.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -121,7 +121,7 @@ g_importedCmndsModules = [       # Enumerate modules from which CMNDs become inv
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::= Options, Arguments and Examples Specifications =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::= Options, Arguments and Examples Specifications =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 
@@ -176,15 +176,16 @@ class examples(icm.Cmnd):
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
+            callParamsDict = {}
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
 
 ####+END:
 
@@ -237,24 +238,25 @@ class svcExamples(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         def cpsInit(): return collections.OrderedDict()
@@ -314,7 +316,7 @@ class svcExamples(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndArgsSpec(self):
@@ -336,7 +338,7 @@ class svcExamples(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:section :title "ICM Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 
@@ -354,17 +356,18 @@ class fullUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -375,7 +378,7 @@ class fullUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -399,17 +402,18 @@ class siBaseStart(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -452,7 +456,7 @@ class siBaseStart(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -475,17 +479,18 @@ class siBaseUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -504,7 +509,7 @@ class siBaseUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -530,24 +535,25 @@ class palsBpoInfo(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         infoType = effectiveArgsList[0]
@@ -590,7 +596,7 @@ class palsBpoInfo(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndArgsSpec(self):
@@ -611,7 +617,7 @@ class palsBpoInfo(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -634,22 +640,23 @@ class dbaseCreate(icm.Cmnd):
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {}
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -666,7 +673,7 @@ class dbaseCreate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndArgsSpec(self):
@@ -687,7 +694,7 @@ class dbaseCreate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -712,24 +719,25 @@ class dbaseInitialContentUpdate(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -757,7 +765,7 @@ class dbaseInitialContentUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndArgsSpec(self):
@@ -778,7 +786,7 @@ class dbaseInitialContentUpdate(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -803,24 +811,25 @@ class dbaseInitialContentStdout(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -844,7 +853,7 @@ class dbaseInitialContentStdout(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndArgsSpec(self):
@@ -865,7 +874,7 @@ class dbaseInitialContentStdout(icm.Cmnd):
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
-**  [[elisp:(org-cycle)][| ]] [[elisp:(org-show-subtree)][|=]] [[elisp:(show-children 10)][|V]] [[elisp:(bx:orgm:indirectBufOther)][|>]] [[elisp:(bx:orgm:indirectBufMain)][|I]] [[elisp:(blee:ppmm:org-mode-toggle)][|N]] [[elisp:(org-top-overview)][|O]] [[elisp:(progn (org-shifttab) (org-content))][|C]] [[elisp:(delete-other-windows)][|1]]  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
     def cmndDocStr(self):
@@ -877,7 +886,7 @@ class dbaseInitialContentStdout(icm.Cmnd):
 
 ####+BEGIN: bx:dblock:python:section :title "Class Definitions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Class Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Class Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 
@@ -926,7 +935,7 @@ class obsoletedA2SivdBase_Plone3(object):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /AaSivdRepo_Apache2/ palsBpo.SiRepo =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class AaSivdRepo_Apache2(palsSis.SiRepo):
+class AaSivdRepo_Apache2(palsBpo.SiRepo):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -951,7 +960,7 @@ class AaSivdRepo_Apache2(palsSis.SiRepo):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Type/ palsBpo.SiVirDomSvcType =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Type(palsSis.SiVirDomSvcType):
+class A2_Svc_Type(palsBpo.SiVirDomSvcType):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -972,7 +981,7 @@ class A2_Svc_Type(palsSis.SiVirDomSvcType):
 """
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /A2_Svc_Inst/ palsBpo.SiSvcInst =Expected to be subclassed=  [[elisp:(org-cycle)][| ]]
 """
-class A2_Svc_Inst(palsSis.SiSvcInst):
+class A2_Svc_Inst(palsBpo.SiSvcInst):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
@@ -1087,7 +1096,7 @@ class A2_Geneweb_VirDom(A2_Svc_Type):
 
 ####+BEGIN: bx:dblock:python:section :title "Function Definitions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Function Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Function Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 
@@ -1146,7 +1155,7 @@ def digestAtVirDomSvcProv(
 def digestAtVirDomSvcType(
     bpoId,
     siRepoBase,
-    svcTypeObj,
+    svcType,
 ):
 ####+END:
     icm.TM_here("Incomplete")
@@ -1188,7 +1197,7 @@ def digestVirDomSvcInstance(
 
 ####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 """
@@ -1197,7 +1206,7 @@ def digestVirDomSvcInstance(
 
 ####+BEGIN: bx:icm:python:section :title "Common/Generic Facilities -- Library Candidates"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 """
@@ -1207,7 +1216,7 @@ def digestVirDomSvcInstance(
 
 ####+BEGIN: bx:icm:python:section :title "= =Framework::=   __main__ g_icmMain ="
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::=   __main__ g_icmMain =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::=   __main__ g_icmMain =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 
@@ -1221,7 +1230,7 @@ if __name__ == "__main__":
 
 ####+BEGIN: bx:icm:python:section :title "Unused Facilities -- Temporary Junk Yard"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 """
@@ -1230,7 +1239,7 @@ if __name__ == "__main__":
 
 ####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]] 
 """
 ####+END:
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """\
-* *[Summary]* :: An =ICM-Lib= for providing jekyll service instances.
+* *[IcmLib]* :: For providing jekyll service instances.
 """
 
 import typing
@@ -24,7 +24,6 @@ icmInfo['moduleStatus'] = """
 *       [[elisp:(org-show-subtree)][|=]]  [[elisp:(org-cycle)][| *Status:* | ]]
 **  [[elisp:(org-cycle)][| ]]  [Info]          :: *[Current-Info:]* Status/Maintenance -- General TODO List [[elisp:(org-cycle)][| ]]
 ** TODO [[elisp:(org-cycle)][| ]]  Current         :: Just getting started [[elisp:(org-cycle)][| ]]
-** TODO siInvoke and method parameter and siInvoke should be moved to palsBpo module
 **      [End-Of-Status]
 """
 
@@ -36,7 +35,7 @@ icmInfo['moduleName'] = "siJekyll"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202112080205"
+icmInfo['version'] = "202112254422"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -119,18 +118,11 @@ from bisos.pals import palsBases
 from bisos import bpf
 
 
-####+BEGIN: bx:icm:python:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
+####+BEGIN: bx:icm:python:icmItem :itemType "=ImportICMs=" :itemTitle "*Imported Commands Modules*"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *= =Framework::= Options, Arguments and Examples Specifications =*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
-
-####+BEGIN: bx:icm:python:section :title " /Imported Commands Modules/ "
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    * /Imported Commands Modules/ *  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =ImportICMs= :: *Imported Commands Modules*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
-
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
@@ -182,19 +174,24 @@ class examples(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] ICM examples, all on one place.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
         def cpsInit(): return collections.OrderedDict()
         def menuItem(verbosity, **kwArgs): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity, **kwArgs)
@@ -245,9 +242,9 @@ class examples(icm.Cmnd):
 
         return(cmndOutcome)
 
-####+BEGIN: bx:icm:python:section :title "ICM Example Commands"
+####+BEGIN: bx:icm:py3:section :title "ICM Example Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Example Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Example Commands*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -266,24 +263,25 @@ class svcExamples(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         def cpsInit(): return collections.OrderedDict()
@@ -330,17 +328,18 @@ class configExamples(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -380,17 +379,18 @@ class setupExamples(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -419,6 +419,64 @@ class setupExamples(icm.Cmnd):
         return(cmndOutcome)
 
 
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "hereExamples" :cmndType "ICM-Ex-Cmnd"  :comment "baseUpdate, etc" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Ex-Cmnd :: /hereExamples/ =baseUpdate, etc= parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class hereExamples(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+    ) -> icm.OpOutcome:
+        cmndOutcome = self.getOpOutcome()
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
+
+####+END:
+        docStr = """
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] To be inserted in hereAgent.py menus.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
+
+        def cpsInit(): return collections.OrderedDict()
+        def menuItem(verbosity, **kwArgs): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity, **kwArgs)
+        #def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
+
+        oneBpo = bpoId
+        oneSiRelPath = si
+
+        icm.cmndExampleMenuChapter('*SiJekyll Here Actions*')
+
+        cmndName = "siJekyll_siteDumpAndTriggers" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='little', comment="# needs to be followed by triggers")
+
+        cmndName = "siJekyll_siteDump" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='little', comment="# needs to be followed by triggers")
+
+        cmndName = "siJekyll_siteTriggers" ; cmndArgs = "" ;
+        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        menuItem(verbosity='little', comment="# args ro be added")
+
+
+        return(cmndOutcome)
+
+
 
 ####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "digestedSvcsExamples" :cmndType "ICM-Ex-Cmnd"  :comment "Examples lines for each digested svc" :parsMand "" :parsOpt "bpoId" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
@@ -433,16 +491,17 @@ class digestedSvcsExamples(icm.Cmnd):
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
+            callParamsDict = {'bpoId': bpoId, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
 
 ####+END:
 
@@ -478,9 +537,9 @@ class digestedSvcsExamples(icm.Cmnd):
         return(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:section :title "ICM Commands"
+####+BEGIN: bx:icm:py3:section :title "ICM Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Commands*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -498,17 +557,18 @@ class fullUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -545,17 +605,22 @@ class siBaseAssemble(icm.Cmnd):
         si=None,         # or Cmnd-Input
     ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Initial action that creates the siRepo
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
         thisBpo = palsBpo.obtainBpo(bpoId,)
         if not thisBpo:
@@ -583,22 +648,8 @@ class siBaseAssemble(icm.Cmnd):
 
         thisSi.assemble() # type: ignore
 
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,  # type: ignore
-            opResults=None,
-        )
+        return icm.opSuccessAnNoResult(cmndOutcome)
 
-
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Creates bases.
-"""
 
 ####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siBaseUpdate" :comment "Place holder for logBase as root" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
@@ -616,17 +667,22 @@ class siBaseUpdate(icm.Cmnd):
         si=None,         # or Cmnd-Input
     ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Uses palsBases.basesUpdateSi to create var,log, bases.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
         if siBaseAssemble(cmndOutcome=cmndOutcome).cmnd(
                 bpoId=bpoId,
@@ -638,29 +694,15 @@ class siBaseUpdate(icm.Cmnd):
                 si=si,
         ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
 
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,  # type: ignore
-            opResults=None,
-        )
+        return icm.opSuccessAnNoResult(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siJekyll_siteCreate" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Creates bases.
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siJekyll_siteCreate/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
 """
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siInvoke" :comment "invokes specified method" :parsMand "bpoId si method" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siInvoke/ =invokes specified method= parsMand=bpoId si method parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class siInvoke(icm.Cmnd):
-    cmndParamsMandatory = [ 'bpoId', 'si', 'method', ]
+class siJekyll_siteCreate(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
 
@@ -669,50 +711,181 @@ class siInvoke(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-        method=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-
-        callParamsDict = {'bpoId': bpoId, 'si': si, 'method': method, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-        method = callParamsDict['method']
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
-        thisBpo = palsBpo.obtainBpo(bpoId,)
-        thisBpo.sis.sisDigest()
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Uses palsBases.basesUpdateSi to create var,log, bases.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
-        siPath = palsSis.siIdToSiPath(bpoId, si)
-        thisSi = palsSis.EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
-        if not thisSi:
-            return cmndOutcome.set(opError=icm.EH_critical_usageError(f"missing thisSi={thisSi}"))
+        jekyllInstance = Jekyll_Inst(bpoId, si)
 
-        cmnd = "thisSi.{method}()".format(method=method)
-        icm.TM_here(f"cmnd={cmnd}")
-        eval(cmnd)
+        dataDir = os.path.join(jekyllInstance.siPath, "data")
+        bpf.dir.createIfNotThere(dataDir)
 
-        return cmndOutcome.set(
-            opError=icm.OpError.Success,  # type: ignore
-            opResults=None,
-        )
+        inDirSubProc = bpf.subProc.WOpW(invedBy=self, cd=dataDir)
 
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+        # site is the name of the site being created
+        if inDirSubProc.bash(f"""jekyll new site""",
+        ).isProblematic():  return(icm.EH_badOutcome(cmndOutcome))
+
+        if inDirSubProc.bash(f"""ls -ld site""",
+        ).isProblematic():  return(icm.EH_badOutcome(cmndOutcome))
+
+        return icm.opSuccessAnNoResult(cmndOutcome)
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siJekyll_siteDumpAndTriggers" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siJekyll_siteDumpAndTriggers/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class siJekyll_siteDumpAndTriggers(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+    ) -> icm.OpOutcome:
+        cmndOutcome = self.getOpOutcome()
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
+
 ####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Description
+        docStr = """\
+***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]] Status: Has not been tested yet.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
+
+        if siJekyll_siteDump(cmndOutcome=cmndOutcome).cmnd(
+                bpoId=bpoId,
+                si=si,
+        ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
+
+        if siJekyll_siteTriggers(cmndOutcome=cmndOutcome).cmnd(
+                bpoId=bpoId,
+                si=si,
+        ).isProblematic(): return(icm.EH_badOutcome(cmndOutcome))
+
+        return icm.opSuccessAnNoResult(cmndOutcome)
+
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siJekyll_siteDump" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siJekyll_siteDump/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class siJekyll_siteDump(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+    ) -> icm.OpOutcome:
+        cmndOutcome = self.getOpOutcome()
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
+
+####+END:
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Uses palsBases.basesUpdateSi to create var,log, bases.
+***** TODO du_jekyll/sites/main/dump needs to be created and parameterized.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
+
+        jekyllInstance  = Jekyll_Inst(bpoId, si)
+
+        palsBaseDir = bpo.bpoBaseDir_obtain(bpoId,)
+        dumpDir = os.path.join(palsBaseDir, "du_jekyll/sites/main/dump")
+
+        siteDir = os.path.join(jekyllInstance.siPath, "data/site")
+
+        inDirSubProc = bpf.subProc.WOpW(invedBy=self, cd=siteDir)
+        # Build as a pure html site
+        if inDirSubProc.bash(f"""bundle exec jekyll build -d {dumpDir}""",
+        ).isProblematic():  return(icm.EH_badOutcome(cmndOutcome))
+
+        return icm.opSuccessAnNoResult(cmndOutcome)
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siJekyll_siteTriggers" :comment "" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siJekyll_siteTriggers/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class siJekyll_siteTriggers(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
+    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+    ) -> icm.OpOutcome:
+        cmndOutcome = self.getOpOutcome()
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
+
+####+END:
+        docStr = """\
+***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Triggers can be specified as destination args.
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
+
+        if bpf.subProc.WOpW(invedBy=self,).bash(
+                f"""cntnrGitShTriggers.py -i gitSh_invoker_trigger_jekyll /tmp/trigger-jekyll""",
+        ).isProblematic():  return(icm.EH_badOutcome(cmndOutcome))
+
+        return icm.opSuccessAnNoResult(cmndOutcome)
 
 
+####+BEGIN: bx:icm:py3:section :title "Supporting Classes And Functions"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]
+"""
+####+END:
 
 ####+BEGIN: bx:dblock:python:class :className "SiRepo_Jekyll" :superClass "palsSis.SiRepo" :comment "Expected to be subclassed" :classType "basic"
 """
@@ -751,16 +924,16 @@ class Jekyll_Inst(palsSis.SiSvcInst):
     def __init__(
             self,
             bpoId,
-            siPath,
+            si,
     ):
-        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, siPath,):
-            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={siPath}")
+        if palsSis.EffectiveSis.givenSiPathGetSiObjOrNone(bpoId, si,):
+            icm.EH_critical_usageError(f"Duplicate Attempt At Singleton Creation bpoId={bpoId}, siPath={si}")
         else:
-            super().__init__(bpoId, siPath,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
+            super().__init__(bpoId, si,) # includes: EffectiveSis.addSi(bpoId, siPath, self,)
 
         self.bpo = palsBpo.obtainBpo(bpoId,)
-        self.siPath = siPath
-        self.siId = palsSis.siPathToSiId(bpoId, siPath,)
+        self.siPath = palsSis.siIdToSiPath(bpoId, si,)
+        self.siId = si
         self.invContext = invoke.context.Context(config=None)
 
     def obtainFromFPs(self,):
@@ -792,24 +965,13 @@ class Jekyll_Inst(palsSis.SiSvcInst):
         with invContext.cd(svcInstanceBaseDir):
             invContext.run("bxtStartCommon.sh  -v -n showRun -i startObjectGen auxLeaf")
 
-    def jekyllSiteAdd(self,):
-        """
-        """
-        dataBaseDir = os.path.join(self.siPath, "data")
-
-        bpf.dir.createIfNotThere(dataBaseDir)
-
-        inDirSubProc = bpf.subProc.Op(cd=dataBaseDir, log=1)
-
-        if inDirSubProc.bash("""jekyll new site; ls -ld site""",
-        ).isProblematic():  return(icm.EH_badOutcome(inDirSubProc.outcome))
 
 
-####+BEGIN: bx:icm:py3:func :funcName "digestAtSvcProv" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase"
+####+BEGIN: bx:icm:py3:func :funcName "digestAtSvcProv_obsoleted" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /digestAtSvcProv/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /digestAtSvcProv_obsoleted/  [[elisp:(org-cycle)][| ]]
 """
-def digestAtSvcProv(
+def digestAtSvcProv_obsoleted(
 ####+END:
      bpoId,
      siRepoBase,
@@ -825,16 +987,16 @@ def digestAtSvcProv(
                 continue
             # verify that it is a svcInstance
             siRepoPath = os.path.join(siRepoBase, each)
-            digestPrimSvcInstance(bpoId, siRepoPath, each,)
+            digestPrimSvcInstance_obsoleted(bpoId, siRepoPath, each,)
             thisBpo.sis.svcInst_primary_enabled.append(siRepoPath,)
         break
 
 
-####+BEGIN: bx:icm:py3:func :funcName "digestPrimSvcInstance" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase instanceName"
+####+BEGIN: bx:icm:py3:func :funcName "digestPrimSvcInstance_obsoleted" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase instanceName"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /digestPrimSvcInstance/  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /digestPrimSvcInstance_obsoleted/  [[elisp:(org-cycle)][| ]]
 """
-def digestPrimSvcInstance(
+def digestPrimSvcInstance_obsoleted(
 ####+END:
     bpoId,
     siRepoBase,
@@ -849,36 +1011,27 @@ def digestPrimSvcInstance(
     icm.TM_here(f"bpoId={bpoId}, siRepoBase={siRepoBase}, instanceName={instanceName}")
 
 
-####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"
+####+BEGIN: bx:icm:py3:section :title "Common/Generic Facilities -- Library Candidates"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
-"""
-*       /Empty/  [[elisp:(org-cycle)][| ]]
-"""
-
-####+BEGIN: bx:icm:python:section :title "Common/Generic Facilities -- Library Candidates"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-####+BEGIN: bx:icm:python:section :title "Unused Facilities -- Temporary Junk Yard"
+####+BEGIN: bx:icm:py3:section :title "Unused Facilities -- Temporary Junk Yard"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 

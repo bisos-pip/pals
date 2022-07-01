@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """\
-* *[Summary]* :: A /library/ Beginning point for development of new ICM oriented libraries.
+* *[IcmLib]* :: Abstract PalsRepo Class and --repo ICM-option.
 """
 
 import typing
@@ -32,11 +32,11 @@ icmInfo['moduleStatus'] = """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
 ####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "repoLiveParams"
+icmInfo['moduleName'] = "palsRepo"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110073836"
+icmInfo['version'] = "202112254434"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -61,7 +61,7 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 ####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
 """
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/repoLiveParams.py :: [[elisp:(org-cycle)][| ]]
+*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/palsRepo.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
@@ -104,9 +104,9 @@ G = icm.IcmGlobalContext()
 #from bisos.icm import fp
 from bisos.bpo import bpo
 
-####+BEGIN: bx:dblock:python:section :title "Class Definitions"
+####+BEGIN: bx:icm:py3:section :title "Class Definitions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Class Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Class Definitions*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -237,9 +237,9 @@ def commonParamsSpecify(
     )
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 

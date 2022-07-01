@@ -37,7 +37,7 @@ icmInfo['moduleName'] = "siGeneweb"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110142633"
+icmInfo['version'] = "202112254438"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -111,9 +111,9 @@ G = icm.IcmGlobalContext()
 from bisos.pals import palsBpo
 from bisos.pals import palsSis
 
-####+BEGIN: bx:icm:python:section :title "ICM Commands"
+####+BEGIN: bx:icm:py3:section :title "ICM Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Commands*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -131,17 +131,18 @@ class fullUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -176,17 +177,18 @@ class siBaseStart(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -258,17 +260,18 @@ class siBaseUpdate(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
 
@@ -313,24 +316,25 @@ class dbaseFullUpdate(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -399,22 +403,23 @@ class dbaseCreate(icm.Cmnd):
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {}
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
 
-        callParamsDict = {}
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -477,24 +482,25 @@ class dbaseInitialContentUpdate(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -568,24 +574,25 @@ class dbaseInitialContentStdout(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
 
         dbaseName = effectiveArgsList[0]
@@ -799,36 +806,36 @@ def digestPrimSvcInstance(
 
 
 
-####+BEGIN: bx:icm:python:section :title "Supporting Classes And Functions"
+####+BEGIN: bx:icm:py3:section :title "Supporting Classes And Functions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
-"""
-####+END:
-"""
-*       /Empty/  [[elisp:(org-cycle)][| ]]
-"""
-
-####+BEGIN: bx:icm:python:section :title "Common/Generic Facilities -- Library Candidates"
-"""
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Supporting Classes And Functions*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-####+BEGIN: bx:icm:python:section :title "Unused Facilities -- Temporary Junk Yard"
+####+BEGIN: bx:icm:py3:section :title "Common/Generic Facilities -- Library Candidates"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "Unused Facilities -- Temporary Junk Yard"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Unused Facilities -- Temporary Junk Yard*  [[elisp:(org-cycle)][| ]]
+"""
+####+END:
+"""
+*       /Empty/  [[elisp:(org-cycle)][| ]]
+"""
+
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 

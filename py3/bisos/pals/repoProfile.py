@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """\
-* *[Summary]* :: A /library/ Beginning point for development of new ICM oriented libraries.
+* *[IcmLib]* :: Needs to be revisited. Where is this used?
 """
 
 import typing
@@ -36,7 +36,7 @@ icmInfo['moduleName'] = "repoProfile"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110142341"
+icmInfo['version'] = "202112254427"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -108,9 +108,9 @@ from bisos.bpo import bpo
 from bisos.pals import palsRepo
 from bisos.bpo import bpoFpBases
 
-####+BEGIN: bx:dblock:python:section :title "Class Definitions"
+####+BEGIN: bx:icm:py3:section :title "Class Definitions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Class Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Class Definitions*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -308,16 +308,17 @@ class examples_repoProfile(icm.Cmnd):
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
+            callParamsDict = {'bpoId': bpoId, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
 
 ####+END:
         thisClass = "PalsRepo_Profile"
@@ -329,9 +330,9 @@ class examples_repoProfile(icm.Cmnd):
         return(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
