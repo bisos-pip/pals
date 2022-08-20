@@ -36,7 +36,7 @@ icmInfo['moduleName'] = "repoLiveParams"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110073836"
+icmInfo['version'] = "202112254422"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -108,9 +108,9 @@ from bisos.bpo import bpo
 from bisos.pals import palsRepo
 from bisos.bpo import bpoFpBases
 
-####+BEGIN: bx:dblock:python:section :title "Class Definitions"
+####+BEGIN: bx:icm:py3:section :title "Class Definitions"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Class Definitions*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Class Definitions*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -248,13 +248,13 @@ class PalsRepo_LiveParams_FPs(fp.FP_Base):
         )
 
 
-####+BEGIN: bx:dblock:python:func :funcName "examples_repoLiveParams" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId"
+####+BEGIN: bx:dblock:python:func :funcName "examples_repoLiveParams_basic" :comment "Show/Verify/Update For relevant PBDs" :funcType "examples" :retType "none" :deco "" :argsList "bpoId className"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_repoLiveParams_basic/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-examples :: /examples_repoLiveParams_basic/ =Show/Verify/Update For relevant PBDs= retType=none argsList=(bpoId className)  [[elisp:(org-cycle)][| ]]
 """
 def examples_repoLiveParams_basic(
-        bpoId,
-        className,
+    bpoId,
+    className,
 ):
 ####+END:
     """
@@ -327,16 +327,17 @@ class examples_repoLiveParams(icm.Cmnd):
     def cmnd(self,
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
+            callParamsDict = {'bpoId': bpoId, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
 
 ####+END:
         thisClass = "PalsRepo_LiveParams"
@@ -350,9 +351,9 @@ class examples_repoLiveParams(icm.Cmnd):
 
 
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 

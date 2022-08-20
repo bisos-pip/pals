@@ -25,7 +25,6 @@ icmInfo['moduleStatus'] = """
 *       [[elisp:(org-show-subtree)][|=]]  [[elisp:(org-cycle)][| *Status:* | ]]
 **  [[elisp:(org-cycle)][| ]]  [Info]          :: *[Current-Info:]* Status/Maintenance -- General TODO List [[elisp:(org-cycle)][| ]]
 ** TODO [[elisp:(org-cycle)][| ]]  Current         :: Just getting started [[elisp:(org-cycle)][| ]]
-** TODO siInvoke and method parameter and siInvoke should be moved to palsBpo module
 **      [End-Of-Status]
 """
 
@@ -117,13 +116,7 @@ from bisos.pals import palsBpo
 from bisos.pals import palsSis
 from bisos.pals import palsThere
 
-
-
-####+BEGIN: bx:icm:py3:section :title "= =Framework::= Options, Arguments and Examples Specifications ="
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *= =Framework::= Options, Arguments and Examples Specifications =*  [[elisp:(org-cycle)][| ]]
-"""
-####+END:
+from bisos.pals import siJekyll
 
 ####+BEGIN: bx:icm:py3:section :title " /Imported Commands Modules/ "
 """
@@ -131,11 +124,12 @@ from bisos.pals import palsThere
 """
 ####+END:
 
-
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
     'blee.icmPlayer.bleep',
     'bisos.pals.hereAgent',
     'bisos.pals.palsBases',
+    'bisos.pals.palsThere',
+    'bisos.pals.siJekyll',
 ]
 
 
@@ -159,6 +153,8 @@ def g_paramsExtraSpecify(
 
     bpo.commonParamsSpecify(icmParams)
     palsSis.commonParamsSpecify(icmParams)
+
+    palsThere.commonParamsSpecify(icmParams)
 
     icm.argsparseBasedOnIcmParams(parser, icmParams)
 
@@ -221,32 +217,45 @@ class examples(icm.Cmnd):
 
         icm.cmndExampleMenuChapter('*Full Actions*')
 
-        cmndName = "fullUpdate" ; cmndArgs = "" ;
-        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
+        cmndName = "fullUpdate" ; cmndArgs = "" ; cps=cpsInit()
         menuItem(verbosity='little', comment="# empty place holder")
 
-        icm.cmndExampleMenuChapter('*siBaseStart -- Initialize siBaseDir*')
+        palsThere.thereExamples().cmnd()
 
-        cmndName = "siBaseAssemble" ; cmndArgs = "" ;
-        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
-        menuItem(verbosity='little', comment="# needs more testing")
+        absorbedPals = palsThere.PalsAbsorbed(os.getcwd())
 
-        cmndName = "siBaseUpdate" ; cmndArgs = "" ;
-        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath
-        menuItem(verbosity='little', comment="# place holder")
+        if absorbedPals.si_svcProv == 'plone3':
+            from bisos.pals import siPlone3
+            siPlone3.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                        si=absorbedPals.si_instRelPath)
+        elif absorbedPals.si_svcProv == 'geneweb':
+            from bisos.pals import siGeneweb
+            siGeneweb.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                          si=absorbedPals.si_instRelPath)
+        elif absorbedPals.si_svcProv == 'jekyll':
+            from bisos.pals import siJekyll
+            siJekyll.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                         si=absorbedPals.si_instRelPath)
+        elif absorbedPals.si_svcProv == 'apache2':
+            from bisos.pals import siApache2
+            siApache2.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                         si=absorbedPals.si_instRelPath)
+        else:
+            icm.EH_problem_notyet("")
 
-        icm.cmndExampleMenuChapter('*Plone Site Initializations*')
 
-        cmndName = "siInvoke" ; cmndArgs = "" ;
-        cps=cpsInit() ; cps['bpoId'] = oneBpo ; cps['si'] = oneSiRelPath ; cps['method'] = 'ploneSiteAdd'
-        menuItem(verbosity='little', comment="# general purpose testing")
-        menuItem(verbosity='full', comment="# general purpose testing")
-
-        digestedSvcsExamples().cmnd(bpoId=oneBpo,)
+        if absorbedPals.sivd_svcProv == 'sivd_apache2':
+            from bisos.pals import sivdApache2
+            sivdApache2.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                        si=absorbedPals.si_instRelPath)
+        elif absorbedPals.sivd_svcProv == 'sivd_qmail':
+            from bisos.pals import sivdQmail
+            sivdQmail.hereExamples().cmnd(bpoId=absorbedPals.bpoId,
+                                          si=absorbedPals.si_instRelPath)
+        else:
+            icm.EH_problem_notyet("")
 
         return(cmndOutcome)
-
-
 
 
 ####+BEGIN: bx:icm:py3:section :title "ICM Example Commands"
@@ -410,10 +419,7 @@ class fullUpdate(icm.Cmnd):
 ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]] Preformed fullActions, AcctCreat, NonInteractive, ReposCreate
 ***** TODO Not implemeted yet.
         """
-
-        palsHere = palsThere.palsBaseThere(os.getcwd())
-
-        print(f"{palsHere}")
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
         return icm.opSuccessAnNoResult(cmndOutcome)
 

@@ -36,7 +36,7 @@ icmInfo['moduleName'] = "palsSis"
 ####+END:
 
 ####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202110143503"
+icmInfo['version'] = "202112254425"
 ####+END:
 
 ####+BEGIN: bx:icm:py:status :status "Production"
@@ -207,7 +207,7 @@ def sivd_svcBaseDir(
 
 ####+BEGIN: bx:dblock:python:func :funcName "sivd_virDomSvcBaseDir" :funcType "Obtain" :retType "str" :deco "" :argsList "bpoId si"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /si_virDomSvcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-Obtain :: /sivd_virDomSvcBaseDir/ retType=str argsList=(bpoId si)  [[elisp:(org-cycle)][| ]]
 """
 def sivd_virDomSvcBaseDir(
     bpoId,
@@ -559,11 +559,11 @@ def sis_virDom_digest(
         sivdApache2.digestAtVirDomSvcProv(bpoId, siRepoPath)
 
 
-####+BEGIN: bx:icm:python:func :funcName "sis_prim_digest" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId primSvcProv siRepoPath"
+####+BEGIN: bx:icm:python:func :funcName "sis_prim_digestOBSOLETED" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId primSvcProv siRepoPath"
 """
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /sis_prim_digest/ retType=bool argsList=(bpoId primSvcProv siRepoPath)  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /sis_prim_digestOBSOLETED/ retType=bool argsList=(bpoId primSvcProv siRepoPath)  [[elisp:(org-cycle)][| ]]
 """
-def sis_prim_digest(
+def sis_prim_digestOBSOLETED(
     bpoId,
     primSvcProv,
     siRepoPath,
@@ -588,6 +588,86 @@ def sis_prim_digest(
         siApache2.digestAtSvcProv(bpoId, siRepoPath)
     else:
         icm.EH_problem_notyet("")
+
+
+####+BEGIN: bx:icm:python:func :funcName "sis_prim_digest" :funcType "anyOrNone" :retType "bool" :deco "" :argsList "bpoId primSvcProv siRepoPath"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-anyOrNone :: /sis_prim_digest/ retType=bool argsList=(bpoId primSvcProv siRepoPath)  [[elisp:(org-cycle)][| ]]
+"""
+def sis_prim_digest(
+    bpoId,
+    primSvcProv,
+    siRepoPath,
+):
+####+END:
+    """Using Primary Svc Provider.
+** TODO This should be automated so that addition of new SIs don't require any edits.
+    """
+    thisBpo = palsBpo.obtainBpo(bpoId,)
+    thisBpo.sis.svcProv_primary_enabled.append(siRepoPath)
+    if primSvcProv == "plone3":
+        from bisos.pals import siPlone3
+        sis_digestAtSvcProv(bpoId, siRepoPath, siPlone3.SiRepo_Plone3, siPlone3.Plone3_Inst)
+    elif primSvcProv == "geneweb":
+        from bisos.pals import siGeneweb
+        sis_digestAtSvcProv(bpoId, siRepoPath, siGeneweb.SiRepo_Geneweb, siGeneweb.Geneweb_Inst)
+    elif primSvcProv == "jekyll":
+        from bisos.pals import siJekyll
+        sis_digestAtSvcProv(bpoId, siRepoPath, siJekyll.SiRepo_Jekyll, siJekyll.Jekyll_Inst)
+    elif primSvcProv == "apache2":
+        from bisos.pals import siApache2
+        sis_digestAtSvcProv(bpoId, siRepoPath, siApache2.SiRepo_Apache2, siApache2.Apache2_Inst)
+    else:
+        icm.EH_problem_notyet("")
+
+
+####+BEGIN: bx:icm:py3:func :funcName "sis_digestAtSvcProv" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /sis_digestAtSvcProv/  [[elisp:(org-cycle)][| ]]
+"""
+def sis_digestAtSvcProv(
+####+END:
+        bpoId,
+        siRepoBase,
+        siRepoTypeClass,
+        siInstanceClass,
+):
+    icm.TM_here("Incomplete")
+    createSiObj(bpoId, siRepoBase, siRepoTypeClass)
+
+    thisBpo = palsBpo.obtainBpo(bpoId,)
+
+    for (_, dirNames, _,) in os.walk(siRepoBase):
+        for each in dirNames:
+            if each == "siInfo":
+                continue
+            # verify that it is a svcInstance
+            siRepoPath = os.path.join(siRepoBase, each)
+            sis_digestPrimSvcInstance(bpoId, siRepoPath, each, siInstanceClass,)
+            thisBpo.sis.svcInst_primary_enabled.append(siRepoPath,)
+        break
+
+
+####+BEGIN: bx:icm:py3:func :funcName "sis_digestPrimSvcInstance" :funcType "" :retType "" :deco "" :argsList "bpoId siRepoBase instanceName"
+"""
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Func-      :: /sis_digestPrimSvcInstance/  [[elisp:(org-cycle)][| ]]
+"""
+def sis_digestPrimSvcInstance(
+####+END:
+        bpoId,
+        siRepoBase,
+        instanceName,
+        siInstanceClass,
+):
+    icm.TM_here("Incomplete")
+
+    thisSi = createSiObj(bpoId, siRepoBase, siInstanceClass)
+
+    thisSi.setVar(22) # type: ignore
+
+    icm.TM_here(f"bpoId={bpoId}, siRepoBase={siRepoBase}, instanceName={instanceName}")
+
+
 
 ####+BEGIN: bx:dblock:python:class :className "PalsSis" :superClass "object" :comment "Context For All Sis" :classType "basic"
 """
@@ -760,9 +840,9 @@ class SivdSvcInst(object):
 
 
 
-####+BEGIN: bx:dblock:python:section :title "Service Intsance Lists"
+####+BEGIN: bx:icm:py3:section :title "Service Intsance Lists -- Depracted"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Service Intsance Lists*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Service Intsance Lists -- Depracted*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -797,9 +877,9 @@ def svcProv_prim_list():
     )
 
 
-####+BEGIN: bx:dblock:python:section :title "Common Parameters Specification"
+####+BEGIN: bx:icm:py3:section :title "Common Parameters Specification -- For --si and --sivd"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common Parameters Specification*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Common Parameters Specification -- For --si and --sivd*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -834,9 +914,9 @@ def commonParamsSpecify(
     )
 
 
-####+BEGIN: bx:dblock:python:section :title "Common Examples Sections"
+####+BEGIN: bx:icm:py3:section :title "Common Examples Sections"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common Examples Sections*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Common Examples Sections*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -887,9 +967,9 @@ def examples_aaBpo_basicAccessOBSOLETED():
     menuItem(verbosity='little')
 
 
-####+BEGIN: bx:dblock:python:section :title "ICM Commands"
+####+BEGIN: bx:icm:py3:section :title "ICM Commands"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *ICM Commands*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Commands*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
@@ -908,17 +988,18 @@ class bpoSiFullPathBaseDir(icm.Cmnd):
         interactive=False,        # Can also be called non-interactively
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
-                return cmndOutcome
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
 ####+END:
         retVal = siFullPathBaseDir_obtain(
@@ -961,25 +1042,30 @@ class bpoSiRunRootBaseDir(icm.Cmnd):
         bpoId=None,         # or Cmnd-Input
         si=None,         # or Cmnd-Input
         argsList=[],         # or Args-Input
-    ):
+    ) -> icm.OpOutcome:
         cmndOutcome = self.getOpOutcome()
-        if interactive:
-            if not self.cmndLineValidate(outcome=cmndOutcome):
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
+            else:
+                effectiveArgsList = argsList
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
                 return cmndOutcome
-            effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-        else:
-            effectiveArgsList = argsList
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
 
-        callParamsDict = {'bpoId': bpoId, 'si': si, }
-        if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-            return cmndOutcome
-        bpoId = callParamsDict['bpoId']
-        si = callParamsDict['si']
-
-        cmndArgsSpecDict = self.cmndArgsSpec()
-        if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-            return cmndOutcome
+            cmndArgsSpecDict = self.cmndArgsSpec()
+            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
+                return cmndOutcome
 ####+END:
+        docStr = """\
+***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]] Is this dead code?
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
 
         cmndArgs = list(self.cmndArgsGet("0&2", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
 
@@ -1007,10 +1093,7 @@ class bpoSiRunRootBaseDir(icm.Cmnd):
                 else:
                     icm.EH_problem_usageError("")
 
-        return cmndOutcome.set(
-            opError=icm.notAsFailure(retVal),
-            opResults=retVal,
-        )
+        return icm.opSuccessAnNoResult(cmndOutcome)
 
 ####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
     """
@@ -1034,31 +1117,69 @@ class bpoSiRunRootBaseDir(icm.Cmnd):
 
         return cmndArgsSpecDict
 
-    
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
+
+####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "siInvoke" :comment "invokes specified method" :parsMand "bpoId si method" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
 """
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /siInvoke/ =invokes specified method= parsMand=bpoId si method parsOpt= argsMin=0 argsMax=0 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
+"""
+class siInvoke(icm.Cmnd):
+    cmndParamsMandatory = [ 'bpoId', 'si', 'method', ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+
     @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
+    def cmnd(self,
+        interactive=False,        # Can also be called non-interactively
+        bpoId=None,         # or Cmnd-Input
+        si=None,         # or Cmnd-Input
+        method=None,         # or Cmnd-Input
+    ) -> icm.OpOutcome:
+        cmndOutcome = self.getOpOutcome()
+        if not self.obtainDocStr:
+            if interactive:
+                if not self.cmndLineValidate(outcome=cmndOutcome):
+                    return cmndOutcome
+
+            callParamsDict = {'bpoId': bpoId, 'si': si, 'method': method, }
+            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
+                return cmndOutcome
+            bpoId = callParamsDict['bpoId']
+            si = callParamsDict['si']
+            method = callParamsDict['method']
+
 ####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns the full path of the Sr baseDir.
-"""
+        docStr = """\
+***** TODO [[elisp:(org-cycle)][| *CmndDesc:* | ]] Allows for invocation a method corresponding to EffectiveSis.givenSiPathFindSiObj
+        """
+        if self.docStrClassSet(docStr,): return cmndOutcome
+
+        thisBpo = palsBpo.obtainBpo(bpoId,)
+        thisBpo.sis.sisDigest()
+
+        siPath = siIdToSiPath(bpoId, si)
+        thisSi = EffectiveSis.givenSiPathFindSiObj(bpoId, siPath,)
+        if not thisSi:
+            return cmndOutcome.set(opError=icm.EH_critical_usageError(f"missing thisSi={thisSi}"))
+
+        cmnd = "thisSi.{method}()".format(method=method)
+        icm.TM_here(f"cmnd={cmnd}")
+        eval(cmnd)
+
+        return icm.opSuccessAnNoResult(cmndOutcome)
 
 
-####+BEGIN: bx:icm:python:section :title "Common/Generic Facilities -- Library Candidates"
+####+BEGIN: bx:icm:py3:section :title "Common/Generic Facilities -- Library Candidates"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Common/Generic Facilities -- Library Candidates*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 """
 *       /Empty/  [[elisp:(org-cycle)][| ]]
 """
 
-####+BEGIN: bx:icm:python:section :title "End Of Editable Text"
+####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
 """
-*  [[elisp:(beginning-of-buffer)][Top]] ############## [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] [[elisp:(delete-other-windows)][(1)]]    *End Of Editable Text*  [[elisp:(org-cycle)][| ]]  [[elisp:(org-show-subtree)][|=]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
 """
 ####+END:
 
