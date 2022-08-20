@@ -289,7 +289,7 @@ class bpoSiRunRootBaseDir(icm.Cmnd):
                 argChoices.pop(0)
                 cmndArgs= argChoices
 
-        retVal = bpoSi_runBaseObtain_root(
+        retVal = palsSis.bpoSi_runBaseObtain_root(
             bpoId=bpoId,
             si=si,
         )
@@ -298,11 +298,11 @@ class bpoSiRunRootBaseDir(icm.Cmnd):
             icm.ANN_write("{}".format(retVal))
             for each in cmndArgs:
                 if each == "var":
-                    icm.ANN_write("{each}".format(each=bpoSi_runBaseObtain_var(bpoId, si)))
+                    icm.ANN_write("{each}".format(each=palsSis.bpoSi_runBaseObtain_var(bpoId, si)))
                 elif each == "tmp":
-                    icm.ANN_write("{each}".format(each=bpoSi_runBaseObtain_tmp(bpoId, si)))
+                    icm.ANN_write("{each}".format(each=palsSis.bpoSi_runBaseObtain_tmp(bpoId, si)))
                 elif each == "log":
-                    icm.ANN_write("{each}".format(each=bpoSi_runBaseObtain_log(bpoId, si)))
+                    icm.ANN_write("{each}".format(each=palsSis.bpoSi_runBaseObtain_log(bpoId, si)))
                 else:
                     icm.EH_problem_usageError("")
 

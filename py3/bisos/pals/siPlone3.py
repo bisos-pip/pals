@@ -198,8 +198,14 @@ class examples(icm.Cmnd):
         def menuItem(verbosity, **kwArgs): icm.ex_gCmndMenuItem(cmndName, cps, cmndArgs, verbosity=verbosity, **kwArgs)
         # def execLineEx(cmndStr): icm.ex_gExecMenuItem(execLine=cmndStr)
 
-        oneBpo = "pmi_ByD-100001"
+        # oneBpo = "pmi_ByD-100001"
+        oneBpo = "pmi_ByN-100001"
         oneSiRelPath = "plone3/main"
+        bpoBaseDir = os.path.expanduser(f"~{oneBpo}")
+        if bpoBaseDir == format(f"~{oneBpo}"):
+            icm.EH_problem_usageError(f"bpoId={oneBpo} is not a valid account")
+            return
+
 
         if bpoId: oneBpo = bpoId
         if si: oneSiRelPath = si

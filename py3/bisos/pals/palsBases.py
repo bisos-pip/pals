@@ -229,7 +229,8 @@ class PalsBases(object):
         actualBasePath.mkdir(parents=True, exist_ok=True)
         bpoBasePath  = self.controlBasePath_obtain()
 
-        return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
+        if not os.path.isdir(bpoBasePath):
+            return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
 ####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_obtain" :deco "default"
