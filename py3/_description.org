@@ -1,6 +1,4 @@
 #+title: bisos.bals: Possession Assertible Libre Services
-#+DATE: <2024-02-19 Mon 16:27>
-#+AUTHOR: Mohsen BANAN
 
 * Overview
 *bisos.pals (*Possession Assertible Libre Services*) is a python package which is
