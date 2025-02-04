@@ -52,7 +52,7 @@ def pkgVersion():
 # b:py3:pypi:setup/requires :extras ; :requirements "requirements.txt" (bring here requirements.txt)
 ####+BEGIN: b:py3:pypi:setup/requires :extras ()
 
-requires = [ 
+requires = [
 "blee",
 "blee.icmPlayer",
 "bisos",
