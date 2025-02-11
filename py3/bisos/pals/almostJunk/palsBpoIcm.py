@@ -112,7 +112,7 @@ G = icm.IcmGlobalContext()
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
 
-from blee.icmPlayer import bleep
+from bisos.csPlayer import bleep
 ####+END:
 
 from bisos.platform import bxPlatformConfig
@@ -121,7 +121,7 @@ from bisos.platform import bxPlatformConfig
 from bisos.bpo import bpo
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
-    'blee.icmPlayer.bleep',
+    'bisos.csPlayer.bleep',
     'bisos.bpo.bpo',
 ]
 
@@ -195,7 +195,7 @@ class examples(icm.Cmnd):
 
         icm.G_commonBriefExamples()
 
-        bleep.examples_icmBasic()
+        bleep.examples_csBasic()
 
         oneBpo = "pmi_ByD-100001"
 

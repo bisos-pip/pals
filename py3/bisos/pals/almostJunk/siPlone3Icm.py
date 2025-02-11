@@ -106,7 +106,7 @@ G = icm.IcmGlobalContext()
 # G.icmLibsAppend = __file__
 # G.icmCmndsLibsAppend = __file__
 
-from blee.icmPlayer import bleep
+from bisos.csPlayer import bleep
 ####+END:
 
 from bisos.bpo import bpo
@@ -114,7 +114,7 @@ from bisos.pals import palsBpo
 from bisos.pals import palsSis
 
 g_importedCmndsModules = [       # Enumerate modules from which CMNDs become invokable
-    'blee.icmPlayer.bleep',
+    'bisos.csPlayer.bleep',
 ]
 
 
@@ -209,7 +209,7 @@ class examples(icm.Cmnd):
 
         icm.G_commonBriefExamples()
 
-        bleep.examples_icmBasic()
+        bleep.examples_csBasic()
 
         icm.cmndExampleMenuChapter('*Full Actions*')
 
