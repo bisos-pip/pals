@@ -5,7 +5,7 @@
 
 import typing
 
-icmInfo: typing.Dict[str, typing.Any] = { 'moduleDescription': ["""
+csInfo: typing.Dict[str, typing.Any] = { 'moduleDescription': ["""
 *       [[elisp:(org-show-subtree)][|=]]  [[elisp:(org-cycle)][| *Description:* | ]]
 **  [[elisp:(org-cycle)][| ]]  [Xref]          :: *[Related/Xrefs:]*  <<Xref-Here->>  -- External Documents  [[elisp:(org-cycle)][| ]]
 
@@ -14,14 +14,14 @@ icmInfo: typing.Dict[str, typing.Any] = { 'moduleDescription': ["""
 **      [End-Of-Description]
 """], }
 
-icmInfo['moduleUsage'] = """
+csInfo['moduleUsage'] = """
 *       [[elisp:(org-show-subtree)][|=]]  [[elisp:(org-cycle)][| *Usage:* | ]]
 
 **      How-Tos:
 **      [End-Of-Usage]
 """
 
-icmInfo['moduleStatus'] = """
+csInfo['moduleStatus'] = """
 *       [[elisp:(org-show-subtree)][|=]]  [[elisp:(org-cycle)][| *Status:* | ]]
 **  [[elisp:(org-cycle)][| ]]  [Info]          :: *[Current-Info:]* Status/Maintenance -- General TODO List [[elisp:(org-cycle)][| ]]
 ** TODO [[elisp:(org-cycle)][| ]]  Current     :: For now it is an ICM. Turn it into ICM-Lib. [[elisp:(org-cycle)][| ]]
@@ -31,50 +31,50 @@ icmInfo['moduleStatus'] = """
 """
 *  [[elisp:(org-cycle)][| *ICM-INFO:* |]] :: Author, Copyleft and Version Information
 """
-####+BEGIN: bx:icm:py:name :style "fileName"
-icmInfo['moduleName'] = "palsBases"
+####+BEGIN: bx:cs:py:name :style "fileName"
+csInfo['moduleName'] = "palsBases"
 ####+END:
 
-####+BEGIN: bx:icm:py:version-timestamp :style "date"
-icmInfo['version'] = "202112254432"
+####+BEGIN: bx:cs:py:version-timestamp :style "date"
+csInfo['version'] = "202502111206"
 ####+END:
 
-####+BEGIN: bx:icm:py:status :status "Production"
-icmInfo['status']  = "Production"
+####+BEGIN: bx:cs:py:status :status "Production"
+csInfo['status']  = "Production"
 ####+END:
 
-icmInfo['credits'] = ""
+csInfo['credits'] = ""
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/icmInfo-mbNedaGplByStar.py"
-icmInfo['authors'] = "[[http://mohsen.1.banan.byname.net][Mohsen Banan]]"
-icmInfo['copyright'] = "Copyright 2017, [[http://www.neda.com][Neda Communications, Inc.]]"
-icmInfo['licenses'] = "[[https://www.gnu.org/licenses/agpl-3.0.en.html][Affero GPL]]", "Libre-Halaal Services License", "Neda Commercial License"
-icmInfo['maintainers'] = "[[http://mohsen.1.banan.byname.net][Mohsen Banan]]"
-icmInfo['contacts'] = "[[http://mohsen.1.banan.byname.net/contact]]"
-icmInfo['partOf'] = "[[http://www.by-star.net][Libre-Halaal ByStar Digital Ecosystem]]"
+####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/csInfo-mbNedaGplByStar.py"
+csInfo['authors'] = "[[http://mohsen.1.banan.byname.net][Mohsen Banan]]"
+csInfo['copyright'] = "Copyright 2017, [[http://www.neda.com][Neda Communications, Inc.]]"
+csInfo['licenses'] = "[[https://www.gnu.org/licenses/agpl-3.0.en.html][Affero GPL]]", "Libre-Halaal Services License", "Neda Commercial License"
+csInfo['maintainers'] = "[[http://mohsen.1.banan.byname.net][Mohsen Banan]]"
+csInfo['contacts'] = "[[http://mohsen.1.banan.byname.net/contact]]"
+csInfo['partOf'] = "[[http://www.by-star.net][Libre-Halaal ByStar Digital Ecosystem]]"
 ####+END:
 
-icmInfo['panel'] = "{}-Panel.org".format(icmInfo['moduleName'])
-icmInfo['groupingType'] = "IcmGroupingType-pkged"
-icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
+csInfo['panel'] = "{}-Panel.org".format(csInfo['moduleName'])
+csInfo['groupingType'] = "IcmGroupingType-pkged"
+csInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 
 
-####+BEGIN: bx:icm:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
-"""
-*  This file:/bisos/git/auth/bxRepos/bisos-pip/pals/py3/bisos/pals/palsBases.py :: [[elisp:(org-cycle)][| ]]
+####+BEGIN: bx:cs:python:top-of-file :partof "bystar" :copyleft "halaal+minimal"
+""" #+begin_org
+*  This file:/bisos/git/bxRepos/bisos-pip/pals/py3/bisos/pals/palsBases.py :: [[elisp:(org-cycle)][| ]]
  is part of The Libre-Halaal ByStar Digital Ecosystem. http://www.by-star.net
  *CopyLeft*  This Software is a Libre-Halaal Poly-Existential. See http://www.freeprotocols.org
  A Python Interactively Command Module (PyICM).
  Best Developed With COMEEGA-Emacs And Best Used With Blee-ICM-Players.
  *WARNING*: All edits wityhin Dynamic Blocks may be lost.
-"""
+#+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:topControls :partof "bystar" :copyleft "halaal+minimal"
-"""
+####+BEGIN: bx:cs:python:topControls :partof "bystar" :copyleft "halaal+minimal"
+""" #+begin_org
 *  [[elisp:(org-cycle)][|/Controls/| ]] :: [[elisp:(org-show-subtree)][|=]]  [[elisp:(show-all)][Show-All]]  [[elisp:(org-shifttab)][Overview]]  [[elisp:(progn (org-shifttab) (org-content))][Content]] | [[file:Panel.org][Panel]] | [[elisp:(blee:ppmm:org-mode-toggle)][Nat]] | [[elisp:(bx:org:run-me)][Run]] | [[elisp:(bx:org:run-me-eml)][RunEml]] | [[elisp:(delete-other-windows)][(1)]] | [[elisp:(progn (save-buffer) (kill-buffer))][S&Q]]  [[elisp:(save-buffer)][Save]]  [[elisp:(kill-buffer)][Quit]] [[elisp:(org-cycle)][| ]]
 ** /Version Control/ ::  [[elisp:(call-interactively (quote cvs-update))][cvs-update]]  [[elisp:(vc-update)][vc-update]] | [[elisp:(bx:org:agenda:this-file-otherWin)][Agenda-List]]  [[elisp:(bx:org:todo:this-file-otherWin)][ToDo-List]]
-"""
+#+end_org """
 ####+END:
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/pyWorkBench.org"
 """
@@ -82,12 +82,23 @@ icmInfo['cmndParts'] = "IcmCmndParts[common] IcmCmndParts[param]"
 """
 ####+END:
 
-####+BEGIN: bx:icm:python:icmItem :itemType "=Imports=" :itemTitle "*IMPORTS*"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =Imports=  :: *IMPORTS*  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:python:icmItem :itemType "=Imports=" :itemTitle "*IMPORTS*"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =Imports=  [[elisp:(outline-show-subtree+toggle)][||]] *IMPORTS*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
+####+BEGINNOT: b:py3:cs:framework/imports :basedOn "classification"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] *Imports* =Based on Classification=cs-u=
+#+end_org """
+from bisos import b
+from bisos.b import cs
+from bisos.b import b_io
+from bisos.common import csParam
+
+import collections
+####+END:
 
 import os
 # import pwd
@@ -100,16 +111,6 @@ import os
 
 import pathlib
 
-####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/update/sw/icm/py/importUcfIcmG.py"
-from unisos import ucf
-from unisos import icm
-
-icm.unusedSuppressForEval(ucf.__file__)  # in case icm and ucf are not used
-
-G = icm.IcmGlobalContext()
-# G.icmLibsAppend = __file__
-# G.icmCmndsLibsAppend = __file__
-####+END:
 
 # from bisos.platform import bxPlatformConfig
 # from bisos.platform import bxPlatformThis
@@ -119,29 +120,29 @@ G = icm.IcmGlobalContext()
 from bisos.bpo import bpo
 from bisos.pals import palsBpo
 from bisos.pals import palsSis
-from bisos.icm import fpath
+# from bisos.icm import fpath
 
-####+BEGIN: bx:icm:py3:section :title "Pals Bases Classes"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *Pals Bases Classes*  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:section :title "Pals Bases Classes"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Pals Bases Classes*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
 
-####+BEGIN: bx:dblock:python:class :className "PalsBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsBases/ object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: b:py3:class/decl :className "PalsBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /PalsBases/  superClass=object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class PalsBases(object):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
 """
-####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "__init__" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /__init__/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
 ####+END:
             self,
@@ -151,11 +152,11 @@ class PalsBases(object):
         self.bpoId = bpoId
         self.palsBpo = palsBpo
 
-####+BEGIN: bx:icm:py3:method :methodName "basesUpdate" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /basesUpdate/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "basesUpdate" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /basesUpdate/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def basesUpdate(
 ####+END:
             self,
@@ -168,11 +169,11 @@ class PalsBases(object):
         return
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_update(
 ####+END:
             self,
@@ -191,11 +192,11 @@ class PalsBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_obtain(
 ####+END:
             self,
@@ -209,11 +210,11 @@ class PalsBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_update(
 ####+END:
             self,
@@ -233,11 +234,11 @@ class PalsBases(object):
             return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_obtain(
 ####+END:
             self,
@@ -251,11 +252,11 @@ class PalsBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_update(
 ####+END:
            self,
@@ -274,11 +275,11 @@ class PalsBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_obtain(
 ####+END:
             self,
@@ -292,11 +293,11 @@ class PalsBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_update(
 ####+END:
           self,
@@ -312,11 +313,11 @@ class PalsBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_obtain(
 ####+END:
             self,
@@ -330,11 +331,11 @@ class PalsBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_update(
 ####+END:
           self,
@@ -352,11 +353,11 @@ class PalsBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_obtain(
 ####+END:
             self,
@@ -370,20 +371,20 @@ class PalsBases(object):
         )
 
 
-####+BEGIN: bx:dblock:python:class :className "PalsSivdBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsSivdBases/ object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: b:py3:class/decl :className "PalsSivdBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /PalsSivdBases/  superClass=object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class PalsSivdBases(object):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
 """
-####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "__init__" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /__init__/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
 ####+END:
             self,
@@ -396,11 +397,11 @@ class PalsSivdBases(object):
         self.sivdId = sivdId
         self.palsBases = PalsBases(bpoId, palsBpo)
 
-####+BEGIN: bx:icm:py3:method :methodName "basesUpdate" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /basesUpdate/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "basesUpdate" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /basesUpdate/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def basesUpdate(
 ####+END:
             self,
@@ -413,11 +414,11 @@ class PalsSivdBases(object):
         return
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_update(
 ####+END:
             self,
@@ -437,11 +438,11 @@ class PalsSivdBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_obtain(
 ####+END:
             self,
@@ -459,11 +460,11 @@ class PalsSivdBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_update(
 ####+END:
             self,
@@ -483,11 +484,11 @@ class PalsSivdBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_obtain(
 ####+END:
             self,
@@ -505,11 +506,11 @@ class PalsSivdBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_update(
 ####+END:
            self,
@@ -529,11 +530,11 @@ class PalsSivdBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_obtain(
 ####+END:
             self,
@@ -551,11 +552,11 @@ class PalsSivdBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_update(
 ####+END:
           self,
@@ -571,11 +572,11 @@ class PalsSivdBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_obtain(
 ####+END:
             self,
@@ -593,11 +594,11 @@ class PalsSivdBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_update(
 ####+END:
           self,
@@ -616,11 +617,11 @@ class PalsSivdBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_obtain(
 ####+END:
             self,
@@ -639,20 +640,20 @@ class PalsSivdBases(object):
 
 
 
-####+BEGIN: bx:dblock:python:class :className "PalsSiBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Class-basic :: /PalsSiBases/ object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: b:py3:class/decl :className "PalsSiBases" :superClass "object" :comment "Bases of a palsBpo" :classType "basic"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /PalsSiBases/  superClass=object =Bases of a palsBpo=  [[elisp:(org-cycle)][| ]]
+#+end_org """
 class PalsSiBases(object):
 ####+END:
     """
 ** Abstraction of the base ByStar Portable Object
 """
-####+BEGIN: bx:icm:py3:method :methodName "__init__" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /__init__/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "__init__" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /__init__/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def __init__(
 ####+END:
             self,
@@ -665,11 +666,11 @@ class PalsSiBases(object):
         self.siId = siId
         self.palsBases = PalsBases(bpoId, palsBpo)
 
-####+BEGIN: bx:icm:py3:method :methodName "basesUpdate" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /basesUpdate/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "basesUpdate" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /basesUpdate/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def basesUpdate(
 ####+END:
             self,
@@ -682,11 +683,11 @@ class PalsSiBases(object):
         return
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_update(
 ####+END:
             self,
@@ -706,11 +707,11 @@ class PalsSiBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "varBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /varBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "varBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /varBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def varBasePath_obtain(
 ####+END:
             self,
@@ -728,11 +729,11 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_update(
 ####+END:
             self,
@@ -752,11 +753,11 @@ class PalsSiBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "controlBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /controlBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "controlBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /controlBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def controlBasePath_obtain(
 ####+END:
             self,
@@ -774,11 +775,11 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_update(
 ####+END:
            self,
@@ -798,11 +799,11 @@ class PalsSiBases(object):
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
 
-####+BEGIN: bx:icm:py3:method :methodName "logBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /logBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "logBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /logBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def logBasePath_obtain(
 ####+END:
             self,
@@ -820,11 +821,11 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_update(
 ####+END:
           self,
@@ -840,11 +841,11 @@ class PalsSiBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "tmpBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /tmpBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "tmpBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /tmpBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def tmpBasePath_obtain(
 ####+END:
             self,
@@ -862,11 +863,11 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_update" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_update/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_update" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_update/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_update(
 ####+END:
           self,
@@ -885,11 +886,11 @@ class PalsSiBases(object):
 
         return fpath.symlinkUpdate(actualBasePath, bpoBasePath)
 
-####+BEGIN: bx:icm:py3:method :methodName "curBasePath_obtain" :deco "default"
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-    :: /curBasePath_obtain/ deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+####+BEGIN: b:py3:cs:method/typing :methodName "curBasePath_obtain" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-     [[elisp:(outline-show-subtree+toggle)][||]] /curBasePath_obtain/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def curBasePath_obtain(
 ####+END:
             self,
@@ -907,47 +908,38 @@ class PalsSiBases(object):
         )
 
 
-####+BEGIN: bx:icm:py3:section :title "ICM Commands"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *ICM Commands*  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:section :title "ICM Commands"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *ICM Commands*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "basesUpdate" :parsMand "bpoId" :parsOpt "" :argsMin "0" :argsMax "5" :asFunc "" :interactiveP ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /basesUpdate/ parsMand=bpoId parsOpt= argsMin=0 argsMax=5 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class basesUpdate(icm.Cmnd):
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "basesUpdate" :parsMand "bpoId" :parsOpt "" :argsMin 0 :argsMax 5 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<basesUpdate>>  =verify= parsMand=bpoId argsMax=5 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class basesUpdate(cs.Cmnd):
     cmndParamsMandatory = [ 'bpoId', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 5,}
 
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        bpoId=None,         # or Cmnd-Input
-        argsList=[],         # or Args-Input
-    ) -> icm.OpOutcome:
-        cmndOutcome = self.getOpOutcome()
-        if not self.obtainDocStr:
-            if interactive:
-                if not self.cmndLineValidate(outcome=cmndOutcome):
-                    return cmndOutcome
-                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-            else:
-                effectiveArgsList = argsList
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             bpoId: typing.Optional[str]=None,  # Cs Mandatory Param
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
 
-            callParamsDict = {'bpoId': bpoId, }
-            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-                return cmndOutcome
-            bpoId = callParamsDict['bpoId']
-
-            cmndArgsSpecDict = self.cmndArgsSpec()
-            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-                return cmndOutcome
+        failed = b_io.eh.badOutcome
+        callParamsDict = {'bpoId': bpoId, }
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        bpoId = csParam.mappedValue('bpoId', bpoId)
 ####+END:
 
-        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
+        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, argsList)) # type: ignore
 
         if len(cmndArgs):
             if  cmndArgs[0] == "all":
@@ -964,23 +956,23 @@ class basesUpdate(icm.Cmnd):
                 palsBpoBase = baseUpdateMethod()
                 print(palsBpoBase)
             except AttributeError:
-                icm.EH_critical_exception("")
+                b_io.eh.critical_exception("")
                 continue
 
         return cmndOutcome
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
 ####+END:
         """
 ***** Cmnd Args Specification
 """
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
 
         cmndArgsSpecDict.argsDictAdd(
             argPosition="0&5",
@@ -993,55 +985,35 @@ class basesUpdate(icm.Cmnd):
         return cmndArgsSpecDict
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns the full path of the Sr baseDir.
-"""
 
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "basesUpdateSivd" :parsMand "bpoId sivd" :parsOpt "" :argsMin "0" :argsMax "5" :asFunc "" :interactiveP ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /basesUpdateSivd/ parsMand=bpoId sivd parsOpt= argsMin=0 argsMax=5 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class basesUpdateSivd(icm.Cmnd):
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "basesUpdateSivd" :parsMand "bpoId sivd" :parsOpt "" :argsMin 0 :argsMax 5 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<basesUpdateSivd>>  =verify= parsMand=bpoId sivd argsMax=5 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class basesUpdateSivd(cs.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'sivd', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 5,}
 
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        bpoId=None,         # or Cmnd-Input
-        sivd=None,         # or Cmnd-Input
-        argsList=[],         # or Args-Input
-    ) -> icm.OpOutcome:
-        cmndOutcome = self.getOpOutcome()
-        if not self.obtainDocStr:
-            if interactive:
-                if not self.cmndLineValidate(outcome=cmndOutcome):
-                    return cmndOutcome
-                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-            else:
-                effectiveArgsList = argsList
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             bpoId: typing.Optional[str]=None,  # Cs Mandatory Param
+             sivd: typing.Optional[str]=None,  # Cs Mandatory Param
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
 
-            callParamsDict = {'bpoId': bpoId, 'sivd': sivd, }
-            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-                return cmndOutcome
-            bpoId = callParamsDict['bpoId']
-            sivd = callParamsDict['sivd']
-
-            cmndArgsSpecDict = self.cmndArgsSpec()
-            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-                return cmndOutcome
+        failed = b_io.eh.badOutcome
+        callParamsDict = {'bpoId': bpoId, 'sivd': sivd, }
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        bpoId = csParam.mappedValue('bpoId', bpoId)
+        sivd = csParam.mappedValue('sivd', sivd)
 ####+END:
 
-        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
+        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, argsList)) # type: ignore
 
         if len(cmndArgs):
             if  cmndArgs[0] == "all":
@@ -1060,23 +1032,23 @@ class basesUpdateSivd(icm.Cmnd):
                 palsBpoBase = baseUpdateMethod()
                 print(palsBpoBase)
             except AttributeError:
-                icm.EH_critical_exception("")
+                b_io.eh.critical_exception("")
                 continue
 
         return cmndOutcome
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
 ####+END:
         """
 ***** Cmnd Args Specification
 """
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
 
         cmndArgsSpecDict.argsDictAdd(
             argPosition="0&5",
@@ -1089,55 +1061,34 @@ class basesUpdateSivd(icm.Cmnd):
         return cmndArgsSpecDict
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:
-        return """
-***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns the full path of the Sr baseDir.
-"""
-
-
-####+BEGIN: bx:icm:python:cmnd:classHead :cmndName "basesUpdateSi" :parsMand "bpoId si" :parsOpt "" :argsMin "0" :argsMax "5" :asFunc "" :interactiveP ""
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  ICM-Cmnd   :: /basesUpdateSi/ parsMand=bpoId si parsOpt= argsMin=0 argsMax=5 asFunc= interactive=  [[elisp:(org-cycle)][| ]]
-"""
-class basesUpdateSi(icm.Cmnd):
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "basesUpdateSi" :parsMand "bpoId si" :parsOpt "" :argsMin 0 :argsMax 5 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<basesUpdateSi>>  =verify= parsMand=bpoId si argsMax=5 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class basesUpdateSi(cs.Cmnd):
     cmndParamsMandatory = [ 'bpoId', 'si', ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 5,}
 
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
-        interactive=False,        # Can also be called non-interactively
-        bpoId=None,         # or Cmnd-Input
-        si=None,         # or Cmnd-Input
-        argsList=[],         # or Args-Input
-    ) -> icm.OpOutcome:
-        cmndOutcome = self.getOpOutcome()
-        if not self.obtainDocStr:
-            if interactive:
-                if not self.cmndLineValidate(outcome=cmndOutcome):
-                    return cmndOutcome
-                effectiveArgsList = G.icmRunArgsGet().cmndArgs  # type: ignore
-            else:
-                effectiveArgsList = argsList
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             bpoId: typing.Optional[str]=None,  # Cs Mandatory Param
+             si: typing.Optional[str]=None,  # Cs Mandatory Param
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
 
-            callParamsDict = {'bpoId': bpoId, 'si': si, }
-            if not icm.cmndCallParamsValidate(callParamsDict, interactive, outcome=cmndOutcome):
-                return cmndOutcome
-            bpoId = callParamsDict['bpoId']
-            si = callParamsDict['si']
-
-            cmndArgsSpecDict = self.cmndArgsSpec()
-            if not self.cmndArgsValidate(effectiveArgsList, cmndArgsSpecDict, outcome=cmndOutcome):
-                return cmndOutcome
+        failed = b_io.eh.badOutcome
+        callParamsDict = {'bpoId': bpoId, 'si': si, }
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        bpoId = csParam.mappedValue('bpoId', bpoId)
+        si = csParam.mappedValue('si', si)
 ####+END:
 
-        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, effectiveArgsList)) # type: ignore
+        cmndArgs = list(self.cmndArgsGet("0&5", cmndArgsSpecDict, argsList)) # type: ignore
 
         if len(cmndArgs):
             if  cmndArgs[0] == "all":
@@ -1156,23 +1107,23 @@ class basesUpdateSi(icm.Cmnd):
                 palsBpoBase = baseUpdateMethod()
                 print(palsBpoBase)
             except AttributeError:
-                icm.EH_critical_exception("")
+                b_io.eh.critical_exception("")
                 continue
 
         return cmndOutcome
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndArgsSpec/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
-"""
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndArgsSpec(self):
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
 ####+END:
         """
 ***** Cmnd Args Specification
 """
-        cmndArgsSpecDict = icm.CmndArgsSpecDict()
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
 
         cmndArgsSpecDict.argsDictAdd(
             argPosition="0&5",
@@ -1185,22 +1136,15 @@ class basesUpdateSi(icm.Cmnd):
         return cmndArgsSpecDict
 
 
-####+BEGIN: bx:icm:python:method :methodName "cmndDocStr" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList ""
-    """
-**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Method-anyOrNone :: /cmndDocStr/ retType=bool argsList=nil deco=default  [[elisp:(org-cycle)][| ]]
 """
-    @icm.subjectToTracking(fnLoc=True, fnEntry=True, fnExit=True)
-    def cmndDocStr(self):
-####+END:
-        return """
 ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Returns the full path of the Sr baseDir.
 """
 
 
-####+BEGIN: bx:icm:py3:section :title "End Of Editable Text"
-"""
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    :: *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
-"""
+####+BEGIN: bx:cs:py3:section :title "End Of Editable Text"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *End Of Editable Text*  [[elisp:(org-cycle)][| ]]
+#+end_org """
 ####+END:
 
 ####+BEGIN: bx:dblock:global:file-insert-cond :cond "./blee.el" :file "/bisos/apps/defaults/software/plusOrg/dblock/inserts/endOfFileControls.org"
