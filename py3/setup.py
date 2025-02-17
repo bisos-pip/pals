@@ -53,13 +53,14 @@ def pkgVersion():
 ####+BEGIN: b:py3:pypi:setup/requires :extras ()
 
 requires = [
-"blee",
 "bisos",
 "bisos.b",
 "bisos.basics",
 "bisos.bpo",
 "bisos.cntnr",
 "bisos.common",
+"bisos.csPlayer",
+"bisos.currents",
 "bisos.icm",
 "bisos.platform",
 ]
@@ -69,6 +70,12 @@ requires = [
 ####+BEGIN: b:py3:pypi:setup/scripts :comment ""
 
 scripts = [
+'bin/palsBaseLiveTargets.cs',
+'bin/palsBpoManage.cs',
+'bin/palsRepoLiveParams.cs',
+'bin/palsRepoProfile.cs',
+'bin/palsSiGeneweb.cs',
+'bin/palsSivdApache2.cs',
 ]
 ####+END:
 
