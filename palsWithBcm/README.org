@@ -1,0 +1,181 @@
+#title: PALS With BCMs
+
+This document is both for humans and for AI (Claude).
+
+In Claude's context it is imported after Model and Terminology and other specific
+AI-Activities. This is the bigger picture of how various BISOS AI-Activities fit together.
+
+It also has its own WorkPlan, that in most cases maps to bisos packages AI-WorkPlans.
+
+* History of Evolution of ByStar Libre-Halaal Services
+
+** 2000 to 2010 -- ByStar-1G: Minimally Functional byname.net and bySmb.com
+
+<<ByStar-1G>>
+
+*** Implemented Features
+
+- Virtual domains through apache and qmail for first.last.byname.net
+- Automated domain updates through tinydns
+- Use of Plone 3 as a per user CMS -- Lcnt facilities integrated with Plone
+- Gnus access to qmail over imap
+- Rudimentary factory for creation of new first.last.byname.net from start to end
+- Implemented on bare-metal (physiac) --  No VMs
+- Pure Bash (ICM) implementation -- No or very little python
+- CVS based -- not Git based
+- 1G-Blee -- Adhoc configuration
+
+*** Missing Features
+
+- No VMs or Containers
+- No (or minimal) TLS and https
+- No automated certificates generation and user
+- No remote operations
+- No Registrars
+
+*** Code Base
+
+- /opt/public/osmt
+- mohsen.1.banan.byname.net
+  
+
+** 2010 to 2025 and to present -- ByStar-2G: Raw-BISOS and BISOS Infrastructure + Frozen ByStar-1G
+
+The scope of ByStar-2G is implemenation of RawBisos and Collective BCMs.
+The services are anchored as ".here" domains.
+They can be materialized by anyone with no registration capabilities,
+everything run on a single bisos-platform (physical, VM, priviledged docker/podman container).
+
+*** ByStar-2G Implemented Features:
+
+- Full conversion to public github with github organization
+- Automated public push of github bisos-pip packages to PyPi
+- Creation of site gitlab for BPOs
+- 2G-Blee based on Doom
+- raw-bisos
+- CBMs
+
+*** ByStar-2G Missing Features:
+
+<<ByStar-2G Raw-Bisos Missing Features>>
+
+- Integration of PALS into Raw-Bisos
+- availability of first.last.byname.here
+
+
+** 2026 to Present -- ByStar-3G: Live and Possession-Assertible Services
+
+Scope ByStar-3G is three fold:
+
+1) <<rawByName>>     Implement [[ByStar-2G Raw-Bisos Missing Feature]]
+2) <<sitedByName>>   Implement Autonomy-Asserted Sited first.last.byname.net (Self-Hosted)
+2) <<federtaedByName>>  Implement a Public Factory at ByName.com for a Self-Service first.last.byname.com service
+
+
+
+* ByStar-3G Features
+
+Here we focus as byname as a primary example. Same applies to bySmb, byAlias, byAuthor
+
+- Self-Service ByName.net Factory -- Creating [[first.last.byname.net Features]]
+- Autonomy Asserion of first.last.byname.net -- Self Re-Creation of Services -- Transfer of DNS at Registrar
+
+** first.last.byname.net Features
+
+<<first.last.byname.net Features>>
+
+*** first.last.byname.net Web Features
+
+- Static CMS based on gatsby/react/gnome
+-
+
+*** first.last.byname.net Mail Features
+- smtp.first.last.byname.net
+  - qmail
+    
+- imap.first.last.byname.net
+  - dovcot
+
+** 3G-Blee Features
+- Start at Emacs-31 and make it independent of Doom but maintain all doom features.
+
+* Overview of BXOs, BPOs, CBMs and PALS
+
+- BXOs Can be BPOs or BROs -- raw-bisos only uses BROs
+- BPOs are gitlab organizations that containe multiple repos.
+  BPOs of the following type are of relevance to us:
+  - Site BPOs -- Abstraction of BISOS-Sites (typically symlinked at /bisos/site)
+  - Platform BPOs  -- Abstraction of BISOS-Platforms (typical linked at /bisos/sys)
+  - Usage BPOs -- Abstraction of Usage Environments
+  - PALS BPOs -- Abstraction of PALS (not implemented yet)
+- CBMs allow for manipulation of Capabiliy Bundles similar to how debian apt works but at full capability level
+- PALSs are collections of CBMs with their data anchored at domains.
+  PALS can be transfered from on BISOS-Platform to another
+
+* ByStar-3G Implementaion Plan
+
+** Stage 1: Certificates and TLS and https:
+
+*** TODO [#A] <<1.1>> What additional bisos.xxx packages are needed
+SCHEDULED: <2026-10-10 Sat>
+How are certificates to be created, etc.
+---- Results: -----
+- DECIDED (Mohsen, 2026-10-10): no bisos.certificates package. Certificates are organized
+  along three axes, each in an existing package:
+  - *Mechanism* (keys, CSRs, CA signing, ACME; X.509 beside the existing OpenPGP/symmetric
+    facilities) -> *bisos.crypt*. bisos.debian only for Debian integration: the system trust
+    store (update-ca-certificates), Debian's certbot package and its renewal timer.
+  - *Authority* (who vouches) -> the owning BXO. Platform CA (for .here) -> *bisos.platform*.
+    Site CA (.intra) and PALS public names (ACME) -> their own packages, later.
+  - *Consumption* (which capability uses which certificate) -> a cert aspect in
+    *bisos.dnsCap*: a planted *-cert.pcs beside *-here-dns.pcs (names, issuer, key type).
+    A separate certCap stays possible if non-DNS uses (Kafka TLS listeners, client certs) grow.
+- Principle: names and policy are data carried by the owning BXO; keys and certificates are
+  materialized on the platform that uses them. Only a CA key travels, encrypted in its BPO's vault.
+- Custody: bisos.crypt's bpoVault (KeePass .kdbx per BPO, <bpoBaseDir>/vault/) is the
+  intended home of CA private keys. Its state (2026-10-10): open/read/update/list work;
+  create depends on the passhole `ph` CLI (not installed on the dev host); close/delete are
+  stubs; the GPG-protected unlock (bpo/ramz/vaults-bisos.gpg, per the bisos.crypt panel) is
+  NOT implemented --- passwords are passed on the command line; vaultEntryUpdate prints the
+  secret (debug "KKK" line); bisos.bpo's bpoFpsCls passes the literal 'prompt' as password.
+  These must be fixed before any CA key goes in.
+- Umbrella description written: bisos.crypt README.org, "BISOS Certificates --- Umbrella Design".
+  Vault fixes: bisos.crypt AI-WorkPlan.org Stage 1; X.509 primitives: Stage 2.
+
+
+*** TODO [#A] <<1.2>> What DNS server should I use to support the automated DNS updates that are required?
+SCHEDULED: <2026-10-10 Sat>
+----- Results: --------
+- DECIDED (Mohsen, 2026-10-10): BISOS uses *Knot DNS* as its authoritative server.
+  Its -sbom.pcs and everything else Knot-related live in *bisos.dnsCap*.
+- Why Knot: CZ.NIC (the .cz registry, non-profit), written from scratch for TLD operators,
+  first public release Nov 2011, GPLv3, authoritative-only (like tinydns; the resolver is a
+  separate project, like dnscache). Debian 13: knot 3.4.6, knot-dnsutils, python3-libknot.
+  Rejected: BIND (imperative config, rndc, .jnl journals fighting generated files --- the
+  opposite of the djbdns model); tinydns (no DNSSEC, no upstream since 2001); NSD (the purest
+  tinydns analogue, but DNSSEC only via hand-built batch signing and key rollover);
+  PowerDNS (database/API-centric).
+- Knot is run *tinydns-style*: BISOS data is the single source; dnsCap generates plain zone
+  files; kzonecheck validates (like tinydns-data); knotc zone-reload publishes atomically.
+  knot.conf: zonefile-load: whole, journal-content: none, zonefile-sync: -1 --- the server
+  holds no state of its own and never writes back. Optional extras when needed: knotc
+  zone-begin/zone-set/zone-commit transactions, RFC 2136 with per-key ACLs, in-server
+  DNSSEC with automatic key rollover (then journal-content: changes), catalog zones for
+  the byname.com factory.
+- Local top-level domains (.here, .intra, ...): Knot serves any configured zone; the
+  resolver must stub those names to Knot.
+- Resolver (DECIDED, Mohsen 2026-10-10): *Unbound*, as the platform's local resolver ---
+  privacy (no ISP resolver log) and DNSSEC validation; .intra stubbed to Knot; .here stays in
+  /etc/hosts (loopback names are per-platform). Built in bisos.dnsCap, tested on another machine.
+  Originally recommended as: *Unbound* (NLnet Labs, Debian 1.22,
+  declarative unbound.conf a batch tool can generate). Knot Resolver is the natural CZ.NIC
+  pair, but Debian 13 only has 5.7 (Lua config); upstream 6.x (YAML + manager) is not in
+  Debian. Revisit when it is. Gotchas for local TLDs with Unbound: domain-insecure: "here."
+  (the signed root proves "here" does not exist, so validation would reject it), and
+  do-not-query-localhost: no (to stub to a 127.x Knot).
+- ACME DNS-01 fits the batch model: certbot auth/cleanup hooks add/remove the
+  _acme-challenge TXT in BISOS DNS data, regenerate, zone-reload. HTTP-01 needs no DNS
+  automation at all, so 1.2 blocks only wildcards and the federated factory.
+- Implementation started in bisos.dnsCap (see its AI-WorkPlan.org).
+
+
