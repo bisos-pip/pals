@@ -179,3 +179,49 @@ SCHEDULED: <2026-10-10 Sat>
 - Implementation started in bisos.dnsCap (see its AI-WorkPlan.org).
 
 
+
+
+*** TODO [#B] <<1.3>> Public Suffix List entries for the By* domains; ACME rate-limit planning
+SCHEDULED: <2026-10-11 Sun>
+byname.net / byname.com (and bySmb, byAlias, byAuthor) host independent users' sites, like
+github.io. Without PSL entries, browsers let a.byname.com set cookies for all of byname.com,
+and Let's Encrypt's per-registered-domain limit (about 50 new certificates a week) caps the
+federated factory. PSL changes take months to reach browsers: submit early.
+---- Results: -----
+
+*** TODO [#A] <<1.4>> Platform CA (rawByName, .here) in bisos.platform --- first in order
+SCHEDULED: <2026-10-11 Sun>
+Generated when a platform is materialized; its root key never leaves the platform (a new
+platform makes a new CA). Installs its root into the system store (bisos.debian:
+update-ca-certificates) and Firefox's. Uses the X.509 primitives of bisos.crypt (its
+AI-WorkPlan.org Stage 2). Then: certCap-style *-cert.pcs in bisos.dnsCap and the TLS
+template in bisos.webCap, making every .here service HTTPS.
+Also unblocks a local DNS-over-HTTPS endpoint on Unbound, so Firefox keeps ECH.
+---- Results: -----
+
+*** TODO [#B] <<1.5>> Key custody and PALS transfer: what moves, what is re-materialized
+SCHEDULED: <2026-10-11 Sun>
+Principle (1.1): names and policy travel in the owning BXO; keys and certificates are
+materialized where used; only CA keys travel, encrypted in bpoVault. Write the move sequence
+between abodes (DNS change -> new platform issues -> old certificates expire). Depends on
+bisos.crypt AI-WorkPlan.org Stage 1 (bpoVault unlock model).
+---- Results: -----
+
+*** TODO [#B] <<1.6>> DNSSEC with Knot; DS publication at the registrar on transfer
+SCHEDULED: <2026-10-11 Sun>
+Knot's in-server signing and automatic key rollover (then journal-content: changes).
+Prerequisite for DANE (1.7).
+---- Results: -----
+
+*** TODO [#B] <<1.7>> Mail TLS: dovecot, qmail STARTTLS, then MTA-STS / DANE
+SCHEDULED: <2026-10-11 Sun>
+Dovecot does TLS natively; qmail needs patches or a wrapper. DANE lets mail servers
+authenticate each other through DNS rather than CAs.
+---- Results: -----
+
+*** TODO [#A] <<1.8>> Authentication in front of hereWeb UIs before anything goes live
+SCHEDULED: <2026-10-11 Sun>
+Kafbat UI has no login (loopback-only today); Airflow's SimpleAuthManager is dev-only.
+Kong was considered and rejected for now (open-core, OSS packages stopped after 3.9, not in
+Debian): nginx + oauth2-proxy, or each app's own auth. HTTPS is not authentication.
+---- Results: -----
