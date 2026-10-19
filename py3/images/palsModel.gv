@@ -1,0 +1,57 @@
+digraph {
+	fontname=Helvetica newrank=true nodesep=0.5 rankdir=TB ranksep=0.5
+	node [fontname=Helvetica fontsize=11]
+	edge [fontname=Helvetica fontsize=9]
+	palsOfSys [label="palsOfSys.cs
+(bisos.pals)" fillcolor=orange shape=rarrow style=filled]
+	walk [label="sysCbmManage.cs -i fullyMaterialize
+(bisos.capability)" fillcolor=salmon shape=rarrow style=filled]
+	sysPals [label="/bisos/platform/sys/pals/
+bro_rawBisosPals/
+path  ·  origin" fillcolor=lightsteelblue shape=folder style=filled]
+	sysPalsOther [label="/bisos/platform/sys/pals/
+<another PALS-BXO>/
+origin only: not activated" color=gray40 fillcolor=lightsteelblue shape=folder style="filled,dashed"]
+	leaf [label="/bisos/platform/sys/cbm/pals/
+bro_rawBisosPals/libreHalaal/
+cbmProc.spcs  ·  .control (gate)  ·  .status" fillcolor=lightsteelblue shape=folder style=filled]
+	subgraph cluster_repo {
+		color=gray40 fontsize=11 label="PALS-BXO repository: bro_rawBisosPals/ (in git)" style=rounded
+		cbmDecl [label="sys/cbm/libreHalaal/
+capabilityType = hereWeb
+cbsSpec = <relative path>
+(written by palsCbmAdd)" fillcolor=mistyrose shape=folder style=filled]
+		cbs [label="bySmb/libreHalaalFoundation/
+web/astro/cbm/pals-cbs.spcs
+(the CBS)" fillcolor=mistyrose shape=note style=filled]
+	}
+	site [label="http://libre-halaal.org.here" fillcolor=thistle shape=ellipse style=filled]
+	{
+		rank=same
+		palsOfSys
+		walk
+	}
+	{
+		rank=same
+		sysPals
+		sysPalsOther
+	}
+	{
+		rank=same
+		cbmDecl
+		leaf
+	}
+	palsOfSys -> sysPals [label="  palsAdd"]
+	palsOfSys -> sysPalsOther [label="  palsActivate
+  (later: clone)" color=gray40 fontcolor=gray40 style=dashed]
+	sysPals -> cbmDecl [label="  path: where it
+  is checked out"]
+	cbmDecl -> leaf [label="palsLeavesPlant
+(keeps gate, status)"]
+	walk -> leaf [label="  walks collective,
+  then pals"]
+	leaf -> cbs [label="  cbsSpec
+  (resolved)"]
+	cbs -> site [label="  assemble: siteBuild,
+  hereDns, webVirtDom"]
+}

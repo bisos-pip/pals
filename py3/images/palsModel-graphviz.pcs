@@ -1,0 +1,133 @@
+#!/usr/bin/env python
+
+####+BEGIN: b:prog:file/particulars :authors ("./inserts/authors-mb.org")
+""" #+begin_org
+* *[[elisp:(org-cycle)][| Particulars |]]* :: Authors, version
+** This File: /bisos/git/bxRepos/bisos-pip/pals/py3/images/palsModel-graphviz.pcs
+** Authors: Mohsen BANAN, http://mohsen.banan.1.byname.net/contact
+#+end_org """
+####+END:
+
+""" #+begin_org
+* Overview and Relevant Pointers
+The PALS--CBM model of bisos.pals, for its README:
+- =palsModel= --- a platform knows its PALS-BXOs (some not activated); each PALS-BXO declares its CBMs;
+  the platform holds generated CBM leaves (gate and status); the CBM walk materializes them.
+Fill = who owns it: the PALS-BXO's repository (declared, the same on every host) or the platform
+(host state). Decided 2026-10-19 (libreHalaalFoundation/web/astro AI-WorkPlan 2.5).
+#+end_org """
+
+from bisos import b
+from bisos.b import cs
+
+import graphviz
+
+from bisos.graphviz import graphvizSeed
+ng = graphvizSeed.namedGraph
+
+####+BEGIN: b:py3:cs:orgItem/basic :type "=Seed Setup= " :title "*Common Facilities*" :comment "General"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =Seed Setup=  [[elisp:(outline-show-subtree+toggle)][||]] *Common Facilities* General  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
+
+namedGraphsList = [
+    # Forward reference: palsModel is defined below this block.
+    ng("palsModel",
+       func=lambda: palsModel(),
+       title="PALS-BXOs and Their CBMs on a Platform",
+       caption="A platform lists its PALS-BXOs (sys/pals); each PALS-BXO declares its own CBMs "
+               "(sys/cbm in its repository). palsOfSys.cs plants, from those declarations, standard "
+               "CBM leaves on the platform (sys/cbm/pals), which hold the host's gate and status. "
+               "The CBM walk materializes each leaf through the CBS it points at, ending at the "
+               "PALS's .here site. A PALS-BXO not yet cloned is listed with its origin only."),
+]
+
+graphvizSeed.setup(
+    seedType="common",
+    namedGraphsList=namedGraphsList,
+)
+
+# Fill = who owns it. Declared in the PALS-BXO's repository (the same on every host), or host state.
+repo = {'style': 'filled', 'fillcolor': 'mistyrose'}
+host = {'style': 'filled', 'fillcolor': 'lightsteelblue'}
+tool = {'shape': 'rarrow', 'style': 'filled', 'fillcolor': 'orange'}
+walker = {'shape': 'rarrow', 'style': 'filled', 'fillcolor': 'salmon'}
+
+####+BEGIN: b:py3:cs:func/typing :funcName "palsModel" :funcType "Typed" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-Typed    [[elisp:(outline-show-subtree+toggle)][||]] /palsModel/  deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+def palsModel(
+####+END:
+) -> graphviz.Digraph:
+    """ #+begin_org
+** The PALS--CBM model, with libreHalaalFoundation as the example.
+    #+end_org """
+    # Tiers, top down, in the order the model is read: the tools; the platform's list of PALS-BXOs;
+    # what a PALS-BXO declares; the leaf generated from it; the CBS it points at; the site.
+    # Host state is lightsteelblue and named from /bisos/platform/sys/; the repository is a box.
+    d = graphviz.Digraph()
+    d.attr(rankdir='TB', nodesep='0.5', ranksep='0.5', fontname='Helvetica', newrank='true')
+    d.attr('node', fontname='Helvetica', fontsize='11')
+    d.attr('edge', fontname='Helvetica', fontsize='9')
+
+    d.node('palsOfSys', 'palsOfSys.cs\n(bisos.pals)', **tool)
+    d.node('walk', 'sysCbmManage.cs -i fullyMaterialize\n(bisos.capability)', **walker)
+
+    d.node('sysPals', '/bisos/platform/sys/pals/\nbro_rawBisosPals/\npath  ·  origin', shape='folder', **host)
+    d.node('sysPalsOther', '/bisos/platform/sys/pals/\n<another PALS-BXO>/\norigin only: not activated',
+           shape='folder', style='filled,dashed', fillcolor='lightsteelblue', color='gray40')
+
+    d.node('leaf', '/bisos/platform/sys/cbm/pals/\nbro_rawBisosPals/libreHalaal/\n'
+                   'cbmProc.spcs  ·  .control (gate)  ·  .status', shape='folder', **host)
+
+    with d.subgraph(name='cluster_repo') as c:
+        c.attr(label='PALS-BXO repository: bro_rawBisosPals/ (in git)', style='rounded', color='gray40',
+               fontsize='11')
+        c.node('cbmDecl', 'sys/cbm/libreHalaal/\ncapabilityType = hereWeb\ncbsSpec = <relative path>\n'
+                          '(written by palsCbmAdd)', shape='folder', **repo)
+        c.node('cbs', 'bySmb/libreHalaalFoundation/\nweb/astro/cbm/pals-cbs.spcs\n(the CBS)', shape='note', **repo)
+
+    d.node('site', 'http://libre-halaal.org.here', shape='ellipse', style='filled', fillcolor='thistle')
+
+    with d.subgraph() as s:
+        s.attr(rank='same')
+        s.node('palsOfSys')
+        s.node('walk')
+    with d.subgraph() as s:
+        s.attr(rank='same')
+        s.node('sysPals')
+        s.node('sysPalsOther')
+    with d.subgraph() as s:
+        s.attr(rank='same')
+        s.node('cbmDecl')
+        s.node('leaf')
+
+    # What palsOfSys.cs writes.
+    d.edge('palsOfSys', 'sysPals', label='  palsAdd')
+    d.edge('palsOfSys', 'sysPalsOther', label='  palsActivate\n  (later: clone)', style='dashed',
+           color='gray40', fontcolor='gray40')
+    d.edge('sysPals', 'cbmDecl', label='  path: where it\n  is checked out')
+    d.edge('cbmDecl', 'leaf', label='palsLeavesPlant\n(keeps gate, status)')
+
+    # Materialization.
+    d.edge('walk', 'leaf', label='  walks collective,\n  then pals')
+    d.edge('leaf', 'cbs', label='  cbsSpec\n  (resolved)')
+    d.edge('cbs', 'site', label='  assemble: siteBuild,\n  hereDns, webVirtDom')
+
+    return d
+
+
+####+BEGIN: b:py3:cs:framework/endOfFile :basedOn "classification"
+""" #+begin_org
+* *[[elisp:(org-cycle)][| ~End-Of-Editable-Text~ |]]* :: emacs and org variables and control parameters
+#+end_org """
+
+#+STARTUP: showall
+
+### local variables:
+### no-byte-compile: t
+### end:
+####+END:

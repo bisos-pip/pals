@@ -1,0 +1,86 @@
+#+title: Development Status & Continuation Handoff
+#+TAGS: me ai aiAndMe
+
+# Provenance (installed once by aiActivity.cs --- not regenerated):
+#   Date:      2026-10-19T01:44:06+00:00
+#   User:      bystar
+#   Templates: /bisos/apps/defaults/ai-templates
+#   Command:   /bisos/venv/py3/devbin/aiActivity.cs -i initiate --activity=bisos-pip
+
+####+BEGIN: b:ai:file/particulars
+* AI Working Context
+  Working Directory: /bisos/git/auth/bxRepos/bisos-pip/pals
+  File: /bisos/git/auth/bxRepos/bisos-pip/pals/AI-DevStatus.org
+  Activity: bisos-pip
+  Companion Docs: AI-WORKFLOW.org, AI-Activity.org, AI-DevStatus.org, README.org
+####+END:
+
+This file is a working-state handoff so development can continue on another
+machine (which has this repo but NOT the developer's =~=). It captures the
+architecture, what works, what is untested and the design decisions made so far.
+
+This file is maintained by Claude. Updates are typically triggered by the
+=/bx-status-update= slash command, after major interactions, or before a release.
+
+Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; nothing committed).
+
+* Current State
+  - bisos.pals now has the current PALS model alongside its earlier PALS-BPO code (kept, under review):
+    =.here= names for PALS sites, the generic files a PALS site's =cbm/= links to, and =palsOfSys.cs=
+    for a platform's PALS-BXOs, their CBMs and the platform's CBM leaves. Built 2026-10-18/19 while
+    making =libre-halaal.org.here= the first PALS site; that work was planned in its own WorkPlan:
+    =bro_rawBisos/bro_rawBisosPals/bySmb/libreHalaalFoundation/web/astro/AI-WorkPlan.org= (2.1, 2.2, 2.5,
+    2.6), whose Results are the detailed record.
+  - README.org rewritten (2.6): the model, its figure, Installation, Usage, Key Files.
+  - Installed editable in bisos3 (was a PyPI copy, 0.16). =palsHereInfo.cs= and =palsOfSys.cs= are
+    devbin symlinks made by hand: setup.py (Blee-generated) lists none of the new files.
+
+* Architecture
+  - =py3/bisos/pals/palsHere.py= --- the =.here= list =/bisos/var/palsHere/uri.list= (127.0.55.x,
+    assigned once, stored, never reused), =palsHereIpOf()=, =palsDirOfPlant()= / =uriHereOf()= (a
+    plant's PALS: the nearest directory up with =uri/here/value=, path never resolved), =plantOf()=,
+    =dnsCapSetup()=. =palsHere_csu.py= / =bin/palsHereInfo.cs=: palsForEtcHosts, palsHereList,
+    palsHereIpOf, palsHereAdd.
+  - =py3/bisos/pals/palsOfSys.py= --- =/bisos/platform/sys/pals/<palsBxo>/{path,origin}/value= (host),
+    =<palsBxo>/sys/cbm/<cbm>/{capabilityType,cbsSpec}/value= (repo; cbsSpec relative), and
+    =leavesPlant()= into =/bisos/platform/sys/cbm/pals/<palsBxo>/<cbm>/= plus the realm's
+    =ftoBranchProc.spcs=. =palsOfSys_csu.py= / =bin/palsOfSys.cs=: palsList, palsAdd, palsCbmsList,
+    palsCbmAdd, palsLeavesPlant.
+  - =py3/bin/= generic files, symlinked into a PALS site's =cbm/=: =pals-cbs.spcs= (CBS: no sbom, no
+    units), =pals-assemble.cs= (siteBuild via astroProc.spcs, hereDns, webVirtDom),
+    =pals-here-dns.spcs= (on bisos.dnsCap's seed), =pals-wvd.spcs= (on bisos.webCap's capWebVd seed).
+  - =py3/images/palsModel-graphviz.pcs= --- the model's figure (one named graph), rendered beside it.
+  - Uses, imported lazily: bisos.dnsCap, bisos.csSeed (palsHere.dnsCapSetup); bisos.capability,
+    bisos.webCap (the generic files).
+
+* What Works
+  Verified on one Debian 13 host, 2026-10-18/19, with =libre-halaal.org.here=:
+  - 16 checks of palsHere.py and 21 of palsOfSys.py on scratch trees (scripts were in the session's
+    scratchpad, not kept: worth turning into =py3/tests/=).
+  - The name resolves (127.0.55.1) through the palsHere block of /etc/hosts; the site is served.
+  - =palsOfSys.cs= on the real platform: legacy entry migrated, CBM declared, leaf planted (gate
+    available); the walker finds it; with the gate enabled for a test, leaf -> pals-cbs.spcs ->
+    pals-assemble.cs ran end to end.
+
+* What Is Untested
+  - A second PALS-BXO, a second CBM, a second platform; =sysCbmManage.cs -i fullyMaterialize= as a whole.
+  - =palsActivate= (not built). The earlier PALS-BPO commands (=palsBpoManage.cs= ...) against the model.
+  - A pipx install: setup.py lacks the new scripts and the requirements above.
+
+* Key Design Decisions
+  - Recorded in the libreHalaalFoundation/web/astro AI-WorkPlan.org (2.1 .here names, 2.2 generic .spcs
+    files, 2.5 the PALS-BXO/CBM model, user's leaf layout =pals/<palsBxo>/<cbm>/=) and summarized in
+    README.org. Not repeated here.
+  - A PALS-BXO declares; the platform holds state (list, gates, status logs).
+  - Generic files are =.spcs=: they take their parameters from where they are planted, through symlinks;
+    no path is resolved anywhere on that route (see the bisos.capability fix below).
+  - =palsForEtcHosts= sets no opResults: the framework would print them into the /etc/hosts dblock.
+  - Depends on fixes made in other repos at the same time (uncommitted): bisos.dnsCap
+    (=hostsDblockCommands=, =preUpdateFuncs=) and bisos.capability (=resolveCbsSpec= no longer follows
+    symlinks; fullyMaterialize walks =sys/cbm/pals=). Commit those first.
+  - Out of chain: AI-Outputs.org (blee-binders/evolution) entries on the dnsCap block, the CBS-symlink
+    fix and sysCbmManage's bare ftoBranchProc.spcs.
+
+# Local Variables:
+# eval: (setq-local toc-org-max-depth 4)
+# End:
