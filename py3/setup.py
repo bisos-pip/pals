@@ -43,7 +43,7 @@ def longDescription():
 # b:py3:pypi:setup/version Arguments  :forSys t :forPyPi t :constant "666"
 ####+BEGIN: b:py3:pypi:setup/version :comment "Auto Detected"
 
-# ./pypiUploadVer DID NOT exist -- forPypiVersion=0.16 -- forLocalVersion=0.1 -- constant=NA
+# ./pypiUploadVer DID NOT exist -- forPypiVersion=0.18 -- forLocalVersion=0.1 -- constant=NA
 def pkgVersion():
         return '0.1'
 
@@ -55,14 +55,21 @@ def pkgVersion():
 requires = [
 "bisos",
 "bisos.b",
+"bisos.banna",
 "bisos.basics",
 "bisos.bpo",
+"bisos.capability",
 "bisos.cntnr",
 "bisos.common",
 "bisos.csPlayer",
+"bisos.csSeed",
 "bisos.currents",
+"bisos.dnsCap",
+"bisos.fileObj",
 "bisos.platform",
+"bisos.webCap",
 "setuptools==75.8.0",
+"wheel==0.38.4",
 ]
 ####+END:
 
@@ -70,12 +77,18 @@ requires = [
 ####+BEGIN: b:py3:pypi:setup/scripts :comment ""
 
 scripts = [
+'bin/pals-assemble.cs',
 'bin/palsBaseLiveTargets.cs',
 'bin/palsBpoManage.cs',
+'bin/pals-cbs.spcs',
+'bin/pals-here-dns.spcs',
+'bin/palsHereInfo.cs',
+'bin/palsOfSys.cs',
 'bin/palsRepoLiveParams.cs',
 'bin/palsRepoProfile.cs',
 'bin/palsSiGeneweb.cs',
 'bin/palsSivdApache2.cs',
+'bin/pals-wvd.spcs',
 ]
 ####+END:
 
@@ -83,7 +96,7 @@ scripts = [
 ####+BEGIN: b:py3:pypi:setup/dataFiles :comment "Instead of ./MANIFEST.in or in pyproject.toml"
 
 data_files = [
-(' ',  ['lh-agpl3-LICENSE.txt', '_description.org', 'README.rst']),
+('',  ['lh-agpl3-LICENSE.txt', '_description.org', 'README.rst']),
 ]
 ####+END:
 
