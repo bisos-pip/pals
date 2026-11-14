@@ -15,6 +15,7 @@ import os
 from bisos.webCap import capWebVd_seed  # noqa: F401  # _atExit_
 
 from bisos.webCap import capWebVd_seedInfo
+from bisos.webCap import webVd_nginxSites
 
 from bisos.pals import palsHere
 
@@ -37,6 +38,7 @@ server {{
         try_files $uri $uri/ =404;
     }}
 
+{webVd_nginxSites.lcntVarLocations(rootBaseDir)}
     error_page 404 /404.html;
 }}
 """

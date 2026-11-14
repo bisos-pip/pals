@@ -35,6 +35,9 @@ Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; noth
   - Installed editable in bisos3 (was a PyPI copy, 0.16). =palsHereInfo.cs= and =palsOfSys.cs= are
     devbin symlinks made by hand: setup.py (Blee-generated) lists none of the new files.
 
+  - 2026-11-14: =pals-wvd.spcs= adds the =/lcnt/= locations to a site's vhost through
+    =bisos.webCap='s =webVd_nginxSites.lcntVarLocations()=, for the optional LCNT Library of an astro site.
+
 * Architecture
   - =py3/bisos/pals/palsHere.py= --- the =.here= list =/bisos/var/palsHere/uri.list= (127.0.55.x,
     assigned once, stored, never reused), =palsHereIpOf()=, =palsDirOfPlant()= / =uriHereOf()= (a
