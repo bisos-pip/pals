@@ -224,6 +224,22 @@ ftoBranch_seedInfo.setup(
 '''
 
 
+def _leafVerifyLines(cbm: PalsCbm) -> str:
+    """What bisos.capability's cbm_verify checks for this leaf: the PALS's .internal name, and its site's
+    siteVerify when the PALS is an Astro site. Nothing when the CBS is not in a PALS directory."""
+    from bisos.pals import palsHere
+    if not cbm.cbsPath:
+        return ""
+    try:
+        palsDir = palsHere.palsDirOfPlant(cbm.cbsPath)
+        lines = f'    hereName="{palsHere.uriHereOf(palsDir)}",\n'
+    except ValueError:
+        return ""
+    if (palsDir / "astroProc.spcs").is_file():
+        lines += f'    verifySpec="cd {palsDir} && ./astroProc.spcs -i siteVerify",\n'
+    return lines
+
+
 def leafSpcs(cbm: PalsCbm) -> str:
     """The cbmProc.spcs of a planted leaf: a pointer to the CBS, as every CBM leaf is."""
     return f'''\
@@ -250,7 +266,7 @@ from bisos.capability import cbmProc_seedInfo
 cbmProc_seedInfo.setup(
     capabilityName="{cbm.name}",
     cbsSpec="{cbm.cbsPath}",
-)
+{_leafVerifyLines(cbm)})
 '''
 
 

@@ -25,6 +25,11 @@ This file is maintained by Claude. Updates are typically triggered by the
 Last updated: 2026-10-19 (the .internal names and the PALS-BXO/CBM model added; nothing committed).
 
 * Current State
+- 2026-11-26 (from a bisos-pip/b session; uncommitted, not released): =palsOfSys.leafSpcs= also
+  writes =hereName= (the PALS's =uri/here/value=) and, for an Astro PALS, =verifySpec= (its
+  =siteVerify=) into each planted =cbmProc.spcs=, for bisos.capability's =cbm_verify=
+  (bisos-pip/capability AI-WorkPlan.org Stage 5). Needs the bisos.capability that accepts those
+  arguments. Replanted here: example ok.
 - 2026-11-26 (from a bisos-pip/b session): every =<name>.here= in this repo is now =<name>.internal=
   (=.here= is an https-only gTLD in Chrome; bisos-pip/banna AI-WorkPlan.org Stage 4, banna's
   =tcpPorts.hereFqdn=). Text renamed, not tested here; AI-WorkPlan.org keeps =.here= as history.
