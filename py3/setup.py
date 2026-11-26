@@ -52,7 +52,7 @@ def pkgVersion():
 # b:py3:pypi:setup/requires :extras ; :requirements "requirements.txt" (bring here requirements.txt)
 ####+BEGIN: b:py3:pypi:setup/requires :extras ()
 
-requires = [ 
+requires = [
 "bisos",
 "bisos.b",
 "bisos.banna",
@@ -76,26 +76,26 @@ requires = [
 # b:py3:pypi:setup/scripts :comment
 ####+BEGIN: b:py3:pypi:setup/scripts :comment ""
 
-scripts = [ 
+scripts = [
 'bin/pals-assemble.cs',
-'bin/pals-cbs.spcs',
-'bin/pals-here-dns.spcs',
-'bin/pals-wvd.spcs',
 'bin/palsBaseLiveTargets.cs',
 'bin/palsBpoManage.cs',
+'bin/pals-cbs.spcs',
+'bin/pals-here-dns.spcs',
 'bin/palsHereInfo.cs',
 'bin/palsOfSys.cs',
 'bin/palsRepoLiveParams.cs',
 'bin/palsRepoProfile.cs',
 'bin/palsSiGeneweb.cs',
 'bin/palsSivdApache2.cs',
+'bin/pals-wvd.spcs',
 ]
 ####+END:
 
 # b:py3:pypi:setup/dataFiles :comment
 ####+BEGIN: b:py3:pypi:setup/dataFiles :comment "Instead of ./MANIFEST.in or in pyproject.toml"
 
-data_files = [ 
+data_files = [
 ('',  ['lh-agpl3-LICENSE.txt', '_description.org', 'README.rst']),
 ]
 ####+END:
