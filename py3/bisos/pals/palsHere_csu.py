@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* ~[Summary]~ :: =CS-Unit= The .here names of PALS: the host's list (/bisos/var/palsHere/uri.list) and its /etc/hosts block
+* ~[Summary]~ :: =CS-Unit= The .internal names of PALS: the host's list (/bisos/var/palsHere/uri.list) and its /etc/hosts block
 #+end_org """
 
 ####+BEGIN: b:py3:cs:file/dblockControls :classification "cs-u"
@@ -80,11 +80,11 @@ def examples_csu(
     literal = cs.examples.execInsert
 
     if sectionTitle == 'default':
-        cs.examples.menuChapter(f'*PALS .here Names --- {palsHere.listFile}*')
+        cs.examples.menuChapter(f'*PALS .internal Names --- {palsHere.listFile}*')
 
     cs.examples.menuSection('/The List/')
     cmnd('palsHereList', comment="# every name: ip, name, its PALS directory, date added")
-    cmnd('palsHereIpOf', args='libre-halaal.org.here', comment="# the address of a name")
+    cmnd('palsHereIpOf', args='libre-halaal.org.internal', comment="# the address of a name")
     cmnd('palsHereAdd', args='.', comment="# add the PALS of this directory (its uri/here/value)")
     literal(f"cat {palsHere.listFile}")
 
@@ -115,7 +115,7 @@ class palsForEtcHosts(cs.Cmnd):
             return failed(cmndOutcome)
 ####+END:
         if self.cmndDocStr(""" #+begin_org
-** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  The /etc/hosts lines of the live PALS .here names, one per name:
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  The /etc/hosts lines of the live PALS .internal names, one per name:
 =ip  name  # pals=<directory> added=<date>=. Run as root by py-dblock.cs (dnsCap_update): it only reads.
         #+end_org """): return(cmndOutcome)
 
@@ -155,7 +155,7 @@ class palsHereList(cs.Cmnd):
 
         entries = palsHere.entriesAll()
         if not entries:
-            print(f"# {palsHere.listFile}: no PALS .here names yet")
+            print(f"# {palsHere.listFile}: no PALS .internal names yet")
         for each in entries:
             print(("# retired: " if each.retired else "") + each.hostsLine())
 
@@ -186,7 +186,7 @@ class palsHereIpOf(cs.Cmnd):
         cmndArgsSpecDict = self.cmndArgsSpec()
 ####+END:
         if self.cmndDocStr(""" #+begin_org
-** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Map each .here name to its 127.0.55.x address. Fails on an unknown name.
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Map each .internal name to its 127.0.55.x address. Fails on an unknown name.
         #+end_org """): return(cmndOutcome)
 
         result: list[str] = []
@@ -212,7 +212,7 @@ class palsHereIpOf(cs.Cmnd):
             argName="names",
             argDefault='',
             argChoices=[],
-            argDescription=".here names, e.g. libre-halaal.org.here"
+            argDescription=".internal names, e.g. libre-halaal.org.internal"
         )
         return cmndArgsSpecDict
 
@@ -241,7 +241,7 @@ class palsHereAdd(cs.Cmnd):
         cmndArgsSpecDict = self.cmndArgsSpec()
 ####+END:
         if self.cmndDocStr(""" #+begin_org
-** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Add the .here name of each PALS directory (its uri/here/value; default:
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Add the .internal name of each PALS directory (its uri/here/value; default:
 the current directory) to the list, with the next free address. Idempotent. Does not touch /etc/hosts:
 a PALS's cbm/pals-here-dns.spcs -i dnsCap_update does both.
         #+end_org """): return(cmndOutcome)

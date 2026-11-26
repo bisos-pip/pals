@@ -40,7 +40,7 @@ namedGraphsList = [
                "(sys/cbm in its repository). palsOfSys.cs plants, from those declarations, standard "
                "CBM leaves on the platform (sys/cbm/pals), which hold the host's gate and status. "
                "The CBM walk materializes each leaf through the CBS it points at, ending at the "
-               "PALS's .here site. A PALS-BXO not yet cloned is listed with its origin only."),
+               "PALS's .internal site. A PALS-BXO not yet cloned is listed with its origin only."),
 ]
 
 graphvizSeed.setup(
@@ -90,7 +90,7 @@ def palsModel(
                           '(written by palsCbmAdd)', shape='folder', **repo)
         c.node('cbs', 'bySmb/libreHalaalFoundation/\nweb/astro/cbm/pals-cbs.spcs\n(the CBS)', shape='note', **repo)
 
-    d.node('site', 'http://libre-halaal.org.here', shape='ellipse', style='filled', fillcolor='thistle')
+    d.node('site', 'http://libre-halaal.org.internal', shape='ellipse', style='filled', fillcolor='thistle')
 
     with d.subgraph() as s:
         s.attr(rank='same')

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* ~[Summary]~ :: A =CmndSvc= for assembling a PALS's Astro site: the content, the Astro build, its .here dns entry and nginx vhost.
+* ~[Summary]~ :: A =CmndSvc= for assembling a PALS's Astro site: the content, the Astro build, its .internal dns entry and nginx vhost.
 #+end_org """
 
 ####+BEGIN: b:py3:cs:file/dblockControls :classification "cs-mu"
@@ -52,7 +52,7 @@ csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 
 This is the assemble step of a PALS's pals-cbs.spcs --- the same file for every PALS, planted (as a
 symlink to this one in bisos.pals) in the PALS's cbm/. Its directory is its parameter: the PALS is the
-nearest directory above it with uri/here/value (its fqdn, e.g. libre-halaal.org.here), which also has
+nearest directory above it with uri/here/value (its fqdn, e.g. libre-halaal.org.internal), which also has
 content/, site/ and astroProc.spcs. The path is never resolved, so the symlink finds its PALS.
 siteBuild runs ./astroProc.spcs -i siteBuild (content/tree, content/bin/*, npm ci, astro build into
 site/dist/). hereDns adds the fqdn to the palsHere list and /etc/hosts (pals-here-dns.spcs);
@@ -293,7 +293,7 @@ class hereDns(cs.Cmnd):
             return failed(cmndOutcome)
 ####+END:
         if self.cmndDocStr(f""" #+begin_org
-** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Add this PALS's .here name (../uri/here/value) to the palsHere list
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Add this PALS's .internal name (../uri/here/value) to the palsHere list
 and write it into /etc/hosts (pals-here-dns.spcs).
         #+end_org """): return(cmndOutcome)
 

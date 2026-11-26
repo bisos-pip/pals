@@ -11,8 +11,8 @@
 /bisos.pals/ manages BISOS Possession Assertable Libre Services (PALS) on a platform. It keeps the
 list of the PALS-BXOs a platform has, the CBMs (capabilities) each PALS-BXO declares, and the platform's
 CBM leaves planted from those declarations, which BISOS's CBM walk materializes. It gives each PALS site
-a =.here= name on a loopback address, and provides the generic files a PALS site's =cbm/= links to, so
-that a site such as =libre-halaal.org.here= is built, named and served the same way on any platform.
+a =.internal= name on a loopback address, and provides the generic files a PALS site's =cbm/= links to, so
+that a site such as =libre-halaal.org.internal= is built, named and served the same way on any platform.
 
 * Table of Contents     :TOC:
 - [[#overview][Overview]]
@@ -20,13 +20,13 @@ that a site such as =libre-halaal.org.here= is built, named and served the same 
 - [[#bisospals-is-a-command-only-pycs-facility][bisos.pals is a Command-Only PyCS Facility]]
 - [[#bisos-possession-assertable-libre-services-pals][BISOS Possession Assertable Libre Services (PALS)]]
 - [[#pals-on-a-platform-pals-bxos-and-their-cbms][PALS on a Platform: PALS-BXOs and Their CBMs]]
-- [[#pals-here-names][PALS .here Names]]
+- [[#pals-internal-names][PALS .internal Names]]
 - [[#installation][Installation]]
   - [[#with-pip][With pip]]
   - [[#with-pipx][With pipx]]
 - [[#usage][Usage]]
   - [[#pals-bxos-and-their-cbms-palsofsyscs][PALS-BXOs and Their CBMs: palsOfSys.cs]]
-  - [[#here-names-palshereinfocs][.here Names: palsHereInfo.cs]]
+  - [[#internal-names-palshereinfocs][.internal Names: palsHereInfo.cs]]
   - [[#a-pals-sites-cbm-the-generic-files][A PALS Site's cbm/: the Generic Files]]
 - [[#key-files][Key Files]]
 - [[#documentation-and-blee-panels][Documentation and Blee-Panels]]
@@ -57,7 +57,7 @@ and services. PyCS is an alternative to FastAPI, Typer and Click.
 bisos.pals uses the PyCS-Framework to:
 
 1) list a platform's PALS-BXOs, declare their CBMs and plant the platform's CBM leaves (=palsOfSys.cs=)
-2) give each PALS site a =.here= name on a =127.0.55.x= address in =/etc/hosts= (=palsHereInfo.cs=)
+2) give each PALS site a =.internal= name on a =127.0.55.x= address in =/etc/hosts= (=palsHereInfo.cs=)
 3) provide the generic CBS, assemble, dns and vhost files a PALS site's =cbm/= links to
 
 The core of PyCS-Framework is the /bisos.b/ package (the PyCS-Foundation).
@@ -123,7 +123,7 @@ information apart:
 
 [[file:py3/images/palsModel.png]]
 
-The figure's example is the Libre-Halaal Foundation's site, =libre-halaal.org.here=, from the
+The figure's example is the Libre-Halaal Foundation's site, =libre-halaal.org.internal=, from the
 PALS-BXO =bro_rawBisosPals=. Top down:
 
 1. =/bisos/platform/sys/pals/<palsBxo>/= lists the PALS-BXOs of this platform, one FileParams directory
@@ -138,20 +138,20 @@ PALS-BXO =bro_rawBisosPals=. Top down:
    Planting is idempotent and never overwrites a gate or a status.
 4. The CBM walk (=sysCbmManage.cs -i fullyMaterialize=) materializes the =pals= realm after the
    =collective= one (which brings nginx and Node). A leaf runs its CBS by the path it is planted at;
-   for an Astro site, its assemble builds the site and installs the =.here= name and the nginx vhost.
+   for an Astro site, its assemble builds the site and installs the =.internal= name and the nginx vhost.
 
 Because the leaves are standard CBM leaves, the existing walker and the =cbm_*= verbs work on them
-unchanged. =platform.here= is built last in =collective=, so its snapshot shows a =pals= leaf's previous
+unchanged. =platform.internal= is built last in =collective=, so its snapshot shows a =pals= leaf's previous
 outcome.
 
-* PALS .here Names
+* PALS .internal Names
 
-A PALS whose site has =uri/here/value= (e.g. =libre-halaal.org.here=) gets a loopback address in
+A PALS whose site has =uri/here/value= (e.g. =libre-halaal.org.internal=) gets a loopback address in
 =/etc/hosts=, as bisos.banna's services get theirs (=127.0.22.x=). PALS are not known in advance, so
 their names are kept in a host-local list, =/bisos/var/palsHere/uri.list=, one line each:
 
 #+begin_example
-127.0.55.1  libre-halaal.org.here  # pals=<the PALS directory> added=2026-10-18
+127.0.55.1  libre-halaal.org.internal  # pals=<the PALS directory> added=2026-10-18
 #+end_example
 
 - An address is assigned once, when its name is added, and stored in its line. It is never renumbered
@@ -220,11 +220,11 @@ cd /bisos/platform/sys/cbm/pals/bro_rawBisosPals/libreHalaal
 cd /bisos/platform/sys/cbm/pals && ./ftoBranchProc.spcs -i fto_forwardToLeaves --cmndName=cbm_materialize
 #+end_src
 
-** .here Names: palsHereInfo.cs
+** .internal Names: palsHereInfo.cs
 
 #+begin_src bash
 palsHereInfo.cs -i palsHereList                              # every name, with where it came from
-palsHereInfo.cs -i palsHereIpOf libre-halaal.org.here        # its 127.0.55.x address
+palsHereInfo.cs -i palsHereIpOf libre-halaal.org.internal        # its 127.0.55.x address
 palsHereInfo.cs -i palsHereAdd <palsDir>                     # add by hand (the CBS's assemble does it)
 palsHereInfo.cs -i palsForEtcHosts                           # the palsHere dblock's body
 #+end_src
@@ -258,7 +258,7 @@ In =py3/bisos/pals/=:
 |--------------------+-------------------------------------------------------------------|
 | =palsOfSys.py=     | the PALS-BXO list, the CBM declarations, leaf planting            |
 | =palsOfSys_csu.py= | the =palsOfSys.cs= commands                                       |
-| =palsHere.py=      | the =.here= list, address assignment, =palsHereIpOf=, plant paths |
+| =palsHere.py=      | the =.internal= list, address assignment, =palsHereIpOf=, plant paths |
 | =palsHere_csu.py=  | the =palsHereInfo.cs= commands                                    |
 
 =py3/bin/= holds =palsOfSys.cs=, =palsHereInfo.cs= and the four generic =pals-*= files;
@@ -286,6 +286,6 @@ author/maintainer\\
 * Planned Improvements
 
 ** TODO =palsActivate=: clone a PALS-BXO that the platform lists but has not activated (its origin)
-** TODO =platform.here= reads a =pals/<palsBxo>/<cbmName>/= leaf as realm/type/name: teach it that shape
+** TODO =platform.internal= reads a =pals/<palsBxo>/<cbmName>/= leaf as realm/type/name: teach it that shape
 ** TODO setup.py (Blee): the new scripts; bisos.dnsCap, bisos.csSeed, bisos.capability in requires
 ** TODO Review the earlier PALS-BPO commands and modules against the current model

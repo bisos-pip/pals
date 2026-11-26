@@ -4,7 +4,7 @@
 import typing ; csInfo: typing.Dict[str, typing.Any] = {'category': 'csxu', 'name': 'palsHereInfo.cs', 'features': ['direct', 'seeded']}
 
 csInfo['summary'] = """ #+begin_org
-* ~[Summary]~ :: A =CmndSvc= for the .here names of PALS: the host's list and the palsHere block of /etc/hosts
+* ~[Summary]~ :: A =CmndSvc= for the .internal names of PALS: the host's list and the palsHere block of /etc/hosts
 #+end_org """
 
 csInfo['description'] = """ #+begin_org

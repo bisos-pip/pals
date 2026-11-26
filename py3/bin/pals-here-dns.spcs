@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 """ #+begin_org
-* ~[Summary]~ :: A =SpreadPlantedCmndService= for a PALS's .here name: the list, then /etc/hosts
+* ~[Summary]~ :: A =SpreadPlantedCmndService= for a PALS's .internal name: the list, then /etc/hosts
 
 The same file for every PALS --- planted (usually as a symlink to this one in bisos.pals) in the PALS's
 cbm/, next to its CBS. Its directory is its parameter: the PALS is the nearest directory above it with
-uri/here/value (e.g. libre-halaal.org.here); nothing PALS-specific is written here.
+uri/here/value (e.g. libre-halaal.org.internal); nothing PALS-specific is written here.
 
 Planted on bisos.dnsCap's seed. palsHere.dnsCapSetup() names two /etc/hosts dblocks, banna's and
 palsHere's (palsHereInfo.cs -i palsForEtcHosts), and has dnsCap_update first add the PALS's name to

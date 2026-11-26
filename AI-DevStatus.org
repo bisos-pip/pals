@@ -22,13 +22,16 @@ architecture, what works, what is untested and the design decisions made so far.
 This file is maintained by Claude. Updates are typically triggered by the
 =/bx-status-update= slash command, after major interactions, or before a release.
 
-Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; nothing committed).
+Last updated: 2026-10-19 (the .internal names and the PALS-BXO/CBM model added; nothing committed).
 
 * Current State
+- 2026-11-26 (from a bisos-pip/b session): every =<name>.here= in this repo is now =<name>.internal=
+  (=.here= is an https-only gTLD in Chrome; bisos-pip/banna AI-WorkPlan.org Stage 4, banna's
+  =tcpPorts.hereFqdn=). Text renamed, not tested here; AI-WorkPlan.org keeps =.here= as history.
   - bisos.pals now has the current PALS model alongside its earlier PALS-BPO code (kept, under review):
-    =.here= names for PALS sites, the generic files a PALS site's =cbm/= links to, and =palsOfSys.cs=
+    =.internal= names for PALS sites, the generic files a PALS site's =cbm/= links to, and =palsOfSys.cs=
     for a platform's PALS-BXOs, their CBMs and the platform's CBM leaves. Built 2026-10-18/19 while
-    making =libre-halaal.org.here= the first PALS site; that work was planned in its own WorkPlan:
+    making =libre-halaal.org.internal= the first PALS site; that work was planned in its own WorkPlan:
     =bro_rawBisos/bro_rawBisosPals/bySmb/libreHalaalFoundation/web/astro/AI-WorkPlan.org= (2.1, 2.2, 2.5,
     2.6), whose Results are the detailed record.
   - README.org rewritten (2.6): the model, its figure, Installation, Usage, Key Files.
@@ -39,7 +42,7 @@ Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; noth
     =bisos.webCap='s =webVd_nginxSites.lcntVarLocations()=, for the optional LCNT Library of an astro site.
 
 * Architecture
-  - =py3/bisos/pals/palsHere.py= --- the =.here= list =/bisos/var/palsHere/uri.list= (127.0.55.x,
+  - =py3/bisos/pals/palsHere.py= --- the =.internal= list =/bisos/var/palsHere/uri.list= (127.0.55.x,
     assigned once, stored, never reused), =palsHereIpOf()=, =palsDirOfPlant()= / =uriHereOf()= (a
     plant's PALS: the nearest directory up with =uri/here/value=, path never resolved), =plantOf()=,
     =dnsCapSetup()=. =palsHere_csu.py= / =bin/palsHereInfo.cs=: palsForEtcHosts, palsHereList,
@@ -57,7 +60,7 @@ Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; noth
     bisos.webCap (the generic files).
 
 * What Works
-  Verified on one Debian 13 host, 2026-10-18/19, with =libre-halaal.org.here=:
+  Verified on one Debian 13 host, 2026-10-18/19, with =libre-halaal.org.internal=:
   - 16 checks of palsHere.py and 21 of palsOfSys.py on scratch trees (scripts were in the session's
     scratchpad, not kept: worth turning into =py3/tests/=).
   - The name resolves (127.0.55.1) through the palsHere block of /etc/hosts; the site is served.
@@ -71,7 +74,7 @@ Last updated: 2026-10-19 (the .here names and the PALS-BXO/CBM model added; noth
   - A pipx install: setup.py lacks the new scripts and the requirements above.
 
 * Key Design Decisions
-  - Recorded in the libreHalaalFoundation/web/astro AI-WorkPlan.org (2.1 .here names, 2.2 generic .spcs
+  - Recorded in the libreHalaalFoundation/web/astro AI-WorkPlan.org (2.1 .internal names, 2.2 generic .spcs
     files, 2.5 the PALS-BXO/CBM model, user's leaf layout =pals/<palsBxo>/<cbm>/=) and summarized in
     README.org. Not repeated here.
   - A PALS-BXO declares; the platform holds state (list, gates, status logs).

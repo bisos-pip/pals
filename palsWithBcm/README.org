@@ -42,7 +42,7 @@ It also has its own WorkPlan, that in most cases maps to bisos packages AI-WorkP
 ** 2010 to 2025 and to present -- ByStar-2G: Raw-BISOS and BISOS Infrastructure + Frozen ByStar-1G
 
 The scope of ByStar-2G is implemenation of RawBisos and Collective BCMs.
-The services are anchored as ".here" domains.
+The services are anchored as ".internal" domains.
 They can be materialized by anyone with no registration capabilities,
 everything run on a single bisos-platform (physical, VM, priviledged docker/podman container).
 
@@ -60,7 +60,7 @@ everything run on a single bisos-platform (physical, VM, priviledged docker/podm
 <<ByStar-2G Raw-Bisos Missing Features>>
 
 - Integration of PALS into Raw-Bisos
-- availability of first.last.byname.here
+- availability of first.last.byname.internal
 
 
 ** 2026 to Present -- ByStar-3G: Live and Possession-Assertible Services
@@ -125,7 +125,7 @@ How are certificates to be created, etc.
   - *Mechanism* (keys, CSRs, CA signing, ACME; X.509 beside the existing OpenPGP/symmetric
     facilities) -> *bisos.crypt*. bisos.debian only for Debian integration: the system trust
     store (update-ca-certificates), Debian's certbot package and its renewal timer.
-  - *Authority* (who vouches) -> the owning BXO. Platform CA (for .here) -> *bisos.platform*.
+  - *Authority* (who vouches) -> the owning BXO. Platform CA (for .internal) -> *bisos.platform*.
     Site CA (.intra) and PALS public names (ACME) -> their own packages, later.
   - *Consumption* (which capability uses which certificate) -> a cert aspect in
     *bisos.dnsCap*: a planted *-cert.pcs beside *-here-dns.pcs (names, issuer, key type).
@@ -162,10 +162,10 @@ SCHEDULED: <2026-10-10 Sat>
   zone-begin/zone-set/zone-commit transactions, RFC 2136 with per-key ACLs, in-server
   DNSSEC with automatic key rollover (then journal-content: changes), catalog zones for
   the byname.com factory.
-- Local top-level domains (.here, .intra, ...): Knot serves any configured zone; the
+- Local top-level domains (.internal, .intra, ...): Knot serves any configured zone; the
   resolver must stub those names to Knot.
 - Resolver (DECIDED, Mohsen 2026-10-10): *Unbound*, as the platform's local resolver ---
-  privacy (no ISP resolver log) and DNSSEC validation; .intra stubbed to Knot; .here stays in
+  privacy (no ISP resolver log) and DNSSEC validation; .intra stubbed to Knot; .internal stays in
   /etc/hosts (loopback names are per-platform). Built in bisos.dnsCap, tested on another machine.
   Originally recommended as: *Unbound* (NLnet Labs, Debian 1.22,
   declarative unbound.conf a batch tool can generate). Knot Resolver is the natural CZ.NIC
@@ -189,13 +189,13 @@ and Let's Encrypt's per-registered-domain limit (about 50 new certificates a wee
 federated factory. PSL changes take months to reach browsers: submit early.
 ---- Results: -----
 
-*** TODO [#A] <<1.4>> Platform CA (rawByName, .here) in bisos.platform --- first in order
+*** TODO [#A] <<1.4>> Platform CA (rawByName, .internal) in bisos.platform --- first in order
 SCHEDULED: <2026-10-11 Sun>
 Generated when a platform is materialized; its root key never leaves the platform (a new
 platform makes a new CA). Installs its root into the system store (bisos.debian:
 update-ca-certificates) and Firefox's. Uses the X.509 primitives of bisos.crypt (its
 AI-WorkPlan.org Stage 2). Then: certCap-style *-cert.pcs in bisos.dnsCap and the TLS
-template in bisos.webCap, making every .here service HTTPS.
+template in bisos.webCap, making every .internal service HTTPS.
 Also unblocks a local DNS-over-HTTPS endpoint on Unbound, so Firefox keeps ECH.
 ---- Results: -----
 

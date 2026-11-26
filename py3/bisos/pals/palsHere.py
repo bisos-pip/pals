@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* ~[Summary]~ :: =CS-Lib= The .here names of PALS --- the host's list, their 127.0.55.x addresses, /etc/hosts lines
+* ~[Summary]~ :: =CS-Lib= The .internal names of PALS --- the host's list, their 127.0.55.x addresses, /etc/hosts lines
 #+end_org """
 
 """ #+begin_org
 * [[elisp:(org-cycle)][| ~Description~ |]] :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/PyFwrk/bisos-pip/bisos.cs/_nodeBase_/fullUsagePanel-en.org][BISOS CmndSvcs Panel]]   [[elisp:(org-cycle)][| ]]
 
-A PALS that has =./uri/here/value= (e.g. =libre-halaal.org.here=) gets a loopback address in
+A PALS that has =./uri/here/value= (e.g. =libre-halaal.org.internal=) gets a loopback address in
 /etc/hosts, as banna's services get theirs (127.0.22.x, bisos.banna tcpPorts). PALS are not known in
 advance, so their names are kept in a host-local list, =/bisos/var/palsHere/uri.list=, one line each:
 
-    127.0.55.1  libre-halaal.org.here  # pals=<the PALS directory> added=2026-10-18
+    127.0.55.1  libre-halaal.org.internal  # pals=<the PALS directory> added=2026-10-18
 
 - An address is assigned when its name is added (the next above every address in the file) and stored
   in its line: it is never renumbered, and never reused --- a retired name's line is commented out, not
@@ -49,6 +49,8 @@ import os
 import pathlib
 import re
 
+from bisos.banna import tcpPorts
+
 listFile = pathlib.Path("/bisos/var/palsHere/uri.list")
 
 ipPrefix = "127.0.55."
@@ -58,12 +60,13 @@ ipLast = 254
 palsHostsDblockCommand = "palsHereInfo.cs -i palsForEtcHosts"
 
 _listHeader = """\
-# palsHere --- the .here names of this host's PALS, one per line (bisos.pals palsHere.py).
+# palsHere --- the .internal names of this host's PALS, one per line (bisos.pals palsHere.py).
 # An address is assigned once, when its name is added, and is never renumbered or reused:
 # to retire a name, comment its line out --- do not delete it.
 """
 
-_nameRe = re.compile(r"^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?\.here$")
+# The suffix is banna's (tcpPorts.hereDomain), as for its own here names.
+_nameRe = re.compile(r"^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?\." + re.escape(tcpPorts.hereDomain) + "$")
 _lineRe = re.compile(
     r"^\s*(?P<retired>#\s*)?(?P<ip>127\.0\.55\.\d{1,3})\s+(?P<name>\S+)"
     r"(?:\s*#\s*pals=(?P<pals>\S+)\s+added=(?P<added>\S+))?\s*$"
@@ -127,7 +130,7 @@ def _entriesValidate(entries: list[PalsHereEntry], listPath: pathlib.Path) -> No
 
 
 def palsHereIpOf(name: str, listPath: pathlib.Path = listFile) -> str | None:
-    """The 127.0.55.x address of name (e.g. libre-halaal.org.here) --- without /etc/hosts being current."""
+    """The 127.0.55.x address of name (e.g. libre-halaal.org.internal) --- without /etc/hosts being current."""
     for each in entries(listPath):
         if each.name == name:
             return each.ip
@@ -140,10 +143,10 @@ def forEtcHosts(listPath: pathlib.Path = listFile) -> list[str]:
 
 
 def nameValidate(name: str) -> str:
-    """name, stripped, if it is a host name ending in .here; ValueError otherwise."""
+    """name, stripped, if it is a host name ending in .internal; ValueError otherwise."""
     name = name.strip()
     if not _nameRe.match(name):
-        raise ValueError(f"not a .here host name: {name!r}")
+        raise ValueError(f"not a .{tcpPorts.hereDomain} host name: {name!r}")
     return name
 
 
@@ -185,7 +188,7 @@ def add(
 
 
 def uriHereOf(palsDir: str | pathlib.Path) -> str:
-    """The .here name of a PALS: the content of its uri/here/value."""
+    """The .internal name of a PALS: the content of its uri/here/value."""
     valueFile = pathlib.Path(palsDir) / "uri" / "here" / "value"
     if not valueFile.is_file():
         raise ValueError(f"{palsDir}: no uri/here/value")

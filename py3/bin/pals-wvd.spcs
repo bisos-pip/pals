@@ -5,7 +5,7 @@
 
 The same file for every PALS --- planted (as a symlink to this one in bisos.pals) in the PALS's cbm/.
 Its directory is its parameter: the PALS is the nearest directory above it with uri/here/value, which
-is the vhost's server_name (e.g. libre-halaal.org.here); the root is that PALS's site/dist (astro build,
+is the vhost's server_name (e.g. libre-halaal.org.internal); the root is that PALS's site/dist (astro build,
 pals-assemble.cs -i siteBuild). The name resolves through the palsHere block of /etc/hosts
 (pals-here-dns.spcs); nginx listens on :80 and picks the vhost by server_name.
 #+end_org """
