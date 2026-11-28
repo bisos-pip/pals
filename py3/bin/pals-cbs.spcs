@@ -12,7 +12,7 @@ The same file for every PALS --- planted (as a symlink to this one in bisos.pals
 next to pals-assemble.cs, pals-here-dns.spcs and pals-wvd.spcs. Its directory is its parameter: the
 assemble it names is the pals-assemble.cs beside it.
 
-No sbom (Node comes from the reactPlus leaf; Astro from site/package-lock.json) and no units (nginx
+astroSite-sbom.pcs (bisos.webCap: Node through nvm, and HeVeA; Astro from site/package-lock.json) and no units (nginx
 serves static files): only pals-assemble.cs, which builds the site and installs its dns entry and vhost.
 #+end_org """
 
@@ -29,7 +29,7 @@ assemble = os.path.join(os.path.dirname(os.path.abspath(palsHere.plantOf())), "p
 cba_seed.setup(
     seedType="systemd",  # Extend using cba_sysd_seed.setup
     loader=None,
-    sbom=None,
+    sbom="astroSite-sbom.pcs",   # self-contained: Node and HeVeA
     assemble=assemble,
     materialize=None,
 )
